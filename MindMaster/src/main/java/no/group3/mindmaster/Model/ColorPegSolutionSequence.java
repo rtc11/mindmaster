@@ -9,7 +9,7 @@ public class ColorPegSolutionSequence {
 
 
     public ArrayList<KeyPeg> getKeyPegs(ColorPegSequence sequence){
-    
+
 
         return null;
     }
