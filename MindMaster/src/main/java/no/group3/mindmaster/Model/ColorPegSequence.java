@@ -9,7 +9,13 @@ public class ColorPegSequence {
     ArrayList<ColorPeg> sequence;
 
     public ColorPegSequence(ArrayList<ColorPeg> sequence) {
-        this.sequence = sequence;
+        if(sequence.size() == 4){
+            this.sequence = sequence;
+        }
+        else{
+            //errorhandling
+        }
+
     }
 
     public ArrayList<ColorPeg> getSequence() {
