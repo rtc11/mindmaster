@@ -16,5 +16,5 @@ public enum Colours {
     Colours(int color){
         this.color = color;
     }
-    
+
 }
