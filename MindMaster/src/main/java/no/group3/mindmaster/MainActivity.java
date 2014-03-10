@@ -33,8 +33,8 @@ public class MainActivity extends Activity {
                     .commit();
         }
 
-        controller = new Controller(getBaseContext());
-
+        //TODO: check if this instance of the controller is creator of the game, or if it is an invitation
+        controller = new Controller(getBaseContext(), false);
     }
 
 

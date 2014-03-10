@@ -12,14 +12,19 @@ public class ColorPegSolutionSequence {
     /*
      * Creates a random solutionsequence based on the colours in Colour.java
      */
-    public ColorPegSolutionSequence() {
-        Colour values[] = Colour.values();
-        ArrayList<ColorPeg> sequence = new ArrayList<ColorPeg>();
-        for (Colour c : values ) {
-            //get a random element from the colour enum and adds it to the sequence
-            sequence.add(new ColorPeg( values[(int)(Math.random()*values.length)] ));//extra space to make it easier for the eyes
+    public ColorPegSolutionSequence(boolean isGameCreator) {
+        if (isGameCreator) {
+            Colour values[] = Colour.values();
+            ArrayList<ColorPeg> sequence = new ArrayList<ColorPeg>();
+            for (Colour c : values ) {
+                //get a random element from the colour enum and adds it to the sequence
+                sequence.add(new ColorPeg( values[(int)(Math.random()*values.length)] ));//extra space to make it easier for the eyes
+            }
+            this.solution = new ColorPegSequence(sequence);
         }
-        this.solution = new ColorPegSequence(sequence);
+        else {
+            this.solution = getSolution();
+        }
     }
 
     public ColorPegSequence getSolution() {

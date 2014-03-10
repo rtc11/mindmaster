@@ -61,4 +61,16 @@ public class Connection {
         Thread clientThread = new Thread(client);
         clientThread.start();
     }
+
+    /**
+     * Instructs the client to send a message
+     * 
+     * @param message - A String containing the message to be sent. If the message is an IP-address
+     *                the message must start with the text "clientip" e.g.: "clientip129.0.0.1".
+     *                If the message contains a ColorPegSequence, it must start with "peg", followed
+     *                by the first letter of the peg indicating its color.
+     */
+    public void sendMessage(String message) {
+        client.sendMessage(message);
+    }
 }
