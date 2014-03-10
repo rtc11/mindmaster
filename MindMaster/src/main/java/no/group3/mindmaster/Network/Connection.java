@@ -61,4 +61,8 @@ public class Connection {
         Thread clientThread = new Thread(client);
         clientThread.start();
     }
+
+    public void sendMessage(String msg){
+        client.sendMessage(msg);
+    }
 }

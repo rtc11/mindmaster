@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import no.group3.mindmaster.Network.Connection;
 import no.group3.mindmaster.R;
 
 /**
@@ -14,7 +15,10 @@ import no.group3.mindmaster.R;
  */
 public class HowTo extends Fragment {
 
-    public HowTo() {
+    private Connection con;
+
+    public HowTo(Connection con) {
+        this.con = con;
     }
 
     @Override
@@ -26,7 +30,7 @@ public class HowTo extends Fragment {
             @Override
             public void onClick(View view) {
                 getFragmentManager().beginTransaction()
-                        .replace(R.id.container, new MainMenu(getActivity().getBaseContext()))
+                        .replace(R.id.container, new MainMenu(getActivity().getBaseContext(), con))
                         .commit();
             }
         });

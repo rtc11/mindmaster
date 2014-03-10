@@ -6,7 +6,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
 
+import java.io.PrintWriter;
+
+import no.group3.mindmaster.Network.Connection;
 import no.group3.mindmaster.R;
 
 /**
@@ -14,7 +19,10 @@ import no.group3.mindmaster.R;
  */
 public class NewGame extends Fragment {
 
-    public NewGame(){
+    private Connection con;
+
+    public NewGame(Connection con){
+        this.con = con;
     }
 
     @Override
@@ -23,20 +31,32 @@ public class NewGame extends Fragment {
         View rootView = inflater.inflate(R.layout.new_game, container, false);
         Button howToButton = (Button) rootView.findViewById(R.id.buttonmainip);
         Button connectButton = (Button) rootView.findViewById(R.id.buttonconnect);
+        Button sendMessageButton = (Button) rootView.findViewById(R.id.sendMessageButton);
+
+        EditText input = (EditText) rootView.findViewById(R.id.editText);
+        final String address = input.getText().toString();
+
         howToButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 getFragmentManager().beginTransaction()
-                        .replace(R.id.container, new MainMenu(getActivity().getBaseContext()))
+                        .replace(R.id.container, new MainMenu(getActivity().getBaseContext(), con))
                         .commit();
             }
         });
         connectButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                con.clientThread(address);
             }
         });
+        sendMessageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                con.sendMessage("lolBLABLABLA");
+            }
+        });
+
         return rootView;
     }
 }

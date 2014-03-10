@@ -23,11 +23,13 @@ public class Controller implements PropertyChangeListener{
     //EventHandler eventHandler;
     Context ctxt;
 
+
     private ArrayList<ColorPegSequence> oldHistory;
     private ArrayList<ColorPegSequence> currentHistory;
 
-    public Controller(Context ctxt) {
+    public Controller(Context ctxt, Connection con) {
         this.ctxt = ctxt;
+        this.connection = con;
         oldHistory = new ArrayList<ColorPegSequence>();
         currentHistory = new ArrayList<ColorPegSequence>();
     }

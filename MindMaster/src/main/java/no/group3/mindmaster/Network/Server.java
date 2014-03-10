@@ -106,8 +106,9 @@ public class Server implements Runnable {
                 Log.d(TAG, "msg: " + msg + ", ip: " + ip);
                 con.clientThread(ip);
             }
-            else if(msg.contains("peg")){
-                //TODO: dosomething
+            else if(msg.contains("lol")){
+                String test = msg.replaceAll("lol", "");
+                Toast.makeText(ctxt, test, Toast.LENGTH_SHORT).show();
             }
         }
     }

@@ -21,6 +21,7 @@ import no.group3.mindmaster.Network.Utils;
 public class MainActivity extends Activity {
 
     Controller controller;
+    Connection con;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,11 +30,11 @@ public class MainActivity extends Activity {
 
         if (savedInstanceState == null) {
             getFragmentManager().beginTransaction()
-                    .add(R.id.container, new MainMenu(getBaseContext()))
+                    .add(R.id.container, new MainMenu(getBaseContext(), con))
                     .commit();
         }
 
-        controller = new Controller(getBaseContext());
+        controller = new Controller(getBaseContext(), con);
 
     }
 
