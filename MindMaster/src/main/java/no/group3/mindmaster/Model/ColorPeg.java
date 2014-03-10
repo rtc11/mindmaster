@@ -8,17 +8,17 @@ import android.graphics.Color;
 public class ColorPeg {
 
 
-    private Color color;
+    private Colour colour;
 
-    public ColorPeg(Color color) {
-        this.color = color;
+    public ColorPeg(Colour colour) {
+        this.colour = colour;
     }
 
-    public Color getColor() {
-        return color;
+    public Colour getColour() {
+        return colour;
     }
 
-    public void setColor(Color color) {
-        this.color = color;
+    public void setColour(Colour colour) {
+        this.colour = colour;
     }
 }
