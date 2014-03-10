@@ -10,13 +10,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import no.group3.mindmaster.Views.*;
 
 import no.group3.mindmaster.Network.Connection;
 import no.group3.mindmaster.Network.Utils;
 
 public class MainActivity extends Activity {
-
-    private Utils utils;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,11 +24,10 @@ public class MainActivity extends Activity {
 
         if (savedInstanceState == null) {
             getFragmentManager().beginTransaction()
-                    .add(R.id.container, new MainMenu())
+                    .add(R.id.container, new MainMenu(getBaseContext()))
                     .commit();
         }
 
-        utils = new Utils(getBaseContext());
     }
 
 
@@ -53,78 +51,6 @@ public class MainActivity extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
-    public class NewGame extends Fragment{
-
-        public NewGame(){
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState){
-            View rootView = inflater.inflate(R.layout.new_game, container, false);
-
-            return rootView;
-        }
-    }
-
-    /**
-     * A placeholder fragment containing a simple view.
-     */
-    public class MainMenu extends Fragment {
-
-        public MainMenu() {
-        }
-
-       @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.menu, container, false);
-           Button howToButton = (Button) rootView.findViewById(R.id.buttonHowTo);
-           Button newGameButton = (Button) rootView.findViewById(R.id.buttonNewGame);
-           howToButton.setOnClickListener(new View.OnClickListener() {
-               @Override
-               public void onClick(View view) {
-                   getFragmentManager().beginTransaction()
-                           .replace(R.id.container, new HowTo())
-                           .commit();
-               }
-           });
-           newGameButton.setOnClickListener(new View.OnClickListener() {
-               @Override
-               public void onClick(View view) {
-                   getFragmentManager().beginTransaction()
-                           .replace(R.id.container, new NewGame())
-                           .commit();
-               }
-           });
 
 
-           TextView ipaddress = (TextView) rootView.findViewById(R.id.ipaddress);
-           ipaddress.setText(utils.getNetworkInfo().get(Connection.IP_ADDRESSS));
-
-            return rootView;
-        }
-    }
-
-  public class HowTo extends Fragment {
-
-        public HowTo() {
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.how_to, container, false);
-            Button howToButton = (Button) rootView.findViewById(R.id.buttonmain);
-            howToButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    getFragmentManager().beginTransaction()
-                            .replace(R.id.container, new MainMenu())
-                            .commit();
-                }
-            });
-            return rootView;
-        }
-    }
 }
