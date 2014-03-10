@@ -1,5 +1,7 @@
 package no.group3.mindmaster.Controller;
 
+import android.content.Context;
+
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.lang.reflect.Array;
@@ -19,11 +21,13 @@ public class Controller implements PropertyChangeListener{
     Model model;
     //View view;
     //EventHandler eventHandler;
+    Context ctxt;
 
     private ArrayList<ColorPegSequence> oldHistory;
     private ArrayList<ColorPegSequence> currentHistory;
 
-    public Controller() {
+    public Controller(Context ctxt) {
+        this.ctxt = ctxt;
         oldHistory = new ArrayList<ColorPegSequence>();
         currentHistory = new ArrayList<ColorPegSequence>();
     }

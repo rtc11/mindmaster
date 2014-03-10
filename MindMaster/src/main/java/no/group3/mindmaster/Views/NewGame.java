@@ -22,12 +22,19 @@ public class NewGame extends Fragment {
                              Bundle savedInstanceState){
         View rootView = inflater.inflate(R.layout.new_game, container, false);
         Button howToButton = (Button) rootView.findViewById(R.id.buttonmainip);
+        Button connectButton = (Button) rootView.findViewById(R.id.buttonconnect);
         howToButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 getFragmentManager().beginTransaction()
                         .replace(R.id.container, new MainMenu(getActivity().getBaseContext()))
                         .commit();
+            }
+        });
+        connectButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
             }
         });
         return rootView;

@@ -2,6 +2,7 @@ package no.group3.mindmaster;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -10,12 +11,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+
+import no.group3.mindmaster.Controller.Controller;
 import no.group3.mindmaster.Views.*;
 
 import no.group3.mindmaster.Network.Connection;
 import no.group3.mindmaster.Network.Utils;
 
 public class MainActivity extends Activity {
+
+    Controller controller;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +32,8 @@ public class MainActivity extends Activity {
                     .add(R.id.container, new MainMenu(getBaseContext()))
                     .commit();
         }
+
+        controller = new Controller(getBaseContext());
 
     }
 
