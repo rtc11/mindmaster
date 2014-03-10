@@ -8,9 +8,16 @@ import java.util.ArrayList;
 public class ColorPegSolutionSequence {
 
 
+    public ColorPegSolutionSequence() {
+     //create a random sequence
+    }
+
     public ArrayList<KeyPeg> getKeyPegs(ColorPegSequence sequence){
 
 
+        for (ColorPeg peg : sequence.getSequence()) {
+
+        }
         return null;
     }
 }
