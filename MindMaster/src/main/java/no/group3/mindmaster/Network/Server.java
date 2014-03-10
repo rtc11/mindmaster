@@ -22,21 +22,15 @@ public class Server implements Runnable {
 
     /** The server socket */
     private ServerSocket serverSocket;
-    /** The client socket */
-
-    //INPUT
-    private InputStreamReader inputStreamReader;
-    private BufferedReader bufferedReader;
-    private String message;
-
-    //OUTPUT
-    private PrintWriter send;
-
+    private Connection con;
     private Context ctxt;
     private Handler updateConversationHandler;
 
-    public Server(Context ctxt) {
+    public Server(Context ctxt, Connection con) {
         this.ctxt = ctxt;
+        this.con = con;
+
+        //TODO: this might be called from outside the thread?
         updateConversationHandler = new Handler();
     }
 
@@ -57,33 +51,13 @@ public class Server implements Runnable {
                 CommunicationThread communicationThread = new CommunicationThread(socket);
                 new Thread(communicationThread).start();
 
-//                inputStreamReader = new InputStreamReader(socket.getInputStream());
-//                bufferedReader = new BufferedReader(inputStreamReader); //get the client message
-//                message = bufferedReader.readLine();
-//                updateConversationHandler.post(new updateUIThread(message));
-//                inputStreamReader.close();
-//                socket.close();
-
             } catch (IOException ex) {
                 Log.d(TAG, ex.getMessage());
             }
         }
     }
 
-    class updateUIThread implements Runnable {
-        private String msg;
-
-        public updateUIThread(String str) {
-            this.msg = str;
-        }
-
-        @Override
-        public void run() {
-            Toast.makeText(ctxt, msg, Toast.LENGTH_SHORT).show();
-            Log.d(TAG, msg);
-        }
-    }
-
+    /** Communication thread that listens to incoming messages */
     class CommunicationThread implements Runnable{
 
         private Socket clientSocket;
@@ -100,6 +74,7 @@ public class Server implements Runnable {
             }
         }
 
+        /** Receive message from the client */
         public void run(){
             while(!Thread.currentThread().isInterrupted()){
                 try{
@@ -108,6 +83,31 @@ public class Server implements Runnable {
                 }catch(IOException e){
                     Log.d(TAG, e.getMessage());
                 }
+            }
+        }
+    }
+
+    /** Handler for the incoming message */
+    class updateUIThread implements Runnable {
+        private String msg;
+
+        public updateUIThread(String str) {
+            this.msg = str;
+        }
+
+        @Override
+        public void run() {
+            Toast.makeText(ctxt, msg, Toast.LENGTH_SHORT).show();
+            Log.d(TAG, msg);
+
+            //If the incoming message contains clientip, we need to start the client thread
+            if(msg.contains("clientip")){
+                String ip = msg.replaceAll("clientip", "");
+                Log.d(TAG, "msg: " + msg + ", ip: " + ip);
+                con.clientThread(ip);
+            }
+            else if(msg.contains("peg")){
+                //TODO: dosomething
             }
         }
     }

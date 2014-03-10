@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.Log;
 
 import java.io.BufferedWriter;
+import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.InetAddress;
@@ -32,16 +33,23 @@ public class Client implements Runnable {
         this.serverIP = serverIP;
     }
 
+    /** Send message to the server */
+    public void sendMessage(String message){
+        try {
+            printWriter = new PrintWriter(new BufferedWriter(
+                            new OutputStreamWriter(clientSocket.getOutputStream())), true);
+
+            printWriter.print(message);
+        } catch (IOException e) {
+            Log.d(TAG, e.getMessage());
+        }
+    }
+
     @Override
     public void run() {
         try {
             InetAddress serverAddr = InetAddress.getByName(serverIP);
             clientSocket = new Socket(serverAddr, Connection.PORT);
-            printWriter = new PrintWriter(new BufferedWriter(new OutputStreamWriter(clientSocket.getOutputStream())), true);
-//            printWriter.println("DETTE KOMMER FRA: " + utils.getNetworkInfo().get(Connection.IP_ADDRESSS));
-            clientSocket.close();
-            printWriter.close();
-
         } catch (Exception e) {
             Log.d(TAG, e.getMessage());
         }

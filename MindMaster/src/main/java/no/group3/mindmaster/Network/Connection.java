@@ -34,29 +34,27 @@ public class Connection {
     private Utils utils;
     /** Context of the current activity */
     private Context ctxt;
-    /** Handler for updating UI from client and server thread */
-//    private Handler updateConversationHandler;
 
+    //TODO: singleton?
     public Connection(Context c) {
         this.ctxt = c;
-//        updateConversationHandler = new Handler();
         utils = new Utils(ctxt);
 
         //Server thread will always run (looking for incoming connections)
-//        serverThread();
+        serverThread();
     }
 
     /**
-     * Start the server thread
+     * Starts the server thread
      */
     private void serverThread() {
-        server = new Server(ctxt);
+        server = new Server(ctxt, this);
         Thread serverThread = new Thread(server);
         serverThread.start();
     }
 
     /**
-     * Tries to connect to the server
+     * Starts the client thread
      */
     public void clientThread(final String serverIP) {
         client = new Client(ctxt, serverIP);
