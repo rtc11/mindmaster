@@ -1,7 +1,6 @@
 package no.group3.mindmaster;
 
 import android.app.Activity;
-import android.app.ActionBar;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -9,7 +8,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.os.Build;
+import android.widget.Button;
 
 public class MainActivity extends Activity {
 
@@ -21,7 +20,7 @@ public class MainActivity extends Activity {
 
         if (savedInstanceState == null) {
             getFragmentManager().beginTransaction()
-                    .add(R.id.container, new PlaceholderFragment())
+                    .add(R.id.container, new MainMenu())
                     .commit();
         }
     }
@@ -50,15 +49,46 @@ public class MainActivity extends Activity {
     /**
      * A placeholder fragment containing a simple view.
      */
-    public static class PlaceholderFragment extends Fragment {
+    public static class MainMenu extends Fragment {
 
-        public PlaceholderFragment() {
+        public MainMenu() {
+        }
+
+       @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                Bundle savedInstanceState) {
+            View rootView = inflater.inflate(R.layout.menu, container, false);
+           Button howToButton = (Button) rootView.findViewById(R.id.buttonHowTo);
+           howToButton.setOnClickListener(new View.OnClickListener() {
+               @Override
+               public void onClick(View view) {
+                   getFragmentManager().beginTransaction()
+                           .replace(R.id.container, new HowTo())
+                           .commit();
+               }
+           });
+            return rootView;
+        }
+    }
+
+  public static class HowTo extends Fragment {
+
+        public HowTo() {
         }
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_main, container, false);
+                                 Bundle savedInstanceState) {
+            View rootView = inflater.inflate(R.layout.how_to, container, false);
+            Button howToButton = (Button) rootView.findViewById(R.id.buttonmain);
+            howToButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    getFragmentManager().beginTransaction()
+                            .replace(R.id.container, new MainMenu())
+                            .commit();
+                }
+            });
             return rootView;
         }
     }
