@@ -10,6 +10,10 @@ public class ColorPeg {
 
     private Colour colour;
 
+    /**
+     * a colorpeg. Contains a single colour
+     * @param colour - colour of the peg
+     */
     public ColorPeg(Colour colour) {
         this.colour = colour;
     }

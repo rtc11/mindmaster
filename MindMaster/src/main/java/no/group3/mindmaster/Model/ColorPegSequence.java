@@ -8,6 +8,9 @@ import java.util.ArrayList;
 public class ColorPegSequence {
     ArrayList<ColorPeg> sequence;
 
+    /**
+     * @param sequence - Arraylist with a sequence of colorpegs. Must be EXACTLY 4 colorpegs
+     */
     public ColorPegSequence(ArrayList<ColorPeg> sequence) {
 
         if(sequence.size() == 4){
@@ -25,7 +28,19 @@ public class ColorPegSequence {
         return sequence;
     }
 
+    /**
+     * @param sequence - Arraylist with a sequence of colorpegs. Must be EXACTLY 4 colorpegs
+     */
     public void setSequence(ArrayList<ColorPeg> sequence) {
-        this.sequence = sequence;
+
+        if(sequence.size() == 4){
+            this.sequence = sequence;
+        }
+        else{
+            //errorhandling
+            System.out.println("ColorPegSequence not created. There were not exactly 4 pegs in the list");
+            System.err.println("ColorPegSequence not created. There were not exactly 4 pegs in the list");
+        }
+
     }
 }
