@@ -9,11 +9,13 @@ public class ColorPegSequence {
     ArrayList<ColorPeg> sequence;
 
     public ColorPegSequence(ArrayList<ColorPeg> sequence) {
+
         if(sequence.size() == 4){
             this.sequence = sequence;
         }
         else{
             //errorhandling
+            System.out.println("ColorPegSequence not created. There were not exactly 4 pegs in the list");
         }
 
     }
