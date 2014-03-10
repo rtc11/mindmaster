@@ -64,6 +64,7 @@ public class MainActivity extends Activity {
             View rootView = inflater.inflate(R.layout.new_game, container, false);
 
             return rootView;
+        }
     }
 
     /**
@@ -126,5 +127,4 @@ public class MainActivity extends Activity {
             return rootView;
         }
     }
-
 }
