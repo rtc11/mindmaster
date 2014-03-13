@@ -23,7 +23,7 @@ public class GameScreen extends Fragment {
     Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.game_screen, container, false);
 
-        Button gameScreenButton = (Button) rootView.findViewById(R.id.testGameScreenButton);
+        Button gameScreenButton = (Button) rootView.findViewById(R.id.button_TestScreen);
         gameScreenButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
