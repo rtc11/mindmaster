@@ -50,7 +50,7 @@ public class Server implements Runnable {
             try {
                 //Client found; accept the connection
                 socket = serverSocket.accept();
-                Log.d(TAG, "Connected");
+                Log.d(TAG, "Connected (input)");
 
                 //Start the communication thread
                 CommunicationThread communicationThread = new CommunicationThread(socket);
@@ -107,14 +107,13 @@ public class Server implements Runnable {
 
         @Override
         public void run() {
-            Toast.makeText(ctxt, msg, Toast.LENGTH_SHORT).show();
             Log.d(TAG, msg);
 
             //If the incoming message contains clientip, we need to start the client thread
             if(msg.contains("clientip")){
                 String ip = msg.replaceAll("clientip", "");
-                Log.d(TAG, "msg: " + msg + ", ip: " + ip);
                 con.clientThread(ip);
+                con.sendMessage("lolhahahahaha");
             }
             else if(msg.contains("lol")){
                 String test = msg.replaceAll("lol", "");
