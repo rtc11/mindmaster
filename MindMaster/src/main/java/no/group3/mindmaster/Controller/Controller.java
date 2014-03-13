@@ -37,6 +37,9 @@ public class Controller implements PropertyChangeListener{
     private ArrayList<ColorPegSequence> oldHistory;
     private ArrayList<ColorPegSequence> currentHistory;
 
+    /** If this is the client, we are not ready before we receive the solution from the server */
+    public static boolean isReady = false;
+
     public Controller(Context ctxt, Connection con) {
         this.ctxt = ctxt;
         this.connection = con;
@@ -53,15 +56,35 @@ public class Controller implements PropertyChangeListener{
      *                      this player.
      */
     public void newGame(boolean isGameCreator) {
-        //Get the solution for this game
-        solution = new ColorPegSolutionSequence(isGameCreator);
 
-        //If this player is the creator of the game, he need to send the solution to the other player
+        //If this is the game-creator (the host)
         if (isGameCreator) {
+
+            //Create or get the singleton instance of ColorPegSolutionSequence
+            solution = ColorPegSolutionSequence.getInstance(isGameCreator);
+
+            //Get the string-representation of the solution
             String solutionString = getColorPegSequenceString(solution.getSolution());
+
+            //Send the solution to the opponent (the client)
             sendSolution(solutionString);
         }
 
+        //If this is the client
+        if(!isGameCreator){
+
+            //Wait until we receive the solution
+            while(!isReady){
+                try {
+                    Thread.sleep(500);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            //The solution have been received and instantiated
+            solution = ColorPegSolutionSequence.getInstance(isGameCreator);
+        }
     }
 
     /**
@@ -143,7 +166,7 @@ public class Controller implements PropertyChangeListener{
      *                 the color.
      * @return A ColorPegSequence with all the colors in the solution.
      */
-    public ColorPegSequence getColorPegSequence(String solution) {
+    public static ColorPegSequence getColorPegSequence(String solution) {
         ArrayList<ColorPeg> colorSequence = new ArrayList<ColorPeg>();
         ColorPegSequence sequence;
         for (int i = 0; i < solution.length(); i++) {
