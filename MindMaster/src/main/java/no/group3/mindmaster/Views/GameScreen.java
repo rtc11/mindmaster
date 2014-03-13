@@ -14,6 +14,7 @@ import android.widget.Button;
 import android.widget.Spinner;
 
 import no.group3.mindmaster.Model.ColorPeg;
+import no.group3.mindmaster.Controller.Controller;
 import no.group3.mindmaster.R;
 
 public class GameScreen extends Fragment {
@@ -22,7 +23,11 @@ public class GameScreen extends Fragment {
     private ArrayList<Spinner> spinnerList;
     private View rootView;
 
+    private Controller controller;
     public GameScreen() {
+        controller = Controller.getControllerInstance();
+        controller.newSoloGame();
+
     }
 
     private void placePegsInSpinners(){

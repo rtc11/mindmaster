@@ -69,6 +69,7 @@ public class NewGame extends Fragment {
             }
         });
 
+
         connectButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -84,6 +85,7 @@ public class NewGame extends Fragment {
                         + MainMenu.utils.getNetworkInfo().get(Connection.IP_ADDRESSS));
             }
         });
+
 
         button_TestScreen.setOnClickListener(new View.OnClickListener() {
             @Override

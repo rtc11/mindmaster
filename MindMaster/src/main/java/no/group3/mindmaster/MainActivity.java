@@ -20,7 +20,7 @@ import no.group3.mindmaster.Network.Utils;
 
 public class MainActivity extends Activity {
 
-    Controller controller;
+    private Controller controller;
     Connection con;
 
     @Override
@@ -34,7 +34,7 @@ public class MainActivity extends Activity {
                     .commit();
         }
 
-        controller = new Controller(getBaseContext(), con);
+        controller = Controller.instance(getBaseContext(), con);
     }
 
 
@@ -45,6 +45,9 @@ public class MainActivity extends Activity {
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
+//    public Controller getController(){
+//        return controller;
+//    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
