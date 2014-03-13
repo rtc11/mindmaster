@@ -7,13 +7,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import no.group3.mindmaster.Controller.Controller;
 import no.group3.mindmaster.R;
 
 /**
  * Created by Petter on 10.03.14.
  */
 public class HowTo extends Fragment {
-
     public HowTo() {
     }
 
