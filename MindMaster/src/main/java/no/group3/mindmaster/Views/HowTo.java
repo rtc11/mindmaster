@@ -6,8 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-
 import no.group3.mindmaster.Network.Connection;
+
 import no.group3.mindmaster.R;
 
 /**

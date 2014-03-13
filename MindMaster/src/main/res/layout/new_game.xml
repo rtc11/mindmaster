@@ -39,4 +39,5 @@
         android:text="Main Menu"
         android:id="@+id/buttonmainip"
         android:layout_gravity="center_horizontal" />
+
 </LinearLayout>
