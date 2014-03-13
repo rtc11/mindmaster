@@ -10,9 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
-
-import java.io.PrintWriter;
 
 import no.group3.mindmaster.Network.Connection;
 import no.group3.mindmaster.R;
