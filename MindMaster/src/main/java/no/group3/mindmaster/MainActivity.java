@@ -34,8 +34,8 @@ public class MainActivity extends Activity {
                     .add(R.id.container, new MainMenu(getBaseContext(), con))
                     .commit();
         }
-        controller = new Controller(getBaseContext(), con);
 
+        controller = new Controller(getBaseContext(), con);
     }
 
 

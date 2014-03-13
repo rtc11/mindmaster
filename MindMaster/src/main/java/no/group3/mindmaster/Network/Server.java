@@ -13,6 +13,8 @@ import java.net.Socket;
 
 import android.os.Handler;
 
+import no.group3.mindmaster.Controller.Controller;
+
 /**
  * Created by tordly on 10.03.14.
  */
@@ -117,6 +119,12 @@ public class Server implements Runnable {
             else if(msg.contains("lol")){
                 String test = msg.replaceAll("lol", "");
                 Toast.makeText(ctxt, test, Toast.LENGTH_SHORT).show();
+            }
+            //If the message contains "peg" it means that the solution string has been received.
+            else if(msg.contains("peg")){
+                String solution = msg.replaceAll("peg", "");
+                Log.d(TAG, "Solution received: " + solution);
+                Controller.receiveSolution(solution);
             }
         }
     }
