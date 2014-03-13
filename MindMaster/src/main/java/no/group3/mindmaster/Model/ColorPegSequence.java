@@ -13,7 +13,7 @@ public class ColorPegSequence {
      */
     public ColorPegSequence(ArrayList<ColorPeg> sequence) {
 
-        if(sequence.size() == 4){
+        if(sequence.size() == Globals.SEQUENCELENGTH){
             this.sequence = sequence;
         }
         else{
@@ -33,7 +33,7 @@ public class ColorPegSequence {
      */
     public void setSequence(ArrayList<ColorPeg> sequence) {
 
-        if(sequence.size() == 4){
+        if(sequence.size() == Globals.SEQUENCELENGTH){
             this.sequence = sequence;
         }
         else{

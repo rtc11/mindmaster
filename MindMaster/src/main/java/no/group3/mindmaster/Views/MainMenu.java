@@ -21,7 +21,7 @@ import no.group3.mindmaster.Network.Utils;
  * A placeholder fragment containing a simple view.
  */
 public class MainMenu extends Fragment {
-    private Utils utils;
+    public static  Utils utils; //TODO: if context somehow is changes, remember to update it
     private Connection con;
 
     public MainMenu(Context context, Connection con) {

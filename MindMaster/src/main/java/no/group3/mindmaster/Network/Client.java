@@ -37,6 +37,11 @@ public class Client implements Runnable {
      * Send message to the server
      */
     public void sendMessage(String message) {
+        Log.d(TAG, "Trying to send msg: " + message);
+        if(clientSocket == null){   //Wait for the connection to establish
+            try { Thread.sleep(500);
+            } catch (InterruptedException e) {}
+        }
         if (clientSocket.isBound()) {
 
             try {
@@ -59,7 +64,7 @@ public class Client implements Runnable {
         try {
             InetAddress serverAddr = InetAddress.getByName(serverIP);
             clientSocket = new Socket(serverAddr, Connection.PORT);
-            Log.d(TAG, "Connected");
+            Log.d(TAG, "Connected (output)");
         } catch (Exception e) {
             Log.d(TAG, e.getMessage());
         }

@@ -76,7 +76,9 @@ public class NewGame extends Fragment {
         sendMessageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                con.sendMessage("lolBLABLABLA");
+                //TODO: this message needs to automatically be sent, not by clicking send message
+                con.sendMessage("clientip"
+                        + MainMenu.utils.getNetworkInfo().get(Connection.IP_ADDRESSS));
             }
         });
 

@@ -73,7 +73,7 @@ public class ColorPegSolutionSequence {
         HashMap<Colour, Integer> colours = getColoursInSolution();
         ArrayList<KeyPeg> answer = new ArrayList<KeyPeg>();
 
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < Globals.SEQUENCELENGTH; i++) {
             ColorPeg peg = guess.getSequence().get(i);
             //if the guess is at the correct spot with correct colour
             if (this.solution.getSequence().get(i).getColour().equals(peg.getColour())){
@@ -88,12 +88,12 @@ public class ColorPegSolutionSequence {
             }
         }
         //if answer is 4, task completed
-        if(answer.size() == 4){
+        if(answer.size() == Globals.SEQUENCELENGTH){
             return answer;
         }
         //if answer is less than 4, fill in with blank keypegs
-        else if (answer.size() < 4){
-            for (int i = 0; i < 4-answer.size(); i++) {
+        else if (answer.size() < Globals.SEQUENCELENGTH){
+            for (int i = 0; i < Globals.SEQUENCELENGTH -answer.size(); i++) {
                 answer.add(KeyPeg.NONE);
             }
             return answer;
