@@ -65,6 +65,13 @@ public class Controller implements PropertyChangeListener{
     }
 
     /**
+     * Creates a new game to play alone. Should be equal to the method newGame without the network part
+     */
+    public void newSoloGame(){
+        solution = new ColorPegSolutionSequence(true);
+    }
+
+    /**
      * Sends the generated solution to the "client"
      */
     private void sendSolution(String solutionString) {
