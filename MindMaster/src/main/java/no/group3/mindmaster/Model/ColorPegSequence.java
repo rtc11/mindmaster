@@ -16,6 +16,7 @@ public class ColorPegSequence {
         else{
             //errorhandling
             System.out.println("ColorPegSequence not created. There were not exactly 4 pegs in the list");
+            System.err.println("ColorPegSequence not created. There were not exactly 4 pegs in the list");
         }
 
     }
