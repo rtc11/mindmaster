@@ -15,7 +15,7 @@ import java.net.Socket;
 public class Connection {
 
     /** The application runs on this port */
-    public static final int PORT = 53442;
+    public static final int PORT = 13442;
 
     //HAHSMAP KEYS
     public static String DNS1 = "DNS1";
@@ -34,33 +34,43 @@ public class Connection {
     private Utils utils;
     /** Context of the current activity */
     private Context ctxt;
-    /** Handler for updating UI from client and server thread */
-//    private Handler updateConversationHandler;
 
+    //TODO: singleton?
     public Connection(Context c) {
         this.ctxt = c;
-//        updateConversationHandler = new Handler();
         utils = new Utils(ctxt);
 
         //Server thread will always run (looking for incoming connections)
-//        serverThread();
+        serverThread();
     }
 
     /**
-     * Start the server thread
+     * Starts the server thread
      */
     private void serverThread() {
-        server = new Server(ctxt);
+        server = new Server(ctxt, this);
         Thread serverThread = new Thread(server);
         serverThread.start();
     }
 
     /**
-     * Tries to connect to the server
+     * Starts the client thread
      */
-    public void clientThread(final String serverIP) {
+    public void clientThread(String serverIP) {
         client = new Client(ctxt, serverIP);
         Thread clientThread = new Thread(client);
         clientThread.start();
+    }
+
+    /**
+     * Instructs the client to send a message
+     * 
+     * @param message - A String containing the message to be sent. If the message is an IP-address
+     *                the message must start with the text "clientip" e.g.: "clientip129.0.0.1".
+     *                If the message contains a ColorPegSequence, it must start with "peg", followed
+     *                by the first letter of the peg indicating its color.
+     */
+    public void sendMessage(String message) {
+        client.sendMessage(message);
     }
 }

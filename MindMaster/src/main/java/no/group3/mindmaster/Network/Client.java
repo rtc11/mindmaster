@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.Log;
 
 import java.io.BufferedWriter;
+import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.InetAddress;
@@ -14,7 +15,7 @@ import java.net.Socket;
  */
 public class Client implements Runnable {
 
-    private static final String TAG = "Client";
+    private static final String TAG = "MindMaster.Client";
 
     /**
      * The client socket
@@ -32,16 +33,33 @@ public class Client implements Runnable {
         this.serverIP = serverIP;
     }
 
+    /**
+     * Send message to the server
+     */
+    public void sendMessage(String message) {
+        if (clientSocket.isBound()) {
+
+            try {
+                printWriter = new PrintWriter(new BufferedWriter(
+                        new OutputStreamWriter(clientSocket.getOutputStream())), true);
+
+                printWriter.println(message);
+                Log.d(TAG, "Sent message; " + message);
+            } catch (IOException e) {
+                Log.d(TAG, e.getMessage());
+            }
+        }
+        else{
+            Log.d(TAG, "Socket disconnected.");
+        }
+    }
+
     @Override
     public void run() {
         try {
             InetAddress serverAddr = InetAddress.getByName(serverIP);
             clientSocket = new Socket(serverAddr, Connection.PORT);
-            printWriter = new PrintWriter(new BufferedWriter(new OutputStreamWriter(clientSocket.getOutputStream())), true);
-//            printWriter.println("DETTE KOMMER FRA: " + utils.getNetworkInfo().get(Connection.IP_ADDRESSS));
-            clientSocket.close();
-            printWriter.close();
-
+            Log.d(TAG, "Connected");
         } catch (Exception e) {
             Log.d(TAG, e.getMessage());
         }

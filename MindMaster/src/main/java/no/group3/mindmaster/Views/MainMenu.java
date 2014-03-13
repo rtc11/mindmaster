@@ -22,8 +22,11 @@ import no.group3.mindmaster.Network.Utils;
  */
 public class MainMenu extends Fragment {
     private Utils utils;
-    public MainMenu(Context context) {
-        utils = new Utils(context);
+    private Connection con;
+
+    public MainMenu(Context context, Connection con) {
+        this.utils = new Utils(context);
+        this.con = con;
     }
 
     @Override
@@ -36,7 +39,7 @@ public class MainMenu extends Fragment {
             @Override
             public void onClick(View view) {
                 getFragmentManager().beginTransaction()
-                        .replace(R.id.container, new HowTo())
+                        .replace(R.id.container, new HowTo(con))
                         .addToBackStack(null)
                         .commit();
             }
@@ -45,7 +48,7 @@ public class MainMenu extends Fragment {
             @Override
             public void onClick(View view) {
                 getFragmentManager().beginTransaction()
-                        .replace(R.id.container, new NewGame())
+                        .replace(R.id.container, new NewGame(con))
                         .addToBackStack(null)
                         .commit();
             }
