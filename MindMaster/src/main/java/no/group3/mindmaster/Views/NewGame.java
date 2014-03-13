@@ -40,7 +40,8 @@ public class NewGame extends Fragment {
                              Bundle savedInstanceState){
         View rootView = inflater.inflate(R.layout.new_game, container, false);
 
-        Button button_Main = (Button) rootView.findViewById(R.id.buttonmain);
+        Button button_Main = (Button) rootView.findViewById(R.id.buttonmainip);
+
         Button connectButton = (Button) rootView.findViewById(R.id.buttonconnect);
         Button sendMessageButton = (Button) rootView.findViewById(R.id.sendMessageButton);
         Button button_TestScreen = (Button) rootView.findViewById(R.id.button_TestScreen);
@@ -69,6 +70,7 @@ public class NewGame extends Fragment {
             }
         });
 
+
         connectButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -84,6 +86,7 @@ public class NewGame extends Fragment {
                         + MainMenu.utils.getNetworkInfo().get(Connection.IP_ADDRESSS));
             }
         });
+
 
         button_TestScreen.setOnClickListener(new View.OnClickListener() {
             @Override
