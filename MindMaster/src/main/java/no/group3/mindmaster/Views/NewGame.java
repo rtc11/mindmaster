@@ -40,7 +40,7 @@ public class NewGame extends Fragment {
                              Bundle savedInstanceState){
         View rootView = inflater.inflate(R.layout.new_game, container, false);
 
-        Button button_Main = (Button) rootView.findViewById(R.id.buttonmainip);
+        Button button_Main = (Button) rootView.findViewById(R.id.buttonmain);
         Button connectButton = (Button) rootView.findViewById(R.id.buttonconnect);
         Button sendMessageButton = (Button) rootView.findViewById(R.id.sendMessageButton);
         Button button_TestScreen = (Button) rootView.findViewById(R.id.button_TestScreen);
