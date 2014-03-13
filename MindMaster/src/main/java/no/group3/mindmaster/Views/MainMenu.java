@@ -58,7 +58,7 @@ public class MainMenu extends Fragment {
             @Override
             public void onClick(View view) {
                 getFragmentManager().beginTransaction()
-                        .replace(R.id.container, new Connect())
+                        .replace(R.id.container, new Connect(con))
                         .commit();
             }
         });
