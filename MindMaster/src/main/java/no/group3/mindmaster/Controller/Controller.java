@@ -42,7 +42,13 @@ public class Controller implements PropertyChangeListener{
         this.isGameCreator = isGameCreator;
         oldHistory = new ArrayList<ColorPegSequence>();
         currentHistory = new ArrayList<ColorPegSequence>();
+    }
 
+    /**
+     * Method that should be called whenever a new game is created. This should be called once the
+     * game is operational, and both players are ready to receive messages.
+     */
+    public void newGame() {
         //Get the solution for this game
         solution = new ColorPegSolutionSequence(isGameCreator);
 
@@ -51,6 +57,7 @@ public class Controller implements PropertyChangeListener{
             String solutionString = getColorPegSequenceString(solution.getSolution());
             sendSolution(solutionString);
         }
+
     }
 
     /**
@@ -58,6 +65,20 @@ public class Controller implements PropertyChangeListener{
      */
     private void sendSolution(String solutionString) {
         connection.sendMessage(solutionString);
+    }
+
+    /**
+     * Method used to receive the solution from the creator of the game. Needs to be static as it is
+     * called from Server.java
+     *
+     * @param solutionString The solution as a String with all the first letters of the colors in the
+     *                 solution
+     */
+    public static void receiveSolution(String solutionString) {
+    }
+
+    public void setSolution(ColorPegSequence receivedSolution) {
+        solution.setSolution(receivedSolution);
     }
 
     public ArrayList<ColorPegSequence> getOldHistory() {
@@ -109,5 +130,39 @@ public class Controller implements PropertyChangeListener{
             }
         }
         return message;
+    }
+
+    /**
+     * Takes a String of letters and converts it to a ColorPegSequence
+     *
+     * @param solution The String of colors in the solution. Must only contain the first letter of
+     *                 the color.
+     * @return A ColorPegSequence with all the colors in the solution.
+     */
+    public ColorPegSequence getColorPegSequence(String solution) {
+        ArrayList<ColorPeg> colorSequence = new ArrayList<ColorPeg>();
+        ColorPegSequence sequence;
+        for (int i = 0; i < solution.length(); i++) {
+            char c = solution.charAt(i);
+            if (c == 'c') {
+                colorSequence.add(new ColorPeg(Colour.CYAN));
+            }
+            else if (c == 'b') {
+                colorSequence.add(new ColorPeg(Colour.BLUE));
+            }
+            else if (c == 'g') {
+                colorSequence.add(new ColorPeg(Colour.GREEN));
+            }
+            else if (c == 'm') {
+                colorSequence.add(new ColorPeg(Colour.MAGENTA));
+            }
+            else if (c == 'r') {
+                colorSequence.add(new ColorPeg(Colour.RED));
+            }
+            else if (c == 'y') {
+                colorSequence.add(new ColorPeg(Colour.YELLOW));
+            }
+        }
+        return new ColorPegSequence(colorSequence);
     }
 }
