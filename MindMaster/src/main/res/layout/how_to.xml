@@ -27,4 +27,13 @@
         android:text="Main Menu"
         android:id="@+id/buttonmain"
         android:layout_gravity="center_horizontal" />
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"></LinearLayout>
+
+    <TableLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"></TableLayout>
 </LinearLayout>

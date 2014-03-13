@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout
+    android:orientation="vertical"
+    android:layout_width="wrap_content"
+    android:layout_height="fill_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:clickable="false"
+    android:weightSum="1">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Your Score: "
+            android:id="@+id/textView"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:paddingStart="10dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="'0'"
+            android:id="@+id/yourScore"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Opponents Score: "
+            android:id="@+id/textView3"
+            android:layout_alignParentTop="true"
+            android:layout_toLeftOf="@+id/oppScore"
+            android:paddingStart="140dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="'0'"
+            android:id="@+id/oppScore"
+            android:layout_alignParentTop="true"
+            android:layout_toRightOf="@+id/yourscoreText"
+            android:layout_gravity="right"
+            android:paddingEnd="10dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="1"
+        android:padding="10dp">
+
+        <ListView
+            android:layout_width="350dp"
+            android:layout_height="450dp"
+            android:id="@+id/listView_history"
+            android:choiceMode="none" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="52dp">
+
+        <Spinner
+            android:layout_width="80dp"
+            android:layout_height="50dp"
+            android:id="@+id/spinner" />
+
+        <Spinner
+            android:layout_width="80dp"
+            android:layout_height="50dp"
+            android:id="@+id/spinner2" />
+
+        <Spinner
+            android:layout_width="80dp"
+            android:layout_height="50dp"
+            android:id="@+id/spinner3" />
+
+        <Spinner
+            android:layout_width="80dp"
+            android:layout_height="50dp"
+            android:layout_gravity="left"
+            android:id="@+id/spinner4" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="OK"
+            android:id="@+id/button_ok" />
+
+    </LinearLayout>
+
+</LinearLayout>
