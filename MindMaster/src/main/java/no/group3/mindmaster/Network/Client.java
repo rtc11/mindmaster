@@ -15,7 +15,7 @@ import java.net.Socket;
  */
 public class Client implements Runnable {
 
-    private static final String TAG = "Client";
+    private static final String TAG = "MindMaster.Client";
 
     /**
      * The client socket
@@ -33,15 +33,24 @@ public class Client implements Runnable {
         this.serverIP = serverIP;
     }
 
-    /** Send message to the server */
-    public void sendMessage(String message){
-        try {
-            printWriter = new PrintWriter(new BufferedWriter(
-                            new OutputStreamWriter(clientSocket.getOutputStream())), true);
+    /**
+     * Send message to the server
+     */
+    public void sendMessage(String message) {
+        if (clientSocket.isBound()) {
 
-            printWriter.print(message);
-        } catch (IOException e) {
-            Log.d(TAG, e.getMessage());
+            try {
+                printWriter = new PrintWriter(new BufferedWriter(
+                        new OutputStreamWriter(clientSocket.getOutputStream())), true);
+
+                printWriter.println(message);
+                Log.d(TAG, "Sent message; " + message);
+            } catch (IOException e) {
+                Log.d(TAG, e.getMessage());
+            }
+        }
+        else{
+            Log.d(TAG, "Socket disconnected.");
         }
     }
 
@@ -50,6 +59,7 @@ public class Client implements Runnable {
         try {
             InetAddress serverAddr = InetAddress.getByName(serverIP);
             clientSocket = new Socket(serverAddr, Connection.PORT);
+            Log.d(TAG, "Connected");
         } catch (Exception e) {
             Log.d(TAG, e.getMessage());
         }

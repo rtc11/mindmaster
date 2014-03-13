@@ -15,7 +15,7 @@ import java.net.Socket;
 public class Connection {
 
     /** The application runs on this port */
-    public static final int PORT = 53442;
+    public static final int PORT = 13442;
 
     //HAHSMAP KEYS
     public static String DNS1 = "DNS1";
@@ -56,7 +56,7 @@ public class Connection {
     /**
      * Starts the client thread
      */
-    public void clientThread(final String serverIP) {
+    public void clientThread(String serverIP) {
         client = new Client(ctxt, serverIP);
         Thread clientThread = new Thread(client);
         clientThread.start();

@@ -2,6 +2,9 @@ package no.group3.mindmaster.Views;
 
 import android.app.Fragment;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,10 +22,20 @@ import no.group3.mindmaster.R;
  */
 public class NewGame extends Fragment {
 
+    private final String TAG = "MindMaster.NewGame";
     private Connection con;
+    private String address = "";
 
     public NewGame(Connection con){
         this.con = con;
+    }
+
+    private String getAddress(){
+        return this.address;
+    }
+
+    private void setAddress(String address){
+        this.address = address;
     }
 
     @Override
@@ -34,7 +47,18 @@ public class NewGame extends Fragment {
         Button sendMessageButton = (Button) rootView.findViewById(R.id.sendMessageButton);
 
         EditText input = (EditText) rootView.findViewById(R.id.editText);
-        final String address = input.getText().toString();
+        input.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+            }
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+            }
+            @Override
+            public void afterTextChanged(Editable editable) {
+                setAddress(editable.toString());
+            }
+        });
 
         howToButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -47,7 +71,8 @@ public class NewGame extends Fragment {
         connectButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                con.clientThread(address);
+                Log.d(TAG, "Connecting...");
+                con.clientThread(getAddress());
             }
         });
         sendMessageButton.setOnClickListener(new View.OnClickListener() {

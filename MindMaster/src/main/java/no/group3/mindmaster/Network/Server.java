@@ -18,7 +18,7 @@ import android.os.Handler;
  */
 public class Server implements Runnable {
 
-    public static final String TAG = "Server";
+    public static final String TAG = "MindMaster.Server";
 
     /** The server socket */
     private ServerSocket serverSocket;
@@ -26,6 +26,7 @@ public class Server implements Runnable {
     private Context ctxt;
     private Handler updateConversationHandler;
 
+    //TODO: Context can be removed when we no longer use Toast.makeText();
     public Server(Context ctxt, Connection con) {
         this.ctxt = ctxt;
         this.con = con;
@@ -47,6 +48,8 @@ public class Server implements Runnable {
             try {
                 //Client found; accept the connection
                 socket = serverSocket.accept();
+                Log.d(TAG, "Connected");
+
                 //Start the communication thread
                 CommunicationThread communicationThread = new CommunicationThread(socket);
                 new Thread(communicationThread).start();
@@ -67,8 +70,9 @@ public class Server implements Runnable {
             this.clientSocket = clientSocket;
 
             try{
-                this.input = new BufferedReader(
+                input = new BufferedReader(
                         new InputStreamReader(this.clientSocket.getInputStream()));
+                Log.d(TAG, "InputStream is up");
             }catch(IOException e){
                 Log.d(TAG, e.getMessage());
             }
@@ -76,14 +80,18 @@ public class Server implements Runnable {
 
         /** Receive message from the client */
         public void run(){
-            while(!Thread.currentThread().isInterrupted()){
+            while(clientSocket.isBound()){
                 try{
-                    String read = input.readLine();
-                    updateConversationHandler.post(new updateUIThread(read));
+                    if(input.ready()){
+                        String read = input.readLine();
+                        updateConversationHandler.post(new updateUIThread(read));
+                        Log.d(TAG, "Message received: " + read);
+                    }
                 }catch(IOException e){
                     Log.d(TAG, e.getMessage());
                 }
             }
+            Log.d(TAG, "Socket disconnected");
         }
     }
 
