@@ -37,7 +37,7 @@ public class Connect extends Fragment {
         });
         TextView ipaddress = (TextView) rootView.findViewById(R.id.textIp);
         Utils u = new Utils(getActivity().getBaseContext());
-        ipaddress.setText("Your IP-Address is: "+u.getNetworkInfo().get(Connection.IP_ADDRESSS)+". Give it to your opponent and wait for connection");
+        ipaddress.setText("Your IP-Address is: "+con.getIP()+". Give it to your opponent and wait for connection");
         return rootView;
     }
 }
