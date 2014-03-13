@@ -23,25 +23,25 @@ public class GameScreen extends Fragment {
     private View rootView;
 
     public GameScreen() {
-        placePegsInSpinners();
+//        placePegsInSpinners();
 
     }
 
-    private void placePegsInSpinners(){
-        initializeSpinners();
-        addSpinnersContent();
-    }
-    private void addSpinnersContent() {
-        for(Spinner s : spinnerList){
-
-        }
-    }
-    private void initializeSpinners(){
-        spinnerList.add((Spinner) rootView.findViewById(R.id.spinner1));
-        spinnerList.add((Spinner) rootView.findViewById(R.id.spinner2));
-        spinnerList.add((Spinner) rootView.findViewById(R.id.spinner3));
-        spinnerList.add((Spinner) rootView.findViewById(R.id.spinner4));
-    }
+//    private void placePegsInSpinners(){
+//        initializeSpinners();
+//        addSpinnersContent();
+//    }
+//    private void addSpinnersContent() {
+//        for(Spinner s : spinnerList){
+//
+//        }
+//    }
+//    private void initializeSpinners(){
+//        spinnerList.add((Spinner) rootView.findViewById(R.id.spinner1));
+//        spinnerList.add((Spinner) rootView.findViewById(R.id.spinner2));
+//        spinnerList.add((Spinner) rootView.findViewById(R.id.spinner3));
+//        spinnerList.add((Spinner) rootView.findViewById(R.id.spinner4));
+//    }
 
     public View onCreateView (LayoutInflater inflater, ViewGroup container,
     Bundle savedInstanceState) {

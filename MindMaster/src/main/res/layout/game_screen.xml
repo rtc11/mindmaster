@@ -82,18 +82,24 @@
         <Spinner
             android:layout_width="80dp"
             android:layout_height="50dp"
-            android:id="@+id/spinner2" />
+            android:id="@+id/spinner2"
+            android:entries="@array/peg_array"
+            android:prompt="@string/peg_prompt" />
 
         <Spinner
             android:layout_width="80dp"
             android:layout_height="50dp"
-            android:id="@+id/spinner3" />
+            android:id="@+id/spinner3"
+            android:entries="@array/peg_array"
+            android:prompt="@string/peg_prompt" />
 
         <Spinner
             android:layout_width="80dp"
             android:layout_height="50dp"
             android:layout_gravity="left"
-            android:id="@+id/spinner4" />
+            android:id="@+id/spinner4"
+            android:entries="@array/peg_array"
+            android:prompt="@string/peg_prompt" />
 
         <Button
             android:layout_width="wrap_content"
