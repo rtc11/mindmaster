@@ -43,12 +43,21 @@ public class Controller implements PropertyChangeListener{
         oldHistory = new ArrayList<ColorPegSequence>();
         currentHistory = new ArrayList<ColorPegSequence>();
 
+        //Get the solution for this game
         solution = new ColorPegSolutionSequence(isGameCreator);
 
+        //If this player is the creator of the game, he need to send the solution to the other player
+        if (isGameCreator) {
+            String solutionString = getColorPegSequenceString(solution.getSolution());
+            sendSolution(solutionString);
+        }
     }
 
-    private void sendSolution() {
-
+    /**
+     * Sends the generated solution to the "client"
+     */
+    private void sendSolution(String solutionString) {
+        connection.sendMessage(solutionString);
     }
 
     public ArrayList<ColorPegSequence> getOldHistory() {
