@@ -11,11 +11,16 @@ import android.view.ViewGroup;
 import android.view.View;
 import android.widget.Button;
 
+import no.group3.mindmaster.Controller.Controller;
+import no.group3.mindmaster.MainActivity;
 import no.group3.mindmaster.R;
 
 public class GameScreen extends Fragment {
 
+    private Controller controller;
     public GameScreen() {
+        controller = Controller.getControllerInstance();
+
     }
 
 

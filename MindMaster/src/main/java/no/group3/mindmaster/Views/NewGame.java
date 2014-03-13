@@ -56,18 +56,6 @@ public class NewGame extends Fragment {
             }
         });
 
-//        howToButton.setOnClickListener(new View.OnClickListener() {
-//
-//        Button button_Main = (Button) rootView.findViewById(R.id.buttonmainip);
-//        button_Main.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                getFragmentManager().beginTransaction()
-//                        .replace(R.id.container, new MainMenu(getActivity().getBaseContext(), con))
-//                        .addToBackStack(null)
-//                        .commit();
-//            }
-//        });
 
         connectButton.setOnClickListener(new View.OnClickListener() {
             @Override
