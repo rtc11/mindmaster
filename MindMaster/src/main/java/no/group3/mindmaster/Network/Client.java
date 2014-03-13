@@ -37,25 +37,25 @@ public class Client implements Runnable {
      * Send message to the server
      */
     public void sendMessage(String message) {
+
         Log.d(TAG, "Trying to send msg: " + message);
-        if(clientSocket == null){   //Wait for the connection to establish
-            try { Thread.sleep(500);
-            } catch (InterruptedException e) {}
-        }
-        if (clientSocket.isBound()) {
 
-            try {
-                printWriter = new PrintWriter(new BufferedWriter(
-                        new OutputStreamWriter(clientSocket.getOutputStream())), true);
+        if(clientSocket != null){
+            if (clientSocket.isBound()) {
 
-                printWriter.println(message);
-                Log.d(TAG, "Sent message; " + message);
-            } catch (IOException e) {
-                Log.d(TAG, e.getMessage());
+                try {
+                    printWriter = new PrintWriter(new BufferedWriter(
+                            new OutputStreamWriter(clientSocket.getOutputStream())), true);
+
+                    printWriter.println(message);
+                    Log.d(TAG, "Sent message; " + message);
+                } catch (IOException e) {
+                    Log.d(TAG, e.getMessage());
+                }
             }
-        }
-        else{
-            Log.d(TAG, "Socket disconnected.");
+            else{
+                Log.d(TAG, "Socket disconnected.");
+            }
         }
     }
 
