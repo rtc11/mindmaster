@@ -39,9 +39,11 @@ public class NewGame extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState){
         View rootView = inflater.inflate(R.layout.new_game, container, false);
-        Button howToButton = (Button) rootView.findViewById(R.id.buttonmainip);
+
+        Button button_Main = (Button) rootView.findViewById(R.id.buttonmainip);
         Button connectButton = (Button) rootView.findViewById(R.id.buttonconnect);
         Button sendMessageButton = (Button) rootView.findViewById(R.id.sendMessageButton);
+        Button button_TestScreen = (Button) rootView.findViewById(R.id.button_TestScreen);
 
         EditText input = (EditText) rootView.findViewById(R.id.editText);
         input.addTextChangedListener(new TextWatcher() {
@@ -57,7 +59,7 @@ public class NewGame extends Fragment {
             }
         });
 
-        howToButton.setOnClickListener(new View.OnClickListener() {
+        button_Main.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 getFragmentManager().beginTransaction()
@@ -66,6 +68,8 @@ public class NewGame extends Fragment {
                         .commit();
             }
         });
+
+
         connectButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -82,6 +86,16 @@ public class NewGame extends Fragment {
             }
         });
 
+
+        button_TestScreen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getFragmentManager().beginTransaction()
+                        .replace(R.id.container, new GameScreen())
+                        .addToBackStack(null)
+                        .commit();
+            }
+        });
         return rootView;
     }
 }

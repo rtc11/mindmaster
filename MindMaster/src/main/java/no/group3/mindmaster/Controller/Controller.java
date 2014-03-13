@@ -33,6 +33,8 @@ public class Controller implements PropertyChangeListener{
 
     private ColorPegSolutionSequence solution;
 
+    static private Controller ControllerInstance = null;
+
 
     private ArrayList<ColorPegSequence> oldHistory;
     private ArrayList<ColorPegSequence> currentHistory;
@@ -45,6 +47,16 @@ public class Controller implements PropertyChangeListener{
         this.connection = con;
         oldHistory = new ArrayList<ColorPegSequence>();
         currentHistory = new ArrayList<ColorPegSequence>();
+    }
+    public static Controller instance(Context ctxt, Connection con){
+        if (ControllerInstance == null) {
+            ControllerInstance = new Controller(ctxt, con);
+        }
+        return ControllerInstance;
+    }
+
+    public static Controller getControllerInstance(){
+        return ControllerInstance;
     }
 
     /**
@@ -85,6 +97,13 @@ public class Controller implements PropertyChangeListener{
             //The solution have been received and instantiated
             solution = ColorPegSolutionSequence.getInstance(isGameCreator);
         }
+    }
+
+    /**
+     * Creates a new game to play alone. Should be equal to the method newGame without the network part
+     */
+    public void newSoloGame(){
+        solution = ColorPegSolutionSequence.getInstance(true);
     }
 
     /**
