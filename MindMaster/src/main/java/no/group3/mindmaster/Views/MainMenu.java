@@ -35,7 +35,7 @@ public class MainMenu extends Fragment {
         View rootView = inflater.inflate(R.layout.menu, container, false);
         Button howToButton = (Button) rootView.findViewById(R.id.buttonHowTo);
         Button newGameButton = (Button) rootView.findViewById(R.id.buttonNewGame);
-        Button viewChallengesButton = (Button) rootView.findViewById(R.id.buttonConnect);
+        Button connectButton = (Button) rootView.findViewById(R.id.buttonConnect);
         howToButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -54,7 +54,7 @@ public class MainMenu extends Fragment {
                         .commit();
             }
         });
-        viewChallengesButton.setOnClickListener(new View.OnClickListener() {
+        connectButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 getFragmentManager().beginTransaction()
