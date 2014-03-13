@@ -6,9 +6,10 @@ import java.util.HashMap;
 /**
  * Created by Wschive on 06/03/14.
  */
-public class ColorPegSolutionSequence {
+public class ColorPegSolutionSequence{
 
     private ColorPegSequence solution;
+    private static ColorPegSolutionSequence instance = null;
 
     /**
      * Creates a random solutionSequence if the caller is the creator of the game, or returns the
@@ -16,7 +17,7 @@ public class ColorPegSolutionSequence {
      *
      * @param isGameCreator - true if the caller is the creator if the game, false if not.
      */
-    public ColorPegSolutionSequence(boolean isGameCreator) {
+    private ColorPegSolutionSequence(boolean isGameCreator) {
         // If creator - create new random solution sequence
         if (isGameCreator) {
             Colour values[] = Colour.values();
@@ -35,6 +36,13 @@ public class ColorPegSolutionSequence {
         else {
             this.solution = null;
         }
+    }
+
+    public static ColorPegSolutionSequence getInstance(boolean isGameCreator){
+        if(instance == null){
+            instance = new ColorPegSolutionSequence(isGameCreator);
+        }
+        return instance;
     }
 
     public ColorPegSequence getSolution() {

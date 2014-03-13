@@ -10,10 +10,14 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
 
 import android.os.Handler;
 
 import no.group3.mindmaster.Controller.Controller;
+import no.group3.mindmaster.Model.ColorPeg;
+import no.group3.mindmaster.Model.ColorPegSequence;
+import no.group3.mindmaster.Model.ColorPegSolutionSequence;
 
 /**
  * Created by tordly on 10.03.14.
@@ -125,7 +129,13 @@ public class Server implements Runnable {
             else if(msg.contains("peg")){
                 String solution = msg.replaceAll("peg", "");
                 Log.d(TAG, "Solution received: " + solution);
-                Controller.receiveSolution(solution);
+
+                //Use singleton to create the solution instance
+                ColorPegSolutionSequence seq = ColorPegSolutionSequence.getInstance(false);
+                seq.setSolution(Controller.getColorPegSequence(solution));
+
+                //We are the client and received the solution, tell the controller that we are ready
+                Controller.isReady = true;
             }
         }
     }
