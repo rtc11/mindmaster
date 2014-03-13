@@ -37,6 +37,7 @@ public class MainMenu extends Fragment {
             public void onClick(View view) {
                 getFragmentManager().beginTransaction()
                         .replace(R.id.container, new HowTo())
+                        .addToBackStack(null)
                         .commit();
             }
         });
@@ -45,6 +46,7 @@ public class MainMenu extends Fragment {
             public void onClick(View view) {
                 getFragmentManager().beginTransaction()
                         .replace(R.id.container, new NewGame())
+                        .addToBackStack(null)
                         .commit();
             }
         });

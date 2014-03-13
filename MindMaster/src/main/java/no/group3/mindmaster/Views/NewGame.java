@@ -27,6 +27,7 @@ public class NewGame extends Fragment {
             public void onClick(View view) {
                 getFragmentManager().beginTransaction()
                         .replace(R.id.container, new MainMenu(getActivity().getBaseContext()))
+                        .addToBackStack(null)
                         .commit();
             }
         });
