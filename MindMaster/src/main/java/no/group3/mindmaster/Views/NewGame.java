@@ -22,22 +22,23 @@ public class NewGame extends Fragment {
                              Bundle savedInstanceState){
         View rootView = inflater.inflate(R.layout.new_game, container, false);
 
+        Button button_Main = (Button) rootView.findViewById(R.id.buttonmainip);
+        button_Main.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getFragmentManager().beginTransaction()
+                        .replace(R.id.container, new MainMenu(getActivity().getBaseContext()))
+                        .commit();
+            }
+        });
+
         Button button_TestScreen = (Button) rootView.findViewById(R.id.button_TestScreen);
         button_TestScreen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 getFragmentManager().beginTransaction()
-                        .replace(R.id.container, new HowTo())
-                        .commit();
-            }
-        });
-
-        Button howToButton = (Button) rootView.findViewById(R.id.buttonmainip);
-        howToButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                getFragmentManager().beginTransaction()
-                        .replace(R.id.container, new MainMenu(getActivity().getBaseContext()))
+                        .replace(R.id.container, new GameScreen())
+                        .addToBackStack(null)
                         .commit();
             }
         });
