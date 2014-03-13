@@ -21,6 +21,17 @@ public class NewGame extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState){
         View rootView = inflater.inflate(R.layout.new_game, container, false);
+
+        Button button_TestScreen = (Button) rootView.findViewById(R.id.button_TestScreen);
+        button_TestScreen.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getFragmentManager().beginTransaction()
+                        .replace(R.id.container, new HowTo())
+                        .commit();
+            }
+        });
+
         Button howToButton = (Button) rootView.findViewById(R.id.buttonmainip);
         howToButton.setOnClickListener(new View.OnClickListener() {
             @Override
