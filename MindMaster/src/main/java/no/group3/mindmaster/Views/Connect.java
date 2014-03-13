@@ -16,7 +16,10 @@ import no.group3.mindmaster.R;
  * Created by Petter on 10.03.14.
  */
 public class Connect extends Fragment {
-    public Connect(){
+    private Connection con;
+
+    public Connect(Connection con){
+        this.con = con;
     }
 
     @Override
@@ -28,13 +31,13 @@ public class Connect extends Fragment {
             @Override
             public void onClick(View view) {
                 getFragmentManager().beginTransaction()
-                        .replace(R.id.container, new MainMenu(getActivity().getBaseContext()))
+                        .replace(R.id.container, new MainMenu(getActivity().getBaseContext(),con))
                         .commit();
             }
         });
         TextView ipaddress = (TextView) rootView.findViewById(R.id.textIp);
         Utils u = new Utils(getActivity().getBaseContext());
-        ipaddress.setText("Your IP-Address is: "+u.getNetworkInfo().get(Connection.IP_ADDRESSS)+". Give it to your opponent and wait for connection");
+        ipaddress.setText("Your IP-Address is: "+con.getIP()+". Give it to your opponent and wait for connection");
         return rootView;
     }
 }

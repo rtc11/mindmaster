@@ -48,9 +48,9 @@ public class Server implements Runnable {
 
         while (!Thread.currentThread().isInterrupted()) {
             try {
-                //Client found; accept the connection
+                //Client found; accept the incoming connection
                 socket = serverSocket.accept();
-                Log.d(TAG, "Connected (input)");
+                Log.d(TAG, "Connected (input-channel)");
 
                 //Start the communication thread
                 CommunicationThread communicationThread = new CommunicationThread(socket);
@@ -74,7 +74,6 @@ public class Server implements Runnable {
             try{
                 input = new BufferedReader(
                         new InputStreamReader(this.clientSocket.getInputStream()));
-                Log.d(TAG, "InputStream is up");
             }catch(IOException e){
                 Log.d(TAG, e.getMessage());
             }
@@ -107,18 +106,21 @@ public class Server implements Runnable {
 
         @Override
         public void run() {
-            Log.d(TAG, msg);
-
             //If the incoming message contains clientip, we need to start the client thread
             if(msg.contains("clientip")){
                 String ip = msg.replaceAll("clientip", "");
                 con.clientThread(ip);
+
+                //TODO: this is only for watching both ways communication
                 con.sendMessage("lolhahahahaha");
             }
+
+            //TODO: this is only for receiving the lolhahahaha message from above
             else if(msg.contains("lol")){
                 String test = msg.replaceAll("lol", "");
                 Toast.makeText(ctxt, test, Toast.LENGTH_SHORT).show();
             }
+
             //If the message contains "peg" it means that the solution string has been received.
             else if(msg.contains("peg")){
                 String solution = msg.replaceAll("peg", "");
