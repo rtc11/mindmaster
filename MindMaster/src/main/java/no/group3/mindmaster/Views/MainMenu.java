@@ -21,9 +21,12 @@ import no.group3.mindmaster.Network.Utils;
  * A placeholder fragment containing a simple view.
  */
 public class MainMenu extends Fragment {
-    private Utils utils;
-    public MainMenu(Context context) {
-        utils = new Utils(context);
+    public static  Utils utils; //TODO: if context somehow is changes, remember to update it
+    private Connection con;
+
+    public MainMenu(Context context, Connection con) {
+        this.utils = new Utils(context);
+        this.con = con;
     }
 
     @Override
@@ -32,11 +35,13 @@ public class MainMenu extends Fragment {
         View rootView = inflater.inflate(R.layout.menu, container, false);
         Button howToButton = (Button) rootView.findViewById(R.id.buttonHowTo);
         Button newGameButton = (Button) rootView.findViewById(R.id.buttonNewGame);
+        Button viewChallengesButton = (Button) rootView.findViewById(R.id.buttonConnect);
         howToButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 getFragmentManager().beginTransaction()
-                        .replace(R.id.container, new HowTo())
+                        .replace(R.id.container, new HowTo(con))
+                        .addToBackStack(null)
                         .commit();
             }
         });
@@ -44,14 +49,20 @@ public class MainMenu extends Fragment {
             @Override
             public void onClick(View view) {
                 getFragmentManager().beginTransaction()
-                        .replace(R.id.container, new NewGame())
+                        .replace(R.id.container, new NewGame(con))
+                        .addToBackStack(null)
+                        .commit();
+            }
+        });
+        viewChallengesButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getFragmentManager().beginTransaction()
+                        .replace(R.id.container, new Connect(con))
                         .commit();
             }
         });
 
-
-        TextView ipaddress = (TextView) rootView.findViewById(R.id.ipaddress);
-        ipaddress.setText(utils.getNetworkInfo().get(Connection.IP_ADDRESSS));
 
         return rootView;
     }

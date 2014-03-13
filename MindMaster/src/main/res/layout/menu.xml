@@ -14,7 +14,7 @@
         android:id="@+id/MindMasterText"
         android:layout_gravity="center_horizontal" />
 
-    <TextView
+    TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
@@ -32,8 +32,8 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="View Challenges"
-        android:id="@+id/buttonViewChallenges"
+        android:text="Connect to Opponent"
+        android:id="@+id/buttonConnect"
         android:layout_gravity="center_horizontal" />
 
     <Button
