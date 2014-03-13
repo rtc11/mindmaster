@@ -23,30 +23,30 @@ public class GameScreen extends Fragment {
     private View rootView;
 
     public GameScreen() {
-//        placePegsInSpinners();
-
     }
 
-//    private void placePegsInSpinners(){
-//        initializeSpinners();
-//        addSpinnersContent();
-//    }
-//    private void addSpinnersContent() {
-//        for(Spinner s : spinnerList){
-//
-//        }
-//    }
-//    private void initializeSpinners(){
-//        spinnerList.add((Spinner) rootView.findViewById(R.id.spinner1));
-//        spinnerList.add((Spinner) rootView.findViewById(R.id.spinner2));
-//        spinnerList.add((Spinner) rootView.findViewById(R.id.spinner3));
-//        spinnerList.add((Spinner) rootView.findViewById(R.id.spinner4));
-//    }
+    private void placePegsInSpinners(){
+        initializeSpinners();
+//      addSpinnersContent();
+    }
+    private void addSpinnersContent() {
+    }
+    private void initializeSpinners(){
+        spinnerList = new ArrayList<Spinner>();;
+        spinnerList.add((Spinner) rootView.findViewById(R.id.spinner1));
+        spinnerList.add((Spinner) rootView.findViewById(R.id.spinner2));
+        spinnerList.add((Spinner) rootView.findViewById(R.id.spinner3));
+        spinnerList.add((Spinner) rootView.findViewById(R.id.spinner4));
+    }
+    public void onCreate(Bundle savedInstanceState) {
+
+    }
 
     public View onCreateView (LayoutInflater inflater, ViewGroup container,
     Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.game_screen, container, false);
 
+//        placePegsInSpinners();
 
         return rootView;
     }
