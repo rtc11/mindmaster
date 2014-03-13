@@ -25,7 +25,7 @@ public class HowTo extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.how_to, container, false);
-        Button button_Main = (Button) rootView.findViewById(R.id.buttonmainip);
+        Button button_Main = (Button) rootView.findViewById(R.id.buttonmain);
         button_Main.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
