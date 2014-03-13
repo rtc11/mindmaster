@@ -73,4 +73,7 @@ public class Connection {
     public void sendMessage(String message) {
         client.sendMessage(message);
     }
+    public String getIP(){
+        return utils.getNetworkInfo().get(Connection.IP_ADDRESSS);
+    }
 }

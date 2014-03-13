@@ -59,6 +59,7 @@ public class MainMenu extends Fragment {
             public void onClick(View view) {
                 getFragmentManager().beginTransaction()
                         .replace(R.id.container, new Connect(con))
+                        .addToBackStack(null)
                         .commit();
             }
         });
