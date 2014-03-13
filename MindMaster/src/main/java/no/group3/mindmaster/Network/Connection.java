@@ -41,7 +41,7 @@ public class Connection {
         utils = new Utils(ctxt);
 
         //Server thread will always run (looking for incoming connections)
-        serverThread();
+       // serverThread();
     }
 
     /**
