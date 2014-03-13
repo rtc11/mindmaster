@@ -63,8 +63,10 @@ public class Client implements Runnable {
     public void run() {
         try {
             InetAddress serverAddr = InetAddress.getByName(serverIP);
+
+            //Try to connect to the server socket
             clientSocket = new Socket(serverAddr, Connection.PORT);
-            Log.d(TAG, "Connected (output)");
+            Log.d(TAG, "Connected (output-channel)");
         } catch (Exception e) {
             Log.d(TAG, e.getMessage());
         }
