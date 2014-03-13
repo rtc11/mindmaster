@@ -47,8 +47,12 @@ public class Controller implements PropertyChangeListener{
     /**
      * Method that should be called whenever a new game is created. This should be called once the
      * game is operational, and both players are ready to receive messages.
+     *
+     * @param isGameCreator True if the player is creating the game, i.e. entering the ip address
+     *                      of the player he wants to connect to. False if someone is connecting to
+     *                      this player.
      */
-    public void newGame() {
+    public void newGame(boolean isGameCreator) {
         //Get the solution for this game
         solution = new ColorPegSolutionSequence(isGameCreator);
 
