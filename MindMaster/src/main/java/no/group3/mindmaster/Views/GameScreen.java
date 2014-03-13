@@ -20,6 +20,7 @@ public class GameScreen extends Fragment {
     private Controller controller;
     public GameScreen() {
         controller = Controller.getControllerInstance();
+        controller.newSoloGame();
 
     }
 
