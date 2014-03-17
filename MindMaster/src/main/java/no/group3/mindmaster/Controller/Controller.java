@@ -211,4 +211,7 @@ public class Controller implements PropertyChangeListener{
         }
         return new ColorPegSequence(colorSequence);
     }
+    public void addSequenceToModel(ColorPegSequence colorPegSequence){
+        this.model.addToHistory(colorPegSequence);
+    }
 }
