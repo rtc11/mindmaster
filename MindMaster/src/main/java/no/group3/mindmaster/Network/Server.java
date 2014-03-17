@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import android.os.Handler;
 
 import no.group3.mindmaster.Controller.Controller;
+import no.group3.mindmaster.MainActivity;
 import no.group3.mindmaster.Model.ColorPeg;
 import no.group3.mindmaster.Model.ColorPegSequence;
 import no.group3.mindmaster.Model.ColorPegSolutionSequence;
@@ -29,16 +30,17 @@ public class Server implements Runnable {
     /** The server socket */
     private ServerSocket serverSocket;
     private Connection con;
-    private Context ctxt;
     private Handler updateConversationHandler;
+    private Context ctxt;
+    private boolean isGameCreator = false;
+    private MainActivity ma;
 
-    //TODO: Context can be removed when we no longer use Toast.makeText();
-    public Server(Context ctxt, Connection con) {
-        this.ctxt = ctxt;
+    public Server(Connection con, Context ctxt, boolean isGameCreator, MainActivity ma) {
+        this.ma = ma;
         this.con = con;
-
-        //TODO: this might be called from outside the thread?
-        updateConversationHandler = new Handler();
+        this.ctxt = ctxt;
+        this.isGameCreator = isGameCreator;
+        this.updateConversationHandler = new Handler();
     }
 
     @Override
@@ -55,6 +57,15 @@ public class Server implements Runnable {
                 //Client found; accept the incoming connection
                 socket = serverSocket.accept();
                 Log.d(TAG, "Connected (input-channel)");
+
+                //Now we need to start the client thread (output-channel)
+                con.clientThread(socket.getInetAddress().getHostAddress());
+                Log.d(TAG, "Trying to start client thread with: "
+                        + socket.getInetAddress().getHostAddress());
+
+                //Get the controller to call the new game method
+                Controller controller = Controller.getInstance(ctxt, con, ma);
+                controller.newGame(isGameCreator);
 
                 //Start the communication thread
                 CommunicationThread communicationThread = new CommunicationThread(socket);
@@ -110,23 +121,9 @@ public class Server implements Runnable {
 
         @Override
         public void run() {
-            //If the incoming message contains clientip, we need to start the client thread
-            if(msg.contains("clientip")){
-                String ip = msg.replaceAll("clientip", "");
-                con.clientThread(ip);
-
-                //TODO: this is only for watching both ways communication
-                con.sendMessage("lolhahahahaha");
-            }
-
-            //TODO: this is only for receiving the lolhahahaha message from above
-            else if(msg.contains("lol")){
-                String test = msg.replaceAll("lol", "");
-                Toast.makeText(ctxt, test, Toast.LENGTH_SHORT).show();
-            }
 
             //If the message contains "peg" it means that the solution string has been received.
-            else if(msg.contains("peg")){
+            if(msg.contains("peg")){
                 String solution = msg.replaceAll("peg", "");
                 Log.d(TAG, "Solution received: " + solution);
 

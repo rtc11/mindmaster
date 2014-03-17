@@ -10,6 +10,9 @@ import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.Socket;
 
+import no.group3.mindmaster.Views.Connect;
+import no.group3.mindmaster.Views.MainMenu;
+
 /**
  * Created by tordly on 10.03.14.
  */
@@ -67,6 +70,11 @@ public class Client implements Runnable {
             //Try to connect to the server socket
             clientSocket = new Socket(serverAddr, Connection.PORT);
             Log.d(TAG, "Connected (output-channel)");
+
+            Utils utils = Utils.getInstance(ctxt);
+
+            //Send ip to this device
+//            sendMessage("clientip" + utils.getNetworkInfo().get(Connection.IP_ADDRESSS));
         } catch (Exception e) {
             Log.d(TAG, e.getMessage());
         }

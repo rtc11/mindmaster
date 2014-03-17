@@ -1,11 +1,18 @@
 package no.group3.mindmaster.Controller;
 
+import android.app.Fragment;
 import android.content.Context;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 
+import no.group3.mindmaster.MainActivity;
 import no.group3.mindmaster.Model.ColorPeg;
 import no.group3.mindmaster.Model.ColorPegSequence;
 import no.group3.mindmaster.Model.ColorPegSolutionSequence;
@@ -13,6 +20,8 @@ import no.group3.mindmaster.Model.Colour;
 import no.group3.mindmaster.Model.KeyPeg;
 import no.group3.mindmaster.Model.Model;
 import no.group3.mindmaster.Network.Connection;
+import no.group3.mindmaster.R;
+import no.group3.mindmaster.Views.GameScreen;
 
 /**
  * Created by Wschive on 06/03/14.
@@ -20,25 +29,30 @@ import no.group3.mindmaster.Network.Connection;
 
 public class Controller implements PropertyChangeListener{
 
+    private final String TAG = "MindMaster.Controller";
     private Connection connection;
     private Model model;
     private Context ctxt;
     private ColorPegSolutionSequence solution;
-    static private Controller ControllerInstance = null;
+    private static Controller ControllerInstance = null;
     private ArrayList<ColorPegSequence> oldHistory;
     private ArrayList<ColorPegSequence> currentHistory;
     /** If this is the client, we are not ready before we receive the solution from the server */
     public static boolean isReady = false;
+    private MainActivity ma;
 
-    public Controller(Context ctxt, Connection con) {
+    private Controller(Context ctxt, Connection con, MainActivity ma) {
+        this.ma = ma;
         this.ctxt = ctxt;
         this.connection = con;
         oldHistory = new ArrayList<ColorPegSequence>();
         currentHistory = new ArrayList<ColorPegSequence>();
     }
-    public static Controller instance(Context ctxt, Connection con){
+    public static Controller getInstance(Context ctxt, Connection con, MainActivity ma){
         if (ControllerInstance == null) {
-            ControllerInstance = new Controller(ctxt, con);
+            synchronized (Controller.class){
+                ControllerInstance = new Controller(ctxt, con, ma);
+            }
         }
         return ControllerInstance;
     }
@@ -65,6 +79,8 @@ public class Controller implements PropertyChangeListener{
 
             //Get the string-representation of the solution
             String solutionString = getColorPegSequenceString(solution.getSolution());
+            
+            Log.d(TAG, "SolutionString should not be null: " + solutionString);
 
             //Send the solution to the opponent (the client)
             sendSolution(solutionString);
@@ -85,7 +101,11 @@ public class Controller implements PropertyChangeListener{
             //The solution have been received and instantiated
             solution = ColorPegSolutionSequence.getInstance(isGameCreator);
         }
+
+        ma.startGameFragment();
+
     }
+
 
     /**
      * Creates a new game to play alone. Should be equal to the method newGame without the network part
@@ -126,30 +146,34 @@ public class Controller implements PropertyChangeListener{
      * @return The String with the first letters
      */
     public String getColorPegSequenceString (ColorPegSequence sequence) {
+        if(sequence.getSequence() == null){
+            return null;
+        }
         ArrayList<ColorPeg> pegSequence = sequence.getSequence();
-        String message = "peg";
+        StringBuilder message = new StringBuilder();
+        message.append("peg");
         for (int i = 0; i < pegSequence.size(); i++) {
             Colour c = pegSequence.get(i).getColour();
             if (c == Colour.BLUE) {
-                message += "b";
+                message.append("b");
             }
             else if (c == Colour.CYAN) {
-                message += "c";
+                message.append("c");
             }
             else if (c == Colour.GREEN) {
-                message += "g";
+                message.append("g");
             }
             else if (c == Colour.MAGENTA) {
-                message += "m";
+                message.append("m");
             }
             else if (c == Colour.RED) {
-                message += "r";
+                message.append("r");
             }
             else if (c == Colour.YELLOW) {
-                message += "y";
+                message.append("y");
             }
         }
-        return message;
+        return message.toString();
     }
 
     /**

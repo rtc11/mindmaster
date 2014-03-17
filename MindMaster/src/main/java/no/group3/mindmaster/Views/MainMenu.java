@@ -25,7 +25,7 @@ public class MainMenu extends Fragment {
     private Connection con;
 
     public MainMenu(Context context, Connection con) {
-        this.utils = new Utils(context);
+        this.utils = Utils.getInstance(context);
         this.con = con;
     }
 
@@ -36,15 +36,8 @@ public class MainMenu extends Fragment {
         Button howToButton = (Button) rootView.findViewById(R.id.buttonHowTo);
         Button newGameButton = (Button) rootView.findViewById(R.id.buttonNewGame);
         Button connectButton = (Button) rootView.findViewById(R.id.buttonConnect);
-        howToButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                getFragmentManager().beginTransaction()
-                        .replace(R.id.container, new HowTo(con))
-                        .addToBackStack(null)
-                        .commit();
-            }
-        });
+
+        //JOIN GAME
         newGameButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -54,6 +47,8 @@ public class MainMenu extends Fragment {
                         .commit();
             }
         });
+
+        //HOST GAME
         connectButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -63,6 +58,21 @@ public class MainMenu extends Fragment {
                         .commit();
             }
         });
+
+        //HOW TO
+        howToButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getFragmentManager().beginTransaction()
+                        .replace(R.id.container, new HowTo(con))
+                        .addToBackStack(null)
+                        .commit();
+            }
+        });
+
+
+
+
 
 
         return rootView;

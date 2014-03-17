@@ -25,21 +25,21 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="NewGame"
+        android:text="@string/join_game"
         android:id="@+id/buttonNewGame"
         android:layout_gravity="center_horizontal" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Connect to Opponent"
+        android:text="@string/host_game"
         android:id="@+id/buttonConnect"
         android:layout_gravity="center_horizontal" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="How To"
+        android:text="@string/how_to"
         android:id="@+id/buttonHowTo"
         android:layout_gravity="center_horizontal" />
 

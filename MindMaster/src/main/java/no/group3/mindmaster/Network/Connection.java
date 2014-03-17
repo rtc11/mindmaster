@@ -9,6 +9,8 @@ import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.Socket;
 
+import no.group3.mindmaster.MainActivity;
+
 /**
  * Created by tordly on 06.03.14.
  */
@@ -35,20 +37,31 @@ public class Connection {
     /** Context of the current activity */
     private Context ctxt;
 
-    //TODO: singleton?
-    public Connection(Context c) {
-        this.ctxt = c;
-        utils = new Utils(ctxt);
+    /** Singleton object of this class */
+    private static Connection instance = null;
 
-        //Server thread will always run (looking for incoming connections)
-       // serverThread();
+    private MainActivity ma;
+
+    private Connection(Context c, MainActivity ma) {
+        this.ma = ma;
+        this.ctxt = c;
+        utils = Utils.getInstance(ctxt);
+    }
+
+    public static Connection getInstance(Context ctxt, MainActivity ma){
+        if(instance == null){
+            synchronized (Connection.class){
+                instance = new Connection(ctxt, ma);
+            }
+        }
+        return instance;
     }
 
     /**
      * Starts the server thread
      */
-    private void serverThread() {
-        server = new Server(ctxt, this);
+    public void serverThread(boolean isGameCreator) {
+        server = new Server(this, ctxt, isGameCreator, ma);
         Thread serverThread = new Thread(server);
         serverThread.start();
     }
