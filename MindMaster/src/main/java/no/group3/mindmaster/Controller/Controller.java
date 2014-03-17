@@ -4,7 +4,6 @@ import android.content.Context;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import no.group3.mindmaster.Model.ColorPeg;
@@ -20,25 +19,13 @@ import no.group3.mindmaster.Network.Connection;
 
 public class Controller implements PropertyChangeListener{
 
-    Connection connection;
-    Model model;
-    //View view;
-    //EventHandler eventHandler;
-    Context ctxt;
-    /**
-     * Boolean variable indicating if this instance of the controller is the creator of the game
-     * or if it has accepted an invitation
-     */
-    boolean isGameCreator;
-
+    private Connection connection;
+    private Model model;
+    private Context ctxt;
     private ColorPegSolutionSequence solution;
-
     static private Controller ControllerInstance = null;
-
-
     private ArrayList<ColorPegSequence> oldHistory;
     private ArrayList<ColorPegSequence> currentHistory;
-
     /** If this is the client, we are not ready before we receive the solution from the server */
     public static boolean isReady = false;
 
@@ -111,20 +98,6 @@ public class Controller implements PropertyChangeListener{
      */
     private void sendSolution(String solutionString) {
         connection.sendMessage(solutionString);
-    }
-
-    /**
-     * Method used to receive the solution from the creator of the game. Needs to be static as it is
-     * called from Server.java
-     *
-     * @param solutionString The solution as a String with all the first letters of the colors in the
-     *                 solution
-     */
-    public static void receiveSolution(String solutionString) {
-    }
-
-    public void setSolution(ColorPegSequence receivedSolution) {
-        solution.setSolution(receivedSolution);
     }
 
     public ArrayList<ColorPegSequence> getOldHistory() {
