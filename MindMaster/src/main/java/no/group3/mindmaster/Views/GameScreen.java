@@ -17,6 +17,8 @@ import android.widget.Toast;
 
 import no.group3.mindmaster.Model.ColorPeg;
 import no.group3.mindmaster.Controller.Controller;
+import no.group3.mindmaster.Model.ColorPegSequence;
+import no.group3.mindmaster.Model.KeyPeg;
 import no.group3.mindmaster.R;
 
 public class GameScreen extends Fragment {
@@ -24,6 +26,7 @@ public class GameScreen extends Fragment {
     private String TAG = "MindMaster.GameScreen";
 
     private ArrayList<ColorPeg> pegsList;
+    private ArrayList<KeyPeg> keyPegs;
     private ArrayList<Spinner> spinnerList;
     private View rootView;
 
@@ -31,28 +34,36 @@ public class GameScreen extends Fragment {
     public GameScreen() {
         controller = Controller.getControllerInstance();
         controller.newSoloGame();
+    }
 
+    /**
+     * Method calculating the keyPegs for this guess. The controller is through this method asked
+     * to tell the model (ColorPegSolutionSequence) to calculate the KeyPegs.
+     *
+     * @param guess the current guess
+     * @return ArrayList containing the KeyPegs for the current guess
+     */
+    private ArrayList<KeyPeg> getKeyPegs(ColorPegSequence guess) {
+        return controller.getKeyPegs(guess);
     }
 
     private void placePegsInSpinners(){
         initializeSpinners();
     }
+
     private void initializeSpinners(){
         spinnerList = new ArrayList<Spinner>();
         spinnerList.add((Spinner) rootView.findViewById(R.id.spinner1));
         spinnerList.add((Spinner) rootView.findViewById(R.id.spinner2));
         spinnerList.add((Spinner) rootView.findViewById(R.id.spinner3));
         spinnerList.add((Spinner) rootView.findViewById(R.id.spinner4));
-
     }
 
-    public View onCreateView (LayoutInflater inflater, ViewGroup container,
-    Bundle savedInstanceState) {
+    @Override
+    public View onCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.game_screen, container, false);
-
         placePegsInSpinners();
-        Toast.makeText(rootView.getContext(), ""+spinnerList.get(0), Toast.LENGTH_SHORT).show();
-        Log.d(TAG, "Spinner:" + spinnerList.get(0));
+        Log.d(TAG, "Spinner list created");
         return rootView;
     }
 }

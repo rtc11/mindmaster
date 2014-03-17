@@ -10,6 +10,7 @@ import no.group3.mindmaster.Model.ColorPeg;
 import no.group3.mindmaster.Model.ColorPegSequence;
 import no.group3.mindmaster.Model.ColorPegSolutionSequence;
 import no.group3.mindmaster.Model.Colour;
+import no.group3.mindmaster.Model.KeyPeg;
 import no.group3.mindmaster.Model.Model;
 import no.group3.mindmaster.Network.Connection;
 
@@ -183,5 +184,15 @@ public class Controller implements PropertyChangeListener{
             }
         }
         return new ColorPegSequence(colorSequence);
+    }
+
+    /**
+     * Method getting the keyPegs for this guess.
+     *
+     * @param guess the current guess
+     * @return ArrayList containing the KeyPegs for the current guess
+     */
+    public ArrayList<KeyPeg> getKeyPegs(ColorPegSequence guess) {
+        return solution.getKeyPegs(guess);
     }
 }
