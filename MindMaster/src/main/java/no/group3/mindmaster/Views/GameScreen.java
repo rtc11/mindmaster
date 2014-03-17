@@ -5,19 +5,25 @@ package no.group3.mindmaster.Views;
  */
 
 import java.util.ArrayList;
+
+import android.app.Activity;
 import android.app.Fragment;
+import android.app.ListActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import no.group3.mindmaster.HistoryViewAdapter;
 import no.group3.mindmaster.Model.ColorPeg;
 import no.group3.mindmaster.Controller.Controller;
 import no.group3.mindmaster.Model.ColorPegSequence;
+import no.group3.mindmaster.Model.Colour;
 import no.group3.mindmaster.Model.KeyPeg;
 import no.group3.mindmaster.R;
 
@@ -62,8 +68,30 @@ public class GameScreen extends Fragment {
     @Override
     public View onCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.game_screen, container, false);
+        getActivity().setContentView(R.layout.game_screen);
+
         placePegsInSpinners();
         Log.d(TAG, "Spinner list created");
+
+        //Testing to see if history adapter is working
+        ArrayList<ColorPeg> list = new ArrayList<ColorPeg>();
+        list.add(new ColorPeg(Colour.BLUE));
+        list.add(new ColorPeg(Colour.CYAN));
+        list.add(new ColorPeg(Colour.CYAN));
+        list.add(new ColorPeg(Colour.CYAN));
+
+        ColorPegSequence sequence = new ColorPegSequence(list);
+
+        Log.d(TAG, "Trying to get activity and find view.");
+
+        ListView listView = (ListView)getActivity().findViewById(R.id.history_list);
+
+        Log.d(TAG, "Trying to create new adapter.");
+        HistoryViewAdapter adapter = new HistoryViewAdapter(rootView.getContext(), sequence);
+
+        Log.d(TAG, "Trying to set the adapter.");
+        listView.setAdapter(adapter);
+
         return rootView;
     }
 }

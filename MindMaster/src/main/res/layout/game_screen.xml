@@ -60,10 +60,11 @@
         android:padding="10dp">
 
         <ListView
-            android:layout_width="350dp"
-            android:layout_height="450dp"
-            android:id="@+id/listView_history"
-            android:choiceMode="none" />
+            android:id="@+id/history_list"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:divider="#b5b5b5"
+            android:dividerHeight="1dp" />
 
     </LinearLayout>
 
