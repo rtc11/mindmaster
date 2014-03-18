@@ -20,20 +20,15 @@ public class Client implements Runnable {
 
     private static final String TAG = "MindMaster.Client";
 
-    /**
-     * The client socket
-     */
     private Socket clientSocket;
-    /**
-     * Sends message over socket
-     */
     private PrintWriter printWriter;
-    private Context ctxt;
     private String serverIP;
+    private static boolean isConnected = false;
+    private int PORT;
 
-    public Client(Context ctxt, String serverIP) {
-        this.ctxt = ctxt;
+    public Client(String serverIP, int PORT) {
         this.serverIP = serverIP;
+        this.PORT = PORT;
     }
 
     /**
@@ -41,7 +36,7 @@ public class Client implements Runnable {
      */
     public void sendMessage(String message) {
 
-        Log.d(TAG, "Trying to send msg: " + message);
+        Log.d(TAG, "Sending message...: " + message);
 
         if(clientSocket != null){
             if (clientSocket.isBound()) {
@@ -51,7 +46,7 @@ public class Client implements Runnable {
                             new OutputStreamWriter(clientSocket.getOutputStream())), true);
 
                     printWriter.println(message);
-                    Log.d(TAG, "Sent message; " + message);
+                    Log.d(TAG, "Message sent!");
                 } catch (IOException e) {
                     Log.d(TAG, e.getMessage());
                 }
@@ -62,19 +57,17 @@ public class Client implements Runnable {
         }
     }
 
+    public static boolean isConnected(){
+        return Client.isConnected;
+    }
+
     @Override
     public void run() {
         try {
             InetAddress serverAddr = InetAddress.getByName(serverIP);
-
-            //Try to connect to the server socket
-            clientSocket = new Socket(serverAddr, Connection.PORT);
-            Log.d(TAG, "Connected (output-channel)");
-
-            Utils utils = Utils.getInstance(ctxt);
-
-            //Send ip to this device
-//            sendMessage("clientip" + utils.getNetworkInfo().get(Connection.IP_ADDRESSS));
+            clientSocket = new Socket(serverAddr, PORT); //Trying to connect
+            Client.isConnected = true;
+            Log.d(TAG, "(Output) Connected!");
         } catch (Exception e) {
             Log.d(TAG, e.getMessage());
         }

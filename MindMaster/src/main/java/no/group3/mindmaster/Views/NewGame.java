@@ -12,23 +12,31 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
+import no.group3.mindmaster.MainActivity;
 import no.group3.mindmaster.Network.Connection;
 import no.group3.mindmaster.R;
 
 /**
- * THIS IS THE CLIENT
+ * THIS IS THE CLIENT (JOIN)
  */
 public class NewGame extends Fragment {
 
     private final String TAG = "MindMaster.NewGame";
     private Connection con;
     private String address = "";
+    private static final int PORT = 13442;
 
     //This is not the game creator
     private boolean isGameCreator = false;
 
     public NewGame(Connection con){
         this.con = con;
+
+        Log.d(TAG, "JOINING GAME");
+        Log.d(TAG, "(Input) Connecting...");
+
+        //Start thread for incoming messages (when we join a game)
+        con.serverThread(isGameCreator, PORT);
     }
 
     private String getAddress(){
@@ -49,14 +57,11 @@ public class NewGame extends Fragment {
         Button button_TestScreen = (Button) rootView.findViewById(R.id.button_TestScreen);
 
         EditText input = (EditText) rootView.findViewById(R.id.editText);
-//        input.setInputType(InputType.TYPE_CLASS_PHONE);
         input.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
-            }
+            public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) { }
             @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
-            }
+            public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) { }
             @Override
             public void afterTextChanged(Editable editable) {
                 //Get the IP from the input field
@@ -68,13 +73,10 @@ public class NewGame extends Fragment {
         connectButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d(TAG, "Connecting...");
+                Log.d(TAG, "(Output) Connecting...");
 
-                //Start server thread for incoming messages
-                con.serverThread(isGameCreator);
-
-                //Start client thread for outgoing messages
-                con.clientThread(getAddress());
+                //Start thread for outgoing messages (when we join a game)
+                con.clientThread(getAddress(), PORT);
             }
         });
 
@@ -93,7 +95,7 @@ public class NewGame extends Fragment {
             @Override
             public void onClick(View view) {
                 getFragmentManager().beginTransaction()
-                        .replace(R.id.container, new GameScreen())
+                        .replace(R.id.container, new GameScreen(getActivity().getBaseContext(), con))
                         .addToBackStack(null)
                         .commit();
             }

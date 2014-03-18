@@ -19,6 +19,7 @@ import no.group3.mindmaster.Model.ColorPegSolutionSequence;
 import no.group3.mindmaster.Model.Colour;
 import no.group3.mindmaster.Model.KeyPeg;
 import no.group3.mindmaster.Model.Model;
+import no.group3.mindmaster.Network.Client;
 import no.group3.mindmaster.Network.Connection;
 import no.group3.mindmaster.R;
 import no.group3.mindmaster.Views.GameScreen;
@@ -39,25 +40,19 @@ public class Controller implements PropertyChangeListener{
     private ArrayList<ColorPegSequence> currentHistory;
     /** If this is the client, we are not ready before we receive the solution from the server */
     public static boolean isReady = false;
-    private MainActivity ma;
 
-    private Controller(Context ctxt, Connection con, MainActivity ma) {
-        this.ma = ma;
+    private Controller(Context ctxt, Connection con) {
         this.ctxt = ctxt;
         this.connection = con;
         oldHistory = new ArrayList<ColorPegSequence>();
         currentHistory = new ArrayList<ColorPegSequence>();
     }
-    public static Controller getInstance(Context ctxt, Connection con, MainActivity ma){
+    public static Controller getInstance(Context ctxt, Connection con){
         if (ControllerInstance == null) {
             synchronized (Controller.class){
-                ControllerInstance = new Controller(ctxt, con, ma);
+                ControllerInstance = new Controller(ctxt, con);
             }
         }
-        return ControllerInstance;
-    }
-
-    public static Controller getControllerInstance(){
         return ControllerInstance;
     }
 
@@ -79,11 +74,18 @@ public class Controller implements PropertyChangeListener{
 
             //Get the string-representation of the solution
             String solutionString = getColorPegSequenceString(solution.getSolution());
-            
-            Log.d(TAG, "SolutionString should not be null: " + solutionString);
 
+            //Wait until there is a connection
+            while(!Client.isConnected()){
+                try {
+                    Thread.sleep(3000);
+                    Log.d(TAG, "Waiting for output-connection");
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
             //Send the solution to the opponent (the client)
-            sendSolution(solutionString);
+            sendMessage(solutionString);
         }
 
         //If this is the client
@@ -92,7 +94,9 @@ public class Controller implements PropertyChangeListener{
             //Wait until we receive the solution
             while(!isReady){
                 try {
-                    Thread.sleep(500);
+                    Thread.sleep(3000);
+                    Log.d(TAG, "Waiting for solution");
+                    sendMessage("waiting");
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -102,6 +106,7 @@ public class Controller implements PropertyChangeListener{
             solution = ColorPegSolutionSequence.getInstance(isGameCreator);
         }
 
+        MainActivity ma = MainActivity.getInstance();
         ma.startGameFragment();
 
     }
@@ -117,7 +122,7 @@ public class Controller implements PropertyChangeListener{
     /**
      * Sends the generated solution to the "client"
      */
-    private void sendSolution(String solutionString) {
+    private void sendMessage(String solutionString) {
         connection.sendMessage(solutionString);
     }
 
@@ -183,7 +188,7 @@ public class Controller implements PropertyChangeListener{
      *                 the color.
      * @return A ColorPegSequence with all the colors in the solution.
      */
-    public static ColorPegSequence getColorPegSequence(String solution) {
+    public ColorPegSequence getColorPegSequence(String solution) {
         ArrayList<ColorPeg> colorSequence = new ArrayList<ColorPeg>();
         ColorPegSequence sequence;
         for (int i = 0; i < solution.length(); i++) {

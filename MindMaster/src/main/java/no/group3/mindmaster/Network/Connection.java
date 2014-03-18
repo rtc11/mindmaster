@@ -16,9 +16,6 @@ import no.group3.mindmaster.MainActivity;
  */
 public class Connection {
 
-    /** The application runs on this port */
-    public static final int PORT = 13442;
-
     //HAHSMAP KEYS
     public static String DNS1 = "DNS1";
     public static String DNS2 = "DNS2";
@@ -40,18 +37,16 @@ public class Connection {
     /** Singleton object of this class */
     private static Connection instance = null;
 
-    private MainActivity ma;
 
-    private Connection(Context c, MainActivity ma) {
-        this.ma = ma;
+    private Connection(Context c) {
         this.ctxt = c;
         utils = Utils.getInstance(ctxt);
     }
 
-    public static Connection getInstance(Context ctxt, MainActivity ma){
+    public static Connection getInstance(Context ctxt){
         if(instance == null){
             synchronized (Connection.class){
-                instance = new Connection(ctxt, ma);
+                instance = new Connection(ctxt);
             }
         }
         return instance;
@@ -60,8 +55,8 @@ public class Connection {
     /**
      * Starts the server thread
      */
-    public void serverThread(boolean isGameCreator) {
-        server = new Server(this, ctxt, isGameCreator, ma);
+    public void serverThread(boolean isGameCreator, int PORT) {
+        server = new Server(this, ctxt, isGameCreator, PORT);
         Thread serverThread = new Thread(server);
         serverThread.start();
     }
@@ -69,8 +64,8 @@ public class Connection {
     /**
      * Starts the client thread
      */
-    public void clientThread(String serverIP) {
-        client = new Client(ctxt, serverIP);
+    public void clientThread(String serverIP, int PORT) {
+        client = new Client(serverIP, PORT);
         Thread clientThread = new Thread(client);
         clientThread.start();
     }

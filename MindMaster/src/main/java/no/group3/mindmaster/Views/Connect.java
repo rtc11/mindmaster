@@ -4,6 +4,7 @@ import android.app.Fragment;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,10 +17,12 @@ import no.group3.mindmaster.Network.Utils;
 import no.group3.mindmaster.R;
 
 /**
- * THIS IS THE SERVER
+ * THIS IS THE SERVER (HOST)
  */
 public class Connect extends Fragment {
     private Connection con;
+    private final String TAG = "MindMaster.Connect";
+    private static final int PORT = 13443;
 
     //This is the game creator
     private boolean isGameCreator = true;
@@ -27,8 +30,11 @@ public class Connect extends Fragment {
     public Connect(Connection con){
         this.con = con;
 
-        //Start the server thread for incoming messages
-        con.serverThread(isGameCreator);
+        Log.d(TAG, "HOSTING GAME");
+        Log.d(TAG, "(Input) Connecting...");
+
+        //Start thread for incoming messages (when we host the game)
+        con.serverThread(isGameCreator, PORT);
     }
 
     @Override
@@ -49,8 +55,6 @@ public class Connect extends Fragment {
                         .commit();
             }
         });
-
-        Utils utils = Utils.getInstance(getActivity().getBaseContext());  //TODO: unused?
 
         ipaddress1.setText("Your IP-Address is:");
         ipaddress2.setText(con.getIP());

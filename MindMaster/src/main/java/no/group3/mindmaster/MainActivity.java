@@ -22,17 +22,20 @@ public class MainActivity extends Activity {
 
     private Controller controller = null;
     private Connection con = null;
+    private static MainActivity instance = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        instance = this;
+
         //Create the connection handler
-        con = Connection.getInstance(getBaseContext(), this);
+        con = Connection.getInstance(getBaseContext());
 
         //Create the controller
-        controller = Controller.getInstance(getBaseContext(), con, this);
+        controller = Controller.getInstance(getBaseContext(), con);
 
         if (savedInstanceState == null) {
             getFragmentManager().beginTransaction()
@@ -41,9 +44,15 @@ public class MainActivity extends Activity {
         }
     }
 
+    public static MainActivity getInstance(){
+        synchronized (MainActivity.class){
+            return instance;
+        }
+    }
+
     public void startGameFragment(){
         getFragmentManager().beginTransaction()
-                .replace(R.id.container, new GameScreen())
+                .replace(R.id.container, new GameScreen(getBaseContext(), con))
                 .addToBackStack(null)
                 .commit();
     }

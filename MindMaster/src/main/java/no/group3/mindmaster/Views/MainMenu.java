@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import no.group3.mindmaster.MainActivity;
 import no.group3.mindmaster.Network.Connection;
 import no.group3.mindmaster.R;
 import no.group3.mindmaster.Network.Utils;

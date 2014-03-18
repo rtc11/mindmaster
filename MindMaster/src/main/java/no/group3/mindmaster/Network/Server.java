@@ -5,9 +5,12 @@ import android.util.Log;
 import android.widget.Toast;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -32,14 +35,14 @@ public class Server implements Runnable {
     private Connection con;
     private Handler updateConversationHandler;
     private Context ctxt;
-    private boolean isGameCreator = false;
-    private MainActivity ma;
+    private boolean isGameCreator;
+    private int PORT;
 
-    public Server(Connection con, Context ctxt, boolean isGameCreator, MainActivity ma) {
-        this.ma = ma;
+    public Server(Connection con, Context ctxt, boolean isGameCreator, int PORT) {
         this.con = con;
         this.ctxt = ctxt;
         this.isGameCreator = isGameCreator;
+        this.PORT = PORT;
         this.updateConversationHandler = new Handler();
     }
 
@@ -47,7 +50,7 @@ public class Server implements Runnable {
     public void run() {
         Socket socket = null;
         try {
-            serverSocket = new ServerSocket(Connection.PORT);
+            serverSocket = new ServerSocket(PORT);
         } catch (Exception e) {
             Log.d(TAG, e.getMessage());
         }
@@ -56,15 +59,17 @@ public class Server implements Runnable {
             try {
                 //Client found; accept the incoming connection
                 socket = serverSocket.accept();
-                Log.d(TAG, "Connected (input-channel)");
+                Log.d(TAG, "(Input) Connected! GameCreator: " + isGameCreator);
 
-                //Now we need to start the client thread (output-channel)
-                con.clientThread(socket.getInetAddress().getHostAddress());
-                Log.d(TAG, "Trying to start client thread with: "
-                        + socket.getInetAddress().getHostAddress());
+                //If we host the game, we also need to send messages to the client
+                if(isGameCreator){
+                    Log.d(TAG, "(Output) Connecting...");
+                    //Now we need to start the client thread (output-channel)
+                    con.clientThread(socket.getInetAddress().getHostAddress(), PORT);
+                }
 
                 //Get the controller to call the new game method
-                Controller controller = Controller.getInstance(ctxt, con, ma);
+                Controller controller = Controller.getInstance(ctxt, con);
                 controller.newGame(isGameCreator);
 
                 //Start the communication thread
@@ -127,13 +132,64 @@ public class Server implements Runnable {
                 String solution = msg.replaceAll("peg", "");
                 Log.d(TAG, "Solution received: " + solution);
 
-                //Use singleton to create the solution instance
+                //Get the solution from the host
                 ColorPegSolutionSequence seq = ColorPegSolutionSequence.getInstance(false);
-                seq.setSolution(Controller.getColorPegSequence(solution));
+                Controller controller = Controller.getInstance(ctxt, con);
+                seq.setSolution(controller.getColorPegSequence(solution));
 
                 //We are the client and received the solution, tell the controller that we are ready
                 Controller.isReady = true;
             }
+            //The opponent is still waiting for the solution
+            else if(msg.contains("waiting")){
+
+                //Send the solution to the opponent
+                ColorPegSolutionSequence seq = ColorPegSolutionSequence.getInstance(false);
+                Controller controller = Controller.getInstance(ctxt, con);
+                String solution = controller.getColorPegSequenceString(seq.getSolution());
+                con.sendMessage("peg" + solution);
+            }
         }
     }
+
+
+
+    /********************************************************************************************/
+
+
+    public void sendMessage(String message) {
+
+        Log.d(TAG, "Sending message...: " + message);
+
+        if(clientSocket != null){
+            if (clientSocket.isBound()) {
+
+                try {
+                    printWriter = new PrintWriter(new BufferedWriter(
+                            new OutputStreamWriter(clientSocket.getOutputStream())), true);
+
+                    printWriter.println(message);
+                    Log.d(TAG, "Message sent!");
+                } catch (IOException e) {
+                    Log.d(TAG, e.getMessage());
+                }
+            }
+            else{
+                Log.d(TAG, "Socket disconnected.");
+            }
+        }
+    }
+
+    @Override
+    public void run() {
+        try {
+            InetAddress serverAddr = InetAddress.getByName(serverIP);
+            clientSocket = new Socket(serverAddr, PORT); //Trying to connect
+            Client.isConnected = true;
+            Log.d(TAG, "(Output) Connected!");
+        } catch (Exception e) {
+            Log.d(TAG, e.getMessage());
+        }
+    }
+
 }
