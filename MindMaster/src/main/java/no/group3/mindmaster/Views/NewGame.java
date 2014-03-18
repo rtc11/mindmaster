@@ -24,7 +24,7 @@ public class NewGame extends Fragment {
     private final String TAG = "MindMaster.NewGame";
     private Connection con;
     private String address = "";
-    private static final int PORT = 13442;
+    private static final int PORT = 13443;
 
     //This is not the game creator
     private boolean isGameCreator = false;

@@ -151,45 +151,4 @@ public class Server implements Runnable {
             }
         }
     }
-
-
-
-    /********************************************************************************************/
-
-
-    public void sendMessage(String message) {
-
-        Log.d(TAG, "Sending message...: " + message);
-
-        if(clientSocket != null){
-            if (clientSocket.isBound()) {
-
-                try {
-                    printWriter = new PrintWriter(new BufferedWriter(
-                            new OutputStreamWriter(clientSocket.getOutputStream())), true);
-
-                    printWriter.println(message);
-                    Log.d(TAG, "Message sent!");
-                } catch (IOException e) {
-                    Log.d(TAG, e.getMessage());
-                }
-            }
-            else{
-                Log.d(TAG, "Socket disconnected.");
-            }
-        }
-    }
-
-    @Override
-    public void run() {
-        try {
-            InetAddress serverAddr = InetAddress.getByName(serverIP);
-            clientSocket = new Socket(serverAddr, PORT); //Trying to connect
-            Client.isConnected = true;
-            Log.d(TAG, "(Output) Connected!");
-        } catch (Exception e) {
-            Log.d(TAG, e.getMessage());
-        }
-    }
-
 }
