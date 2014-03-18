@@ -4,13 +4,13 @@ import android.content.Context;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import no.group3.mindmaster.Model.ColorPeg;
 import no.group3.mindmaster.Model.ColorPegSequence;
 import no.group3.mindmaster.Model.ColorPegSolutionSequence;
 import no.group3.mindmaster.Model.Colour;
+import no.group3.mindmaster.Model.KeyPeg;
 import no.group3.mindmaster.Model.Model;
 import no.group3.mindmaster.Network.Connection;
 
@@ -20,29 +20,18 @@ import no.group3.mindmaster.Network.Connection;
 
 public class Controller implements PropertyChangeListener{
 
-    Connection connection;
-    Model model;
-    //View view;
-    //EventHandler eventHandler;
-    Context ctxt;
-    /**
-     * Boolean variable indicating if this instance of the controller is the creator of the game
-     * or if it has accepted an invitation
-     */
-    boolean isGameCreator;
-
+    private Connection connection;
+    private Model model;
+    private Context ctxt;
     private ColorPegSolutionSequence solution;
-
     static private Controller ControllerInstance = null;
-
-
     private ArrayList<ColorPegSequence> oldHistory;
     private ArrayList<ColorPegSequence> currentHistory;
-
     /** If this is the client, we are not ready before we receive the solution from the server */
     public static boolean isReady = false;
 
     public Controller(Context ctxt, Connection con) {
+        this.model = new Model(null);
         this.ctxt = ctxt;
         this.connection = con;
         oldHistory = new ArrayList<ColorPegSequence>();
@@ -111,20 +100,6 @@ public class Controller implements PropertyChangeListener{
      */
     private void sendSolution(String solutionString) {
         connection.sendMessage(solutionString);
-    }
-
-    /**
-     * Method used to receive the solution from the creator of the game. Needs to be static as it is
-     * called from Server.java
-     *
-     * @param solutionString The solution as a String with all the first letters of the colors in the
-     *                 solution
-     */
-    public static void receiveSolution(String solutionString) {
-    }
-
-    public void setSolution(ColorPegSequence receivedSolution) {
-        solution.setSolution(receivedSolution);
     }
 
     public ArrayList<ColorPegSequence> getOldHistory() {
@@ -214,4 +189,23 @@ public class Controller implements PropertyChangeListener{
     public void addSequenceToModel(ColorPegSequence colorPegSequence){
         this.model.addToHistory(colorPegSequence);
     }
+
+    /**
+     * Method getting the keyPegs for this guess.
+     *
+     * @param guess the current guess
+     * @return ArrayList containing the KeyPegs for the current guess
+     */
+    public ArrayList<KeyPeg> getKeyPegs(ColorPegSequence guess) {
+        return solution.getKeyPegs(guess);
+    }
+
+    public void addPropertyChangeListener(PropertyChangeListener listener) {
+        this.model.addPropertyChangeListener(listener);
+    }
+
+    public void removePropertyChangeListener(PropertyChangeListener listener) {
+        this.model.removePropertyChangeListener(listener);
+    }
+
 }

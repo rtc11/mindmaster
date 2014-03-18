@@ -12,7 +12,7 @@ public class ColorPegSequence {
      * @param sequence - Arraylist with a sequence of colorpegs. Must be EXACTLY 4 colorpegs
      */
     public ColorPegSequence(ArrayList<ColorPeg> sequence) {
-
+        System.out.println(sequence.size()+"heihei");
         if(sequence.size() == Globals.SEQUENCELENGTH){
             this.sequence = sequence;
         }

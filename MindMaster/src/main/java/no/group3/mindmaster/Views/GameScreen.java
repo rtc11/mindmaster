@@ -4,41 +4,78 @@ package no.group3.mindmaster.Views;
  * Created by Erik on 3/13/14.
  */
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import android.app.Fragment;
 import android.graphics.Color;
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import no.group3.mindmaster.Model.ColorPeg;
 import no.group3.mindmaster.Controller.Controller;
 import no.group3.mindmaster.Model.ColorPegSequence;
 import no.group3.mindmaster.Model.Colour;
+import no.group3.mindmaster.Model.KeyPeg;
 import no.group3.mindmaster.R;
 
-public class GameScreen extends Fragment {
+public class GameScreen extends Fragment  implements PropertyChangeListener{
     // TODO: Change object type in ArrayList to the type of the drawn Peg-object
     private String TAG = "MindMaster.GameScreen";
     private ArrayList<ColorPeg> pegsList;
+
+    // Images for pegs
+    int arr_images[] = { R.drawable.blue,
+            R.drawable.green, R.drawable.orange,
+            R.drawable.purple, R.drawable.red, R.drawable.yellow};
+
     private ArrayList<Spinner> spinnerList;
     private View rootView;
 
     private Controller controller;
+    private LayoutInflater inflater;
+
     public GameScreen() {
         controller = Controller.getControllerInstance();
+        System.out.println(controller==null);
         controller.newSoloGame();
+    }
 
+    /**
+     * Method calculating the keyPegs for this guess. The controller is through this method asked
+     * to tell the model (ColorPegSolutionSequence) to calculate the KeyPegs.
+     *
+     * @param guess the current guess
+     * @return ArrayList containing the KeyPegs for the current guess
+     */
+    private ArrayList<KeyPeg> getKeyPegs(ColorPegSequence guess) {
+        return controller.getKeyPegs(guess);
     }
 
     private void placePegsInSpinners(){
         initializeSpinners();
+
+        addAdapters();
     }
+
+    // Sets adapter to all of the 4 spinners
+    private void addAdapters() {
+        for (int i = 0; i < 4; i++) {
+            Spinner spinner = spinnerList.get(i);
+            spinner.setAdapter(new SpinnerAdapter(getActivity(), R.layout.spinner_row));
+        }
+    }
+
     private void initializeSpinners(){
         spinnerList = new ArrayList<Spinner>();
         spinnerList.add((Spinner) rootView.findViewById(R.id.spinner1));
@@ -48,45 +85,98 @@ public class GameScreen extends Fragment {
 
     }
 
-    public View onCreateView (LayoutInflater inflater, ViewGroup container,
-    Bundle savedInstanceState) {
+    @Override
+    public View onCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        controller.addPropertyChangeListener(this);
+        pegsList = new ArrayList<ColorPeg>();
+        this.inflater = inflater;
         rootView = inflater.inflate(R.layout.game_screen, container, false);
-
         placePegsInSpinners();
-        Toast.makeText(rootView.getContext(), ""+spinnerList.get(0), Toast.LENGTH_SHORT).show();
-        Log.d(TAG, "Spinner:" + spinnerList.get(0));
         Button okButton = (Button) rootView.findViewById(R.id.button_ok);
         okButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                pegsList = new ArrayList<ColorPeg>();
-                for (int i = 0; i < spinnerList.size(); i++){
-                    pegsList.add(makeColorPeg((String)spinnerList.get(i).getSelectedItem()));
-                    Toast.makeText(rootView.getContext(), ""+(String)spinnerList.get(i).getSelectedItem(), Toast.LENGTH_SHORT).show();
-                    Log.d(TAG, (String)spinnerList.get(i).getSelectedItem());
+                if(pegsList.size() != 0){
+                    return;
                 }
-                controller.addSequenceToModel(new ColorPegSequence(pegsList));
+                for (int i = 0; i < spinnerList.size(); i++){
+                    pegsList.add(makeColorPeg(spinnerList.get(i).getSelectedItemId()));
+                }
+                ColorPegSequence cps = new ColorPegSequence(pegsList);
+                try{
+                controller.addSequenceToModel(cps);
+                }catch(Exception e){
+                    e.printStackTrace();
+                }
+                pegsList = new ArrayList<ColorPeg>();
                 getFragmentManager().beginTransaction()
                         .addToBackStack(null)
                         .commit();
             }
         });
+        Log.d(TAG, "Spinner list created");
         return rootView;
     }
-    private ColorPeg makeColorPeg(String s){
+    private ColorPeg makeColorPeg(long l){
         ColorPeg c = null;
-        if(s.equals("Blue")){
-        c = new ColorPeg(Colour.BLUE);
+        if(l == 0){
+            c = new ColorPeg(Colour.BLUE);
         }
-        else if(s.equals("Green")){
+        else if(l == 1){
             c = new ColorPeg(Colour.GREEN);
         }
-        else if(s.equals("Yellow")){
-            c = new ColorPeg(Colour.YELLOW);
+        else if(l == 2){
+            c = new ColorPeg(Colour.ORANGE);
         }
-        else if(s.equals("Red")){
+        else if(l == 3){
+            c = new ColorPeg(Colour.MAGENTA);
+        }
+        else if(l == 4){
             c = new ColorPeg(Colour.RED);
         }
+        else if(l == 5){
+            c = new ColorPeg(Colour.YELLOW );
+        }
         return c;
+    }
+
+    @Override
+    public void propertyChange(PropertyChangeEvent propertyChangeEvent) {
+        Toast.makeText(rootView.getContext(), propertyChangeEvent.getPropertyName(), Toast.LENGTH_SHORT).show();
+        Log.d(TAG, propertyChangeEvent.getPropertyName());
+    }
+
+    public class SpinnerAdapter extends ArrayAdapter<String> {
+
+        public SpinnerAdapter(Context context, int textViewResourceId) {
+            super(context, textViewResourceId);
+        }
+
+        @Override
+        public View getDropDownView(int position, View convertView,ViewGroup parent) {
+            return getCustomView(position, convertView, parent);
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            return getCustomView(position, convertView, parent);
+        }
+
+        public View getCustomView(int position, View convertView, ViewGroup parent) {
+
+            LayoutInflater inflater = LayoutInflater.from(getContext());
+            View row = inflater.inflate(R.layout.spinner_row, parent, false);
+
+            ImageView icon = (ImageView)row.findViewById(R.id.image);
+            icon.setImageResource(arr_images[position]);
+
+            return row;
+        }
+
+        // Number of elements/rows in the spinner associated with the adapter
+        @Override
+        public int getCount() {
+            return 6;
+        }
     }
 }

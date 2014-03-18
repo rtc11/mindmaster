@@ -13,9 +13,12 @@ public class Model {
     /** List of the old currentHistory. Used to send with the firePropertyChange() */
     private ArrayList<ColorPegSequence> oldHistory;
 
+    private ArrayList<KeyPeg> oldOpponentKeyPegs;
+    private ArrayList<KeyPeg> currentOpponentKeyPegs;
+
     ArrayList<KeyPeg> keyPegs;
     ColorPegSolutionSequence solution;
-    private final PropertyChangeSupport pcs = new PropertyChangeSupport(this);
+    private PropertyChangeSupport pcs;
 
     /**
      * Constructor for the model.
@@ -26,6 +29,7 @@ public class Model {
         this.solution = solution;
         this.currentHistory = new ArrayList<ColorPegSequence>();
         this.oldHistory = new ArrayList<ColorPegSequence>();
+        pcs = new PropertyChangeSupport(this);
     }
 
     /**
@@ -45,11 +49,11 @@ public class Model {
     }
 
     /**
-     * Method firing a propertyChangeEvent with the old and current history.
+     * Method firing a propertyChangeEvent with the old and current Peg Sequence.
      */
-    private void fireChange() {
-        this.pcs.firePropertyChange("Updated history", oldHistory, currentHistory);
-    }
+    /*private void fireChangePegs() {
+        this.pcs.firePropertyChange("Updated pegs", oldOpponentKeyPegs, currentOpponentKeyPegs);
+    }*/
     /**
      * Method used to add a ColorPegSequence to the currentHistory. Whenever this method is called, the
      * firePropertyChange should also be called as a change is made in the GUI.
@@ -61,6 +65,12 @@ public class Model {
         //Update the old history before adding the new sequence
         oldHistory = currentHistory;
         currentHistory.add(sequence);
-        fireChange();
+        System.out.println("Historien ble endret");
+        this.pcs.firePropertyChange("History",oldHistory,currentHistory);
+    }
+    public void addOpponentKeyPegs(ArrayList<KeyPeg> opponentKeyPegs){
+        this.oldOpponentKeyPegs = this.currentOpponentKeyPegs;
+        this.currentOpponentKeyPegs = opponentKeyPegs;
+        //fireChange();
     }
 }
