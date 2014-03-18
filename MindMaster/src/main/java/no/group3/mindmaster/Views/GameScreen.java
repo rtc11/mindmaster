@@ -59,8 +59,15 @@ public class GameScreen extends Fragment {
     private void placePegsInSpinners(){
         initializeSpinners();
 
-        Spinner mySpinner = (Spinner)rootView.findViewById(R.id.spinner1);
-        mySpinner.setAdapter(new SpinnerAdapter(getActivity(), R.layout.spinner_row));
+        addAdapters();
+    }
+
+    // Sets adapter to all of the 4 spinners
+    private void addAdapters() {
+        for (int i = 0; i < 4; i++) {
+            Spinner spinner = spinnerList.get(i);
+            spinner.setAdapter(new SpinnerAdapter(getActivity(), R.layout.spinner_row));
+        }
     }
 
     private void initializeSpinners(){
@@ -106,6 +113,12 @@ public class GameScreen extends Fragment {
             icon.setImageResource(arr_images[position]);
 
             return row;
+        }
+
+        // Number of elements/rows in the spinner associated with the adapter
+        @Override
+        public int getCount() {
+            return 6;
         }
     }
 }

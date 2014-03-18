@@ -75,7 +75,8 @@
         <Spinner
             android:layout_width="80dp"
             android:layout_height="50dp"
-            android:id="@+id/spinner1" />
+            android:id="@+id/spinner1"
+            android:prompt="@string/peg_prompt" />
 
         <Spinner
             android:layout_width="80dp"
