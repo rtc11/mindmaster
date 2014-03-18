@@ -50,6 +50,7 @@ public class GameScreen extends Fragment  implements PropertyChangeListener{
     public GameScreen(Context ctxt, Connection con) {
         controller = Controller.getInstance(ctxt, con);
         controller.newSoloGame();
+        controller.addPropertyChangeListener(this);
     }
 
     /**
@@ -88,7 +89,6 @@ public class GameScreen extends Fragment  implements PropertyChangeListener{
 
     @Override
     public View onCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        controller.addPropertyChangeListener(this);
         pegsList = new ArrayList<ColorPeg>();
         this.inflater = inflater;
         rootView = inflater.inflate(R.layout.game_screen, container, false);
@@ -143,6 +143,7 @@ public class GameScreen extends Fragment  implements PropertyChangeListener{
 
     @Override
     public void propertyChange(PropertyChangeEvent propertyChangeEvent) {
+        System.out.println("jeg kjorer naa");
         Toast.makeText(rootView.getContext(), propertyChangeEvent.getPropertyName(), Toast.LENGTH_SHORT).show();
         Log.d(TAG, propertyChangeEvent.getPropertyName());
     }

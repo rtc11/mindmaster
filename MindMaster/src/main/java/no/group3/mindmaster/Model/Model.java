@@ -1,5 +1,6 @@
 package no.group3.mindmaster.Model;
 
+import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
@@ -61,16 +62,29 @@ public class Model {
      * @param sequence - The sequence that is to be added to currentHistory.
      */
     public void addToHistory(ColorPegSequence sequence){
-
+        //TODO: Remember to call adapter.notifyDataSetChanged()
         //Update the old history before adding the new sequence
         oldHistory = currentHistory;
         currentHistory.add(sequence);
         System.out.println("Historien ble endret");
-        this.pcs.firePropertyChange("History",oldHistory,currentHistory);
+        System.out.println("Antall listeners: "+this.pcs.getPropertyChangeListeners().length);
+        fireChange("History");
+
     }
     public void addOpponentKeyPegs(ArrayList<KeyPeg> opponentKeyPegs){
         this.oldOpponentKeyPegs = this.currentOpponentKeyPegs;
         this.currentOpponentKeyPegs = opponentKeyPegs;
-        //fireChange();
+        fireChange("Pegs");
+    }
+    private void fireChange(String type){
+        if(type == "History"){
+        for(PropertyChangeListener prop: pcs.getPropertyChangeListeners()){
+            prop.propertyChange(new PropertyChangeEvent(this,"History",oldHistory,currentHistory));
+        }
+        }else if(type == "Pegs"){
+            for(PropertyChangeListener prop: pcs.getPropertyChangeListeners()){
+                prop.propertyChange(new PropertyChangeEvent(this,"Pegs",oldOpponentKeyPegs,currentOpponentKeyPegs));
+            }
+        }
     }
 }

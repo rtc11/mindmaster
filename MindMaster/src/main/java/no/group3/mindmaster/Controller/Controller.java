@@ -34,6 +34,7 @@ public class Controller implements PropertyChangeListener{
 
     public Controller(Context ctxt, Connection con) {
         this.model = new Model(null);
+        model.addPropertyChangeListener(this);
         this.ctxt = ctxt;
         this.connection = con;
         oldHistory = new ArrayList<ColorPegSequence>();
@@ -120,10 +121,11 @@ public class Controller implements PropertyChangeListener{
     @SuppressWarnings("unchecked")
     @Override
     public void propertyChange(PropertyChangeEvent pcs){
+        System.out.println(pcs.getPropertyName());
         //Name of the property that has changed.
-        String changedProperty = pcs.getPropertyName();
-        oldHistory = (ArrayList<ColorPegSequence>) pcs.getOldValue();
-        currentHistory = (ArrayList<ColorPegSequence>) pcs.getNewValue();
+        //String changedProperty = pcs.getPropertyName();
+        //oldHistory = (ArrayList<ColorPegSequence>) pcs.getOldValue();
+        //currentHistory = (ArrayList<ColorPegSequence>) pcs.getNewValue();
     }
 
     /**
@@ -218,5 +220,4 @@ public class Controller implements PropertyChangeListener{
     public void removePropertyChangeListener(PropertyChangeListener listener) {
         this.model.removePropertyChangeListener(listener);
     }
-
 }
