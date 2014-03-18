@@ -2,6 +2,7 @@ package no.group3.mindmaster.Model;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.zip.GZIPOutputStream;
 
 /**
  * Created by Wschive on 06/03/14.
@@ -22,7 +23,7 @@ public class ColorPegSolutionSequence{
         if (isGameCreator) {
             Colour values[] = Colour.values();
             ArrayList<ColorPeg> sequence = new ArrayList<ColorPeg>();
-            for(int i = 0; i<4; i++){
+            for(int i = 0; i<Globals.SEQUENCELENGTH; i++){
                 sequence.add(new ColorPeg( values[(int)(Math.random()*values.length)] ));
             }
             this.solution = new ColorPegSequence(sequence);
@@ -58,14 +59,23 @@ public class ColorPegSolutionSequence{
      *
      */
     private HashMap<Colour, Integer> getColoursInSolution(){
-        HashMap<Colour, Integer> colours = new HashMap<Colour, Integer>();
-        for (ColorPeg peg : this.solution.getSequence()) {
-            colours.put(peg.getColour(), colours.get(peg.getColour()) + 1);
+
+        HashMap<Colour, Integer> lo = new HashMap<Colour, Integer>();
+
+        for(ColorPeg cp : solution.getSequence()){
+            if(lo.containsKey(cp.getColour())){
+                int temp = lo.remove(cp.getColour());
+                lo.put(cp.getColour(), (temp + 1));
+            }
+            else{
+                lo.put(cp.getColour(), 1);
+            }
         }
-        return colours;
+
+        return lo;
     }
 
-  
+
 
     /**
      *

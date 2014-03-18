@@ -23,26 +23,22 @@ public class Model {
     private ArrayList<KeyPeg> currentOpponentKeyPegs;
 
     ArrayList<KeyPeg> keyPegs;
-    ColorPegSolutionSequence solution;
+    ColorPegSolutionSequence solution = null;
     private PropertyChangeSupport pcs;
+    private Context ctxt;
 
     /**
      * Constructor for the model.
-     *
-     * @param solution - The ColorPegSolutionSequence of the current game.
      */
-    public Model(ColorPegSolutionSequence solution) {
-        this.solution = solution;
+    public Model(Context ctxt) {
+        this.ctxt = ctxt;
         this.currentHistory = new ArrayList<ColorPegSequence>();
         this.oldHistory = new ArrayList<ColorPegSequence>();
         pcs = new PropertyChangeSupport(this);
     }
 
-    //TODO: fix this method
-    public void setOpponentKeyPegs(ArrayList<KeyPeg> keypegs){
-        ArrayList<KeyPeg> old = this.keyPegs;
-        this.keyPegs = keypegs;
-        pcs.firePropertyChange("Opponents KeyPegs", old, keyPegs);
+    public void setSolution(ColorPegSolutionSequence solution){
+        this.solution = solution;
     }
 
     /**
@@ -78,27 +74,31 @@ public class Model {
         //Update the old history before adding the new sequence
         oldHistory = currentHistory;
         currentHistory.add(sequence);
-        //TODO: get the right context
-//        Connection con = Connection.getInstance(ctxt);
-//        Controller controller = Controller.getInstance(ctxt, con);
-        //TODO: create a tostring method for keypegs
-//        ArrayList<KeyPeg> keypegs = controller.getKeyPegs(sequence);
-//        con.sendMessage("keypegs" + keypegs.toString());
-        System.out.println("Historien ble endret");
-        System.out.println("Antall listeners: "+this.pcs.getPropertyChangeListeners().length);
+
+        Connection con = Connection.getInstance(ctxt);
+        Controller controller = Controller.getInstance(ctxt, con);
+
+        ArrayList<KeyPeg> keypegs = controller.getKeyPegs(sequence);
+
+        con.sendMessage(controller.keyPegsToString(keypegs));
+
         fireChange("History");
 
     }
+
+
+
     public void addOpponentKeyPegs(ArrayList<KeyPeg> opponentKeyPegs){
         this.oldOpponentKeyPegs = this.currentOpponentKeyPegs;
         this.currentOpponentKeyPegs = opponentKeyPegs;
         fireChange("Pegs");
     }
+
     private void fireChange(String type){
         if(type == "History"){
-        for(PropertyChangeListener prop: pcs.getPropertyChangeListeners()){
-            prop.propertyChange(new PropertyChangeEvent(this,"History",oldHistory,currentHistory));
-        }
+            for(PropertyChangeListener prop: pcs.getPropertyChangeListeners()){
+                    prop.propertyChange(new PropertyChangeEvent(this,"History",oldHistory,currentHistory));
+            }
         }else if(type == "Pegs"){
             for(PropertyChangeListener prop: pcs.getPropertyChangeListeners()){
                 prop.propertyChange(new PropertyChangeEvent(this,"Pegs",oldOpponentKeyPegs,currentOpponentKeyPegs));

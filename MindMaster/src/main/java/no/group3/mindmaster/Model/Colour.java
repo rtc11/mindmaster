@@ -10,7 +10,7 @@ import android.graphics.Color;
 
 
 public enum Colour {
-    RED (Color.RED), GREEN(Color.GREEN), YELLOW(Color.YELLOW), BLUE(Color.BLUE), MAGENTA(Color.MAGENTA), CYAN(Color.CYAN), ORANGE(Color.rgb(255, 165, 0));
+    RED (1), GREEN(2), YELLOW(3), BLUE(4), MAGENTA(5), CYAN(6), ORANGE(7);
 
     private final int color;
 
@@ -18,4 +18,7 @@ public enum Colour {
         this.color = color;
     }
 
+    public int toInt(){
+        return this.color;
+    }
 }

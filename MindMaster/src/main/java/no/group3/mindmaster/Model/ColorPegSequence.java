@@ -77,6 +77,9 @@ public class ColorPegSequence {
             else if (c == Colour.YELLOW) {
                 message.append("y");
             }
+            else if(c == Colour.ORANGE){
+                message.append("o");
+            }
         }
         return message.toString();
     }

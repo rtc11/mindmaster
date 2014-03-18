@@ -1,7 +1,5 @@
 package no.group3.mindmaster.Model;
 
-import android.graphics.Color;
-
 /**
  * Created by Wschive on 06/03/14.
  * Each enum contains an android.graphics.Color int. Black is therefore BLACK(Color.BLACK).
@@ -18,4 +16,7 @@ public enum KeyPeg {
         this.peg = i;
     }
 
+    public int toInt(){
+        return this.peg;
+    }
 }

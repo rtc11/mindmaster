@@ -1,8 +1,6 @@
 package no.group3.mindmaster.Controller;
 
 import android.content.Context;
-import android.util.Log;
-import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import no.group3.mindmaster.MainActivity;
@@ -33,8 +31,8 @@ public class Controller{
     public static boolean isGameCreator = false;
 
     public Controller(Context ctxt, Connection con) {
-        this.model = new Model(null);
         this.ctxt = ctxt;
+        this.model = new Model(ctxt);
         this.connection = con;
         oldHistory = new ArrayList<ColorPegSequence>();
         currentHistory = new ArrayList<ColorPegSequence>();
@@ -87,6 +85,8 @@ public class Controller{
             //The solution have been received and instantiated
             solution = ColorPegSolutionSequence.getInstance(isGameCreator);
         }
+
+        model.setSolution(solution);
 
         MainActivity ma = MainActivity.getInstance();
         ma.startGameFragment();
@@ -146,6 +146,9 @@ public class Controller{
             else if (c == 'y') {
                 colorSequence.add(new ColorPeg(Colour.YELLOW));
             }
+            else if(c == 'o'){
+                colorSequence.add(new ColorPeg(Colour.ORANGE));
+            }
         }
         return new ColorPegSequence(colorSequence);
     }
@@ -170,5 +173,18 @@ public class Controller{
 
     public void removePropertyChangeListener(PropertyChangeListener listener) {
         this.model.removePropertyChangeListener(listener);
+    }
+
+    public String keyPegsToString(ArrayList<KeyPeg> keyPegs){
+        StringBuilder string = new StringBuilder();
+        string.append("keypegs");
+        for(KeyPeg k : keyPegs){
+            switch(k.toInt()){
+                case 0 : string.append("0");
+                case 1 : string.append("1");
+                case 2 : string.append("2");
+            }
+        }
+        return string.toString();
     }
 }

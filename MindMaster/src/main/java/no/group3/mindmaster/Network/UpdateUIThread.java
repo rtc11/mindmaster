@@ -50,11 +50,10 @@ public class UpdateUIThread implements Runnable {
             String solution = seq.getSolution().toString();
             con.sendMessage("peg" + solution);
         }
-
-        // "keypeg0102"
         else if (msg.contains("keypeg")){
             String keyPegString = msg.replaceAll("keypeg", "");
             ArrayList<KeyPeg> keypegs = new ArrayList<KeyPeg>();
+
             KeyPeg keyp1 = KeyPeg.valueOf(String.valueOf(keyPegString.charAt(0)));
             KeyPeg keyp2 = KeyPeg.valueOf(String.valueOf(keyPegString.charAt(1)));
             KeyPeg keyp3 = KeyPeg.valueOf(String.valueOf(keyPegString.charAt(2)));
@@ -65,8 +64,9 @@ public class UpdateUIThread implements Runnable {
             keypegs.add(keyp4);
 
             Controller controller = Controller.getInstance(ctxt, con);
-//            controller.addOpponentKeyPegsToModel(keyegs); //TODO: uncomment this
+            controller.addOpponentKeyPegsToModel(keypegs);
 
+            Log.d(TAG, "Pegs: " + keyp1 + " " + keyp2 + " " + keyp3 + " " + keyp4);
         }
     }
 }
