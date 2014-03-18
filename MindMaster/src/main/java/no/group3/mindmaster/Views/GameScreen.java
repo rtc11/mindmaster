@@ -29,27 +29,25 @@ import no.group3.mindmaster.Model.Colour;
 import no.group3.mindmaster.Model.KeyPeg;
 import no.group3.mindmaster.Network.Connection;
 import no.group3.mindmaster.R;
+import no.group3.mindmaster.SpinnerAdapter;
 
 public class GameScreen extends Fragment  implements PropertyChangeListener{
     // TODO: Change object type in ArrayList to the type of the drawn Peg-object
     private String TAG = "MindMaster.GameScreen";
     private ArrayList<ColorPeg> pegsList;
 
-    // Images for pegs
-    int arr_images[] = { R.drawable.blue,
-            R.drawable.green, R.drawable.orange,
-            R.drawable.purple, R.drawable.red, R.drawable.yellow};
-
     private ArrayList<Spinner> spinnerList;
     private View rootView;
 
     private Controller controller;
     private LayoutInflater inflater;
+    private Context context;
 
     public GameScreen(Context ctxt, Connection con) {
         controller = Controller.getInstance(ctxt, con);
         controller.newSoloGame();
         controller.addPropertyChangeListener(this);
+        this.context = ctxt;
     }
 
     /**
@@ -73,28 +71,29 @@ public class GameScreen extends Fragment  implements PropertyChangeListener{
     private void addAdapters() {
         for (int i = 0; i < 4; i++) {
             Spinner spinner = spinnerList.get(i);
-            spinner.setAdapter(new SpinnerAdapter(getActivity(), R.layout.spinner_row));
+            spinner.setAdapter(new SpinnerAdapter(rootView.getContext(), R.layout.spinner_row));
         }
     }
 
     private void initializeSpinners(){
         spinnerList = new ArrayList<Spinner>();
-        spinnerList.add((Spinner) rootView.findViewById(R.id.spinner1));
-        spinnerList.add((Spinner) rootView.findViewById(R.id.spinner2));
-        spinnerList.add((Spinner) rootView.findViewById(R.id.spinner3));
-        spinnerList.add((Spinner) rootView.findViewById(R.id.spinner4));
-
+        spinnerList.add((Spinner) getActivity().findViewById(R.id.spinner1));
+        spinnerList.add((Spinner) getActivity().findViewById(R.id.spinner2));
+        spinnerList.add((Spinner) getActivity().findViewById(R.id.spinner3));
+        spinnerList.add((Spinner) getActivity().findViewById(R.id.spinner4));
     }
 
     @Override
     public View onCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         pegsList = new ArrayList<ColorPeg>();
         this.inflater = inflater;
-        rootView = inflater.inflate(R.layout.game_screen, container, false);
+
         getActivity().setContentView(R.layout.game_screen);
 
+        rootView = inflater.inflate(R.layout.game_screen, container, false);
         placePegsInSpinners();
-        Button okButton = (Button) rootView.findViewById(R.id.button_ok);
+
+        Button okButton = (Button) getActivity().findViewById(R.id.button_ok);
         okButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -167,39 +166,5 @@ public class GameScreen extends Fragment  implements PropertyChangeListener{
         System.out.println("jeg kjorer naa");
         Toast.makeText(rootView.getContext(), propertyChangeEvent.getPropertyName(), Toast.LENGTH_SHORT).show();
         Log.d(TAG, propertyChangeEvent.getPropertyName());
-    }
-
-    public class SpinnerAdapter extends ArrayAdapter<String> {
-
-        public SpinnerAdapter(Context context, int textViewResourceId) {
-            super(context, textViewResourceId);
-        }
-
-        @Override
-        public View getDropDownView(int position, View convertView,ViewGroup parent) {
-            return getCustomView(position, convertView, parent);
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            return getCustomView(position, convertView, parent);
-        }
-
-        public View getCustomView(int position, View convertView, ViewGroup parent) {
-
-            LayoutInflater inflater = LayoutInflater.from(getContext());
-            View row = inflater.inflate(R.layout.spinner_row, parent, false);
-
-            ImageView icon = (ImageView)row.findViewById(R.id.image);
-            icon.setImageResource(arr_images[position]);
-
-            return row;
-        }
-
-        // Number of elements/rows in the spinner associated with the adapter
-        @Override
-        public int getCount() {
-            return 6;
-        }
     }
 }
