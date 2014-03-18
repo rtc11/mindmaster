@@ -64,7 +64,7 @@ public class Controller implements PropertyChangeListener{
             solution = ColorPegSolutionSequence.getInstance(isGameCreator);
 
             //Get the string-representation of the solution
-            String solutionString = getColorPegSequenceString(solution.getSolution());
+            String solutionString = solution.getSolution().toString();
 
             //Send the solution to the opponent (the client)
             sendMessage(solutionString);
@@ -76,8 +76,7 @@ public class Controller implements PropertyChangeListener{
             //Wait until we receive the solution
             while(!isReady){
                 try {
-                    Thread.sleep(3000);
-                    Log.d(TAG, "Waiting for solution");
+                    Thread.sleep(500);
                     sendMessage("waiting");
                 } catch (InterruptedException e) {
                     e.printStackTrace();
@@ -126,44 +125,6 @@ public class Controller implements PropertyChangeListener{
     }
 
     /**
-     * Takes a ColorPegSequence and returns a String starting with "peg" followed by the first
-     * letter of the four pegs.
-     *
-     * @param sequence the sequence to analyze.
-     * @return The String with the first letters
-     */
-    public String getColorPegSequenceString (ColorPegSequence sequence) {
-        if(sequence.getSequence() == null){
-            return null;
-        }
-        ArrayList<ColorPeg> pegSequence = sequence.getSequence();
-        StringBuilder message = new StringBuilder();
-        message.append("peg");
-        for (int i = 0; i < pegSequence.size(); i++) {
-            Colour c = pegSequence.get(i).getColour();
-            if (c == Colour.BLUE) {
-                message.append("b");
-            }
-            else if (c == Colour.CYAN) {
-                message.append("c");
-            }
-            else if (c == Colour.GREEN) {
-                message.append("g");
-            }
-            else if (c == Colour.MAGENTA) {
-                message.append("m");
-            }
-            else if (c == Colour.RED) {
-                message.append("r");
-            }
-            else if (c == Colour.YELLOW) {
-                message.append("y");
-            }
-        }
-        return message.toString();
-    }
-
-    /**
      * Takes a String of letters and converts it to a ColorPegSequence
      *
      * @param solution The String of colors in the solution. Must only contain the first letter of
@@ -205,5 +166,9 @@ public class Controller implements PropertyChangeListener{
      */
     public ArrayList<KeyPeg> getKeyPegs(ColorPegSequence guess) {
         return solution.getKeyPegs(guess);
+    }
+
+    public void addKeyPegsToModel(ArrayList<KeyPeg> keyPegs){
+        //TODO: model.setOpponentKeyPegs(keypegs);
     }
 }

@@ -10,10 +10,9 @@ import android.graphics.Color;
 public enum KeyPeg {
     BLACK(Color.BLACK), WHITE(Color.WHITE), NONE(Color.TRANSPARENT);
 
-
     private final int color;
+
     KeyPeg(int color){
         this.color = color;
     }
-
-    }
+}

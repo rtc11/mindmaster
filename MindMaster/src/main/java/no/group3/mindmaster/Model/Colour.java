@@ -13,6 +13,7 @@ public enum Colour {
     RED (Color.RED), GREEN(Color.GREEN), YELLOW(Color.YELLOW), BLUE(Color.BLUE), MAGENTA(Color.MAGENTA), CYAN(Color.CYAN);
 
     private final int color;
+
     Colour(int color){
         this.color = color;
     }

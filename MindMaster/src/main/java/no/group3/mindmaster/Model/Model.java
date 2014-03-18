@@ -1,8 +1,13 @@
 package no.group3.mindmaster.Model;
 
+import android.content.Context;
+
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
+
+import no.group3.mindmaster.Controller.Controller;
+import no.group3.mindmaster.Network.Connection;
 
 /**
  * Created by Wschive on 06/03/14.
@@ -26,6 +31,13 @@ public class Model {
         this.solution = solution;
         this.currentHistory = new ArrayList<ColorPegSequence>();
         this.oldHistory = new ArrayList<ColorPegSequence>();
+    }
+
+    //TODO: fix this method
+    public void setOpponentKeyPegs(ArrayList<KeyPeg> keypegs){
+        ArrayList<KeyPeg> old = this.keyPegs;
+        this.keyPegs = keypegs;
+        pcs.firePropertyChange("Opponents KeyPegs", old, keyPegs);
     }
 
     /**
@@ -61,5 +73,13 @@ public class Model {
         oldHistory = currentHistory;
         currentHistory.add(sequence);
         fireChange();
+
+        //TODO: get the right context
+//        Connection con = Connection.getInstance(ctxt);
+//        Controller controller = Controller.getInstance(ctxt, con);
+        //TODO: create a tostring method for keypegs
+//        ArrayList<KeyPeg> keypegs = controller.getKeyPegs(sequence);
+//        con.sendMessage("keypegs" + keypegs.toString());
+
     }
 }
