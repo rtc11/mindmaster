@@ -32,7 +32,9 @@ public class Controller implements PropertyChangeListener{
     public static boolean isReady = false;
     public static boolean isGameCreator = false;
 
-    private Controller(Context ctxt, Connection con) {
+    public Controller(Context ctxt, Connection con) {
+        this.model = new Model(null);
+        model.addPropertyChangeListener(this);
         this.ctxt = ctxt;
         this.connection = con;
         oldHistory = new ArrayList<ColorPegSequence>();
@@ -119,10 +121,11 @@ public class Controller implements PropertyChangeListener{
     @SuppressWarnings("unchecked")
     @Override
     public void propertyChange(PropertyChangeEvent pcs){
+        System.out.println(pcs.getPropertyName());
         //Name of the property that has changed.
-        String changedProperty = pcs.getPropertyName();
-        oldHistory = (ArrayList<ColorPegSequence>) pcs.getOldValue();
-        currentHistory = (ArrayList<ColorPegSequence>) pcs.getNewValue();
+        //String changedProperty = pcs.getPropertyName();
+        //oldHistory = (ArrayList<ColorPegSequence>) pcs.getOldValue();
+        //currentHistory = (ArrayList<ColorPegSequence>) pcs.getNewValue();
     }
 
     /**
@@ -196,6 +199,9 @@ public class Controller implements PropertyChangeListener{
         }
         return new ColorPegSequence(colorSequence);
     }
+    public void addSequenceToModel(ColorPegSequence colorPegSequence){
+        this.model.addToHistory(colorPegSequence);
+    }
 
     /**
      * Method getting the keyPegs for this guess.
@@ -205,5 +211,13 @@ public class Controller implements PropertyChangeListener{
      */
     public ArrayList<KeyPeg> getKeyPegs(ColorPegSequence guess) {
         return solution.getKeyPegs(guess);
+    }
+
+    public void addPropertyChangeListener(PropertyChangeListener listener) {
+        this.model.addPropertyChangeListener(listener);
+    }
+
+    public void removePropertyChangeListener(PropertyChangeListener listener) {
+        this.model.removePropertyChangeListener(listener);
     }
 }

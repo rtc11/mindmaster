@@ -11,7 +11,8 @@
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
 
         <TextView
             android:layout_width="wrap_content"
@@ -57,7 +58,8 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:weightSum="1"
-        android:padding="10dp">
+        android:padding="10dp"
+        android:layout_weight="1">
 
         <ListView
             android:id="@+id/history_list"
@@ -71,13 +73,13 @@
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="fill_parent"
-        android:layout_height="52dp">
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
 
         <Spinner
             android:layout_width="80dp"
             android:layout_height="50dp"
             android:id="@+id/spinner1"
-            android:entries="@array/peg_array"
             android:prompt="@string/peg_prompt" />
 
         <Spinner
