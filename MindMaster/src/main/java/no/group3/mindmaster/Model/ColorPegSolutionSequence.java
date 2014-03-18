@@ -96,7 +96,7 @@ public class ColorPegSolutionSequence{
         //if answer is less than 4, fill in with blank keypegs
         else if (answer.size() < Globals.SEQUENCELENGTH){
             for (int i = 0; i < Globals.SEQUENCELENGTH -answer.size(); i++) {
-                answer.add(KeyPeg.NONE);
+                answer.add(KeyPeg.TRANSPARENT);
             }
             return answer;
         }

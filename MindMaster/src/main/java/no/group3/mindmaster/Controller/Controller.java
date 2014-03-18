@@ -18,7 +18,7 @@ import no.group3.mindmaster.Network.Connection;
  * Created by Wschive on 06/03/14.
  */
 
-public class Controller implements PropertyChangeListener{
+public class Controller{
 
     private final String TAG = "MindMaster.Controller";
     private Connection connection;
@@ -32,7 +32,8 @@ public class Controller implements PropertyChangeListener{
     public static boolean isReady = false;
     public static boolean isGameCreator = false;
 
-    private Controller(Context ctxt, Connection con) {
+    public Controller(Context ctxt, Connection con) {
+        this.model = new Model(null);
         this.ctxt = ctxt;
         this.connection = con;
         oldHistory = new ArrayList<ColorPegSequence>();
@@ -115,15 +116,6 @@ public class Controller implements PropertyChangeListener{
         return currentHistory;
     }
 
-    @SuppressWarnings("unchecked")
-    @Override
-    public void propertyChange(PropertyChangeEvent pcs){
-        //Name of the property that has changed.
-        String changedProperty = pcs.getPropertyName();
-        oldHistory = (ArrayList<ColorPegSequence>) pcs.getOldValue();
-        currentHistory = (ArrayList<ColorPegSequence>) pcs.getNewValue();
-    }
-
     /**
      * Takes a String of letters and converts it to a ColorPegSequence
      *
@@ -157,7 +149,12 @@ public class Controller implements PropertyChangeListener{
         }
         return new ColorPegSequence(colorSequence);
     }
-
+    public void addSequenceToModel(ColorPegSequence colorPegSequence){
+        this.model.addToHistory(colorPegSequence);
+    }
+    public void addOpponentKeyPegsToModel(ArrayList<KeyPeg> keyPegs){
+        model.addOpponentKeyPegs(keyPegs);
+    }
     /**
      * Method getting the keyPegs for this guess.
      *
@@ -167,9 +164,11 @@ public class Controller implements PropertyChangeListener{
     public ArrayList<KeyPeg> getKeyPegs(ColorPegSequence guess) {
         return solution.getKeyPegs(guess);
     }
+    public void addPropertyChangeListener(PropertyChangeListener listener) {
+        this.model.addPropertyChangeListener(listener);
+    }
 
-    public void addKeyPegsToModel(ArrayList<KeyPeg> keyPegs){
-        //TODO: model.setOpponentKeyPegs(keypegs);
-        model.setOpponentKeyPegs(keyPegs);
+    public void removePropertyChangeListener(PropertyChangeListener listener) {
+        this.model.removePropertyChangeListener(listener);
     }
 }

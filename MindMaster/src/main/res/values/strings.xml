@@ -11,11 +11,5 @@
     <string name="how_to">How To</string>
 
     <string name="peg_prompt">Peg</string>
-    <string-array name="peg_array">
-        <item>Blue</item>
-        <item>Green</item>
-        <item>Yellow</item>
-        <item>Red</item>
-    </string-array>
 
 </resources>
