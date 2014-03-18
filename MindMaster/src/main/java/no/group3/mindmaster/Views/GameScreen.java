@@ -73,9 +73,9 @@ public class GameScreen extends Fragment {
         //Testing to see if history adapter is working
         ArrayList<ColorPeg> list = new ArrayList<ColorPeg>();
         list.add(new ColorPeg(Colour.BLUE));
-        list.add(new ColorPeg(Colour.CYAN));
-        list.add(new ColorPeg(Colour.CYAN));
-        list.add(new ColorPeg(Colour.CYAN));
+        list.add(new ColorPeg(Colour.YELLOW));
+        list.add(new ColorPeg(Colour.RED));
+        list.add(new ColorPeg(Colour.GREEN));
 
         ColorPegSequence sequence = new ColorPegSequence(list);
 

@@ -16,6 +16,7 @@
         android:background="@layout/image_bg"
         android:layout_marginRight="5dip">
 
+        <!-- There needs to be five pictures, as the fifth is the KeyPegs of the current guess -->
         <ImageView
             android:id="@+id/list_image1"
             android:layout_width="50dip"
