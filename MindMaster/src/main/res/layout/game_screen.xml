@@ -2,110 +2,101 @@
 
 <LinearLayout
     android:orientation="vertical"
-    android:layout_width="wrap_content"
+    android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:clickable="false"
-    android:weightSum="1">
+    android:paddingRight="10dp"
+    android:paddingLeft="10dp"
+    android:weightSum="100"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <LinearLayout
-        android:orientation="horizontal"
+    <RelativeLayout
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_weight="5">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Your Score: "
-            android:id="@+id/textView"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:paddingStart="10dp" />
+            android:id="@+id/yourTextView" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="'0'"
             android:id="@+id/yourScore"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true" />
+            android:layout_toRightOf="@+id/yourTextView" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Opponents Score: "
-            android:id="@+id/textView3"
-            android:layout_alignParentTop="true"
-            android:layout_toLeftOf="@+id/oppScore"
-            android:paddingStart="130dp" />
+            android:id="@+id/oppTextView"
+            android:layout_toRightOf="@+id/yourScore"
+            android:gravity="right"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="'0'"
             android:id="@+id/oppScore"
-            android:layout_alignParentTop="true"
-            android:layout_toRightOf="@+id/yourscoreText"
-            android:layout_gravity="right"
-            android:paddingEnd="20dp" />
-    </LinearLayout>
+            android:layout_toRightOf="@+id/oppTextView"
+            android:layout_alignParentRight="true"
+            android:gravity="right"/>
+    </RelativeLayout>
 
-    <LinearLayout
-        android:orientation="horizontal"
+    <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:weightSum="1"
-        android:padding="10dp">
+        android:layout_weight="95">
 
         <ListView
-            android:layout_width="350dp"
-            android:layout_height="320dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:id="@+id/listView_history"
-            android:choiceMode="none" />
+            android:choiceMode= "none"/>
+    </RelativeLayout>
 
-    </LinearLayout>
-
-    <LinearLayout
-        android:orientation="horizontal"
+    <RelativeLayout
         android:layout_width="fill_parent"
-        android:layout_height="52dp">
+        android:layout_height="wrap_content">
 
         <Spinner
-            android:layout_width="80dp"
-            android:layout_height="50dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:id="@+id/spinner1"
+            android:layout_alignParentLeft="true"
             android:prompt="@string/peg_prompt" />
 
         <Spinner
-            android:layout_width="80dp"
-            android:layout_height="50dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:id="@+id/spinner2"
-            android:entries="@array/peg_array"
+            android:layout_toRightOf="@+id/spinner1"
             android:prompt="@string/peg_prompt" />
 
         <Spinner
-            android:layout_width="80dp"
-            android:layout_height="50dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:id="@+id/spinner3"
-            android:entries="@array/peg_array"
+            android:layout_toRightOf="@+id/spinner2"
             android:prompt="@string/peg_prompt" />
 
         <Spinner
-            android:layout_width="80dp"
-            android:layout_height="50dp"
-            android:layout_gravity="left"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:id="@+id/spinner4"
-            android:entries="@array/peg_array"
+            android:layout_toRightOf="@+id/spinner3"
             android:prompt="@string/peg_prompt" />
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="OK"
-            android:id="@+id/button_ok" />
+            android:id="@+id/button_ok"
+            android:layout_toRightOf="@+id/spinner4"
+            android:layout_alignParentRight="true"/>
 
-    </LinearLayout>
+    </RelativeLayout>
 
 </LinearLayout>
