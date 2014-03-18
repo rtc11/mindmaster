@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import no.group3.mindmaster.Controller.Controller;
 import no.group3.mindmaster.Network.Connection;
 import no.group3.mindmaster.Network.Utils;
 import no.group3.mindmaster.R;
@@ -22,19 +23,14 @@ import no.group3.mindmaster.R;
 public class Connect extends Fragment {
     private Connection con;
     private final String TAG = "MindMaster.Connect";
-    private static final int PORT = 13443;
-
-    //This is the game creator
-    private boolean isGameCreator = true;
 
     public Connect(Connection con){
         this.con = con;
-
         Log.d(TAG, "HOSTING GAME");
-        Log.d(TAG, "(Input) Connecting...");
+        Controller.isGameCreator = true;
 
-        //Start thread for incoming messages (when we host the game)
-        con.serverThread(isGameCreator, PORT);
+        Log.d(TAG, "Connecting...");
+        con.serverThread();
     }
 
     @Override

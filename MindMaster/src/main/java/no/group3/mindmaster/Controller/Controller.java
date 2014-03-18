@@ -1,17 +1,10 @@
 package no.group3.mindmaster.Controller;
 
-import android.app.Fragment;
 import android.content.Context;
-import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
-
 import no.group3.mindmaster.MainActivity;
 import no.group3.mindmaster.Model.ColorPeg;
 import no.group3.mindmaster.Model.ColorPegSequence;
@@ -19,10 +12,7 @@ import no.group3.mindmaster.Model.ColorPegSolutionSequence;
 import no.group3.mindmaster.Model.Colour;
 import no.group3.mindmaster.Model.KeyPeg;
 import no.group3.mindmaster.Model.Model;
-import no.group3.mindmaster.Network.Client;
 import no.group3.mindmaster.Network.Connection;
-import no.group3.mindmaster.R;
-import no.group3.mindmaster.Views.GameScreen;
 
 /**
  * Created by Wschive on 06/03/14.
@@ -40,6 +30,7 @@ public class Controller implements PropertyChangeListener{
     private ArrayList<ColorPegSequence> currentHistory;
     /** If this is the client, we are not ready before we receive the solution from the server */
     public static boolean isReady = false;
+    public static boolean isGameCreator = false;
 
     private Controller(Context ctxt, Connection con) {
         this.ctxt = ctxt;
@@ -75,15 +66,6 @@ public class Controller implements PropertyChangeListener{
             //Get the string-representation of the solution
             String solutionString = getColorPegSequenceString(solution.getSolution());
 
-            //Wait until there is a connection
-            while(!Client.isConnected()){
-                try {
-                    Thread.sleep(3000);
-                    Log.d(TAG, "Waiting for output-connection");
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
             //Send the solution to the opponent (the client)
             sendMessage(solutionString);
         }

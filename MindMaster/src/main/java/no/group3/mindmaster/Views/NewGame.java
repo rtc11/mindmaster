@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
+import no.group3.mindmaster.Controller.Controller;
 import no.group3.mindmaster.MainActivity;
 import no.group3.mindmaster.Network.Connection;
 import no.group3.mindmaster.R;
@@ -31,12 +32,8 @@ public class NewGame extends Fragment {
 
     public NewGame(Connection con){
         this.con = con;
-
         Log.d(TAG, "JOINING GAME");
-        Log.d(TAG, "(Input) Connecting...");
-
-        //Start thread for incoming messages (when we join a game)
-        con.serverThread(isGameCreator, PORT);
+        Controller.isGameCreator = false;
     }
 
     private String getAddress(){
@@ -73,10 +70,8 @@ public class NewGame extends Fragment {
         connectButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d(TAG, "(Output) Connecting...");
-
-                //Start thread for outgoing messages (when we join a game)
-                con.clientThread(getAddress(), PORT);
+                Log.d(TAG, "Connecting...");
+                con.clientThread(getAddress());
             }
         });
 

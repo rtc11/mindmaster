@@ -9,6 +9,7 @@ import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.Socket;
 
+import no.group3.mindmaster.Controller.Controller;
 import no.group3.mindmaster.MainActivity;
 
 /**
@@ -36,11 +37,23 @@ public class Connection {
 
     /** Singleton object of this class */
     private static Connection instance = null;
+    public static final int PORT = 13443;
+
+    private boolean isOutputCommunicationConnected = false;
+    private boolean isInputCommunicationConnected = false;
 
 
     private Connection(Context c) {
         this.ctxt = c;
         utils = Utils.getInstance(ctxt);
+    }
+
+    public void setOutputConnectionStatus(boolean status){
+        this.isOutputCommunicationConnected = status;
+    }
+
+    public boolean isOutputCommunicationConnected(){
+        return this.isOutputCommunicationConnected;
     }
 
     public static Connection getInstance(Context ctxt){
@@ -49,23 +62,23 @@ public class Connection {
                 instance = new Connection(ctxt);
             }
         }
-        return instance;
+        return Connection.instance;
     }
 
     /**
-     * Starts the server thread
+     * Starts the server instance
      */
-    public void serverThread(boolean isGameCreator, int PORT) {
-        server = new Server(this, ctxt, isGameCreator, PORT);
+    public void serverThread() {
+        server = new Server(ctxt);
         Thread serverThread = new Thread(server);
         serverThread.start();
     }
 
     /**
-     * Starts the client thread
+     * Starts the client instance
      */
-    public void clientThread(String serverIP, int PORT) {
-        client = new Client(serverIP, PORT);
+    public void clientThread(String serverIP) {
+        client = new Client(serverIP, ctxt);
         Thread clientThread = new Thread(client);
         clientThread.start();
     }
@@ -79,8 +92,17 @@ public class Connection {
      *                by the first letter of the peg indicating its color.
      */
     public void sendMessage(String message) {
-        client.sendMessage(message);
+        if(Controller.isGameCreator){
+            server.sendMessage(message);
+        }
+        else{
+            client.sendMessage(message);
+        }
     }
+
+    /**
+     * Get the IP to this device
+     */
     public String getIP(){
         return utils.getNetworkInfo().get(Connection.IP_ADDRESSS);
     }
