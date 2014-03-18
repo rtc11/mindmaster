@@ -6,13 +6,16 @@ import android.graphics.Color;
  * Created by Wschive on 06/03/14.
  * Each enum contains an android.graphics.Color int. Black is therefore BLACK(Color.BLACK).
  * None is Color.TRANSPARENT
+ * 0 is nothing, 1 is white, 2 is black
  */
 public enum KeyPeg {
-    BLACK(Color.BLACK), WHITE(Color.WHITE), NONE(Color.TRANSPARENT);
 
-    private final int color;
+    BLACK(2), WHITE(1), TRANSPARENT(0);
 
-    KeyPeg(int color){
-        this.color = color;
+    private int peg;
+
+    KeyPeg(int i){
+        this.peg = i;
     }
+
 }

@@ -54,14 +54,18 @@ public class UpdateUIThread implements Runnable {
         // "keypeg0102"
         else if (msg.contains("keypeg")){
             String keyPegString = msg.replaceAll("keypeg", "");
+            ArrayList<KeyPeg> keypegs = new ArrayList<KeyPeg>();
+            KeyPeg keyp1 = KeyPeg.valueOf(String.valueOf(keyPegString.charAt(0)));
+            KeyPeg keyp2 = KeyPeg.valueOf(String.valueOf(keyPegString.charAt(1)));
+            KeyPeg keyp3 = KeyPeg.valueOf(String.valueOf(keyPegString.charAt(2)));
+            KeyPeg keyp4 = KeyPeg.valueOf(String.valueOf(keyPegString.charAt(3)));
+            keypegs.add(keyp1);
+            keypegs.add(keyp2);
+            keypegs.add(keyp3);
+            keypegs.add(keyp4);
 
-            //TODO: add right functionality here
-//            ArrayList<KeyPeg> keypegs = new ArrayList<KeyPeg>();
-//
-//            keypegs.addAll(null);
-//
-//            Controller controller = Controller.getInstance(ctxt, con);
-//            controller.addToModel(keyegs);
+            Controller controller = Controller.getInstance(ctxt, con);
+//            controller.addOpponentKeyPegsToModel(keyegs); //TODO: uncomment this
 
         }
     }

@@ -170,5 +170,6 @@ public class Controller implements PropertyChangeListener{
 
     public void addKeyPegsToModel(ArrayList<KeyPeg> keyPegs){
         //TODO: model.setOpponentKeyPegs(keypegs);
+        model.setOpponentKeyPegs(keyPegs);
     }
 }
