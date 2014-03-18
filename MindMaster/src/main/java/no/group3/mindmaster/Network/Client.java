@@ -1,14 +1,12 @@
 package no.group3.mindmaster.Network;
 
 import android.content.Context;
+import android.os.Handler;
 import android.util.Log;
-
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.Socket;
+
+import no.group3.mindmaster.Controller.Controller;
 
 /**
  * Created by tordly on 10.03.14.
@@ -16,59 +14,46 @@ import java.net.Socket;
 public class Client implements Runnable {
 
     private static final String TAG = "MindMaster.Client";
-
-    /**
-     * The client socket
-     */
-    private Socket clientSocket;
-    /**
-     * Sends message over socket
-     */
-    private PrintWriter printWriter;
-    private Context ctxt;
+    private Socket socket;
     private String serverIP;
+    private Context ctxt;
+    private Handler handler;
+    private Connection con;
+    private OutgoingCommunication out;
+    private IncomingCommunication in;
 
-    public Client(Context ctxt, String serverIP) {
-        this.ctxt = ctxt;
+    public Client(String serverIP, Context ctxt) {
         this.serverIP = serverIP;
-    }
-
-    /**
-     * Send message to the server
-     */
-    public void sendMessage(String message) {
-
-        Log.d(TAG, "Trying to send msg: " + message);
-
-        if(clientSocket != null){
-            if (clientSocket.isBound()) {
-
-                try {
-                    printWriter = new PrintWriter(new BufferedWriter(
-                            new OutputStreamWriter(clientSocket.getOutputStream())), true);
-
-                    printWriter.println(message);
-                    Log.d(TAG, "Sent message; " + message);
-                } catch (IOException e) {
-                    Log.d(TAG, e.getMessage());
-                }
-            }
-            else{
-                Log.d(TAG, "Socket disconnected.");
-            }
-        }
+        this.ctxt = ctxt;
+        this.handler = new Handler();
+        this.con = Connection.getInstance(ctxt);
     }
 
     @Override
     public void run() {
         try {
             InetAddress serverAddr = InetAddress.getByName(serverIP);
+            socket = new Socket(serverAddr, Connection.PORT);
+            Log.d(TAG, "Connected to server");
 
-            //Try to connect to the server socket
-            clientSocket = new Socket(serverAddr, Connection.PORT);
-            Log.d(TAG, "Connected (output-channel)");
+            //Start outgoing communication
+            out = new OutgoingCommunication(socket, ctxt);
+            new Thread(out).start();
+
+            //Start incoming communication
+            in = new IncomingCommunication(socket, handler, ctxt);
+            new Thread(in).start();
+
+            //Get the controller to call the new game method
+            Controller controller = Controller.getInstance(ctxt, con);
+            controller.newGame(false); //We are not the game creator
+
         } catch (Exception e) {
             Log.d(TAG, e.getMessage());
         }
+    }
+
+    public void sendMessage(String message){
+        out.sendMessage(message);
     }
 }

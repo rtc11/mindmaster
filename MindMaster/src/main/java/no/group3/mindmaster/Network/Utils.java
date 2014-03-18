@@ -6,6 +6,8 @@ import android.net.wifi.WifiManager;
 
 import java.util.HashMap;
 
+import no.group3.mindmaster.MainActivity;
+
 /**
  * Created by tordly on 10.03.14.
  */
@@ -16,10 +18,20 @@ public class Utils {
     //WIFI
     private DhcpInfo d;
     private WifiManager wifii;
+    private static Utils instance = null;
 
-    //TODO: bruk singleton på dette objektet
-    public Utils(Context ctxt){
+    private Utils(Context ctxt){
         this.ctxt = ctxt;
+    }
+
+    public static Utils getInstance(Context ctxt){
+        if(instance == null){
+            synchronized (Utils.class){
+                instance = new Utils(ctxt);
+            }
+        }
+
+        return instance;
     }
 
     /**

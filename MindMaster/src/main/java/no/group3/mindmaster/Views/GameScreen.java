@@ -6,25 +6,22 @@ package no.group3.mindmaster.Views;
 
 import java.util.ArrayList;
 
-import android.app.Activity;
 import android.app.Fragment;
-import android.app.ListActivity;
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Spinner;
-import android.widget.Toast;
-
 import no.group3.mindmaster.HistoryViewAdapter;
 import no.group3.mindmaster.Model.ColorPeg;
 import no.group3.mindmaster.Controller.Controller;
 import no.group3.mindmaster.Model.ColorPegSequence;
 import no.group3.mindmaster.Model.Colour;
 import no.group3.mindmaster.Model.KeyPeg;
+import no.group3.mindmaster.Network.Connection;
 import no.group3.mindmaster.R;
 
 public class GameScreen extends Fragment {
@@ -37,8 +34,8 @@ public class GameScreen extends Fragment {
     private View rootView;
 
     private Controller controller;
-    public GameScreen() {
-        controller = Controller.getControllerInstance();
+    public GameScreen(Context ctxt, Connection con) {
+        controller = Controller.getInstance(ctxt, con);
         controller.newSoloGame();
     }
 

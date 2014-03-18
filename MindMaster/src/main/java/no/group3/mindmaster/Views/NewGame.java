@@ -3,6 +3,7 @@ package no.group3.mindmaster.Views;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,20 +12,28 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
+import no.group3.mindmaster.Controller.Controller;
+import no.group3.mindmaster.MainActivity;
 import no.group3.mindmaster.Network.Connection;
 import no.group3.mindmaster.R;
 
 /**
- * Created by Petter on 10.03.14.
+ * THIS IS THE CLIENT (JOIN)
  */
 public class NewGame extends Fragment {
 
     private final String TAG = "MindMaster.NewGame";
     private Connection con;
     private String address = "";
+    private static final int PORT = 13443;
+
+    //This is not the game creator
+    private boolean isGameCreator = false;
 
     public NewGame(Connection con){
         this.con = con;
+        Log.d(TAG, "JOINING GAME");
+        Controller.isGameCreator = false;
     }
 
     private String getAddress(){
@@ -42,23 +51,31 @@ public class NewGame extends Fragment {
 
         Button button_Main = (Button) rootView.findViewById(R.id.buttonmainip);
         Button connectButton = (Button) rootView.findViewById(R.id.buttonconnect);
-        Button sendMessageButton = (Button) rootView.findViewById(R.id.sendMessageButton);
         Button button_TestScreen = (Button) rootView.findViewById(R.id.button_TestScreen);
 
         EditText input = (EditText) rootView.findViewById(R.id.editText);
         input.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
-            }
+            public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) { }
             @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
-            }
+            public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) { }
             @Override
             public void afterTextChanged(Editable editable) {
+                //Get the IP from the input field
                 setAddress(editable.toString());
             }
         });
 
+        //JOIN GAME THAT IS HOSTED ON IP:
+        connectButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d(TAG, "Connecting...");
+                con.clientThread(getAddress());
+            }
+        });
+
+        //BACK TO MAIN MENU
         button_Main.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -69,29 +86,11 @@ public class NewGame extends Fragment {
             }
         });
 
-
-        connectButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Log.d(TAG, "Connecting...");
-                con.clientThread(getAddress());
-            }
-        });
-        sendMessageButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //TODO: this message needs to automatically be sent, not by clicking send message
-                con.sendMessage("clientip"
-                        + MainMenu.utils.getNetworkInfo().get(Connection.IP_ADDRESSS));
-            }
-        });
-
-
         button_TestScreen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 getFragmentManager().beginTransaction()
-                        .replace(R.id.container, new GameScreen())
+                        .replace(R.id.container, new GameScreen(getActivity().getBaseContext(), con))
                         .addToBackStack(null)
                         .commit();
             }

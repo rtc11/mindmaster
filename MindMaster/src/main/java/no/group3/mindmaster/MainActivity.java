@@ -20,21 +20,41 @@ import no.group3.mindmaster.Network.Utils;
 
 public class MainActivity extends Activity {
 
-    private Controller controller;
-    Connection con;
+    private Controller controller = null;
+    private Connection con = null;
+    private static MainActivity instance = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        con = new Connection(getBaseContext());
+
+        instance = this;
+
+        //Create the connection handler
+        con = Connection.getInstance(getBaseContext());
+
+        //Create the controller
+        controller = Controller.getInstance(getBaseContext(), con);
+
         if (savedInstanceState == null) {
             getFragmentManager().beginTransaction()
                     .add(R.id.container, new MainMenu(getBaseContext(), con))
                     .commit();
         }
+    }
 
-        controller = Controller.instance(getBaseContext(), con);
+    public static MainActivity getInstance(){
+        synchronized (MainActivity.class){
+            return instance;
+        }
+    }
+
+    public void startGameFragment(){
+        getFragmentManager().beginTransaction()
+                .replace(R.id.container, new GameScreen(getBaseContext(), con))
+                .addToBackStack(null)
+                .commit();
     }
 
 
@@ -45,9 +65,6 @@ public class MainActivity extends Activity {
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
-//    public Controller getController(){
-//        return controller;
-//    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
