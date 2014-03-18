@@ -1,15 +1,18 @@
 package no.group3.mindmaster.Model;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 
 /**
  * Created by Wschive on 06/03/14.
  */
 public class ColorPegSequence {
-    ArrayList<ColorPeg> sequence;
+    private final String TAG = "MindMaster.ColorPegSequence";
+    private ArrayList<ColorPeg> sequence;
 
     /**
-     * @param sequence - Arraylist with a sequence of colorpegs. Must be EXACTLY 4 colorpegs
+     * @param sequence - Arraylist with a sequence of colorpegs.
      */
     public ColorPegSequence(ArrayList<ColorPeg> sequence) {
         System.out.println(sequence.size()+"heihei");
@@ -17,9 +20,7 @@ public class ColorPegSequence {
             this.sequence = sequence;
         }
         else{
-            //errorhandling
-            System.out.println("ColorPegSequence not created. There were not exactly 4 pegs in the list");
-            System.err.println("ColorPegSequence not created. There were not exactly 4 pegs in the list");
+            Log.d(TAG, "ColorPegSequence not created. There were not exactly 4 pegs in the list");
         }
 
     }
@@ -37,9 +38,7 @@ public class ColorPegSequence {
             this.sequence = sequence;
         }
         else{
-            //errorhandling
-            System.out.println("ColorPegSequence not created. There were not exactly 4 pegs in the list");
-            System.err.println("ColorPegSequence not created. There were not exactly 4 pegs in the list");
+            Log.d(TAG, "ColorPegSequence not created. There were not exactly 4 pegs in the list");
         }
 
     }

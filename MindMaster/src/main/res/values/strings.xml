@@ -5,6 +5,11 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
 
+    <!-- Menu items -->
+    <string name="join_game">Join Game</string>
+    <string name="host_game">Host Game</string>
+    <string name="how_to">How To</string>
+
     <string name="peg_prompt">Peg</string>
     <string-array name="peg_array">
         <item>Blue</item>

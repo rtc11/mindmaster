@@ -1,11 +1,11 @@
 package no.group3.mindmaster.Controller;
 
 import android.content.Context;
-
+import android.util.Log;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
-
+import no.group3.mindmaster.MainActivity;
 import no.group3.mindmaster.Model.ColorPeg;
 import no.group3.mindmaster.Model.ColorPegSequence;
 import no.group3.mindmaster.Model.ColorPegSolutionSequence;
@@ -20,15 +20,17 @@ import no.group3.mindmaster.Network.Connection;
 
 public class Controller implements PropertyChangeListener{
 
+    private final String TAG = "MindMaster.Controller";
     private Connection connection;
     private Model model;
     private Context ctxt;
     private ColorPegSolutionSequence solution;
-    static private Controller ControllerInstance = null;
+    private static Controller ControllerInstance = null;
     private ArrayList<ColorPegSequence> oldHistory;
     private ArrayList<ColorPegSequence> currentHistory;
     /** If this is the client, we are not ready before we receive the solution from the server */
     public static boolean isReady = false;
+    public static boolean isGameCreator = false;
 
     public Controller(Context ctxt, Connection con) {
         this.model = new Model(null);
@@ -37,14 +39,12 @@ public class Controller implements PropertyChangeListener{
         oldHistory = new ArrayList<ColorPegSequence>();
         currentHistory = new ArrayList<ColorPegSequence>();
     }
-    public static Controller instance(Context ctxt, Connection con){
+    public static Controller getInstance(Context ctxt, Connection con){
         if (ControllerInstance == null) {
-            ControllerInstance = new Controller(ctxt, con);
+            synchronized (Controller.class){
+                ControllerInstance = new Controller(ctxt, con);
+            }
         }
-        return ControllerInstance;
-    }
-
-    public static Controller getControllerInstance(){
         return ControllerInstance;
     }
 
@@ -68,7 +68,7 @@ public class Controller implements PropertyChangeListener{
             String solutionString = getColorPegSequenceString(solution.getSolution());
 
             //Send the solution to the opponent (the client)
-            sendSolution(solutionString);
+            sendMessage(solutionString);
         }
 
         //If this is the client
@@ -77,7 +77,9 @@ public class Controller implements PropertyChangeListener{
             //Wait until we receive the solution
             while(!isReady){
                 try {
-                    Thread.sleep(500);
+                    Thread.sleep(3000);
+                    Log.d(TAG, "Waiting for solution");
+                    sendMessage("waiting");
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -86,7 +88,12 @@ public class Controller implements PropertyChangeListener{
             //The solution have been received and instantiated
             solution = ColorPegSolutionSequence.getInstance(isGameCreator);
         }
+
+        MainActivity ma = MainActivity.getInstance();
+        ma.startGameFragment();
+
     }
+
 
     /**
      * Creates a new game to play alone. Should be equal to the method newGame without the network part
@@ -98,7 +105,7 @@ public class Controller implements PropertyChangeListener{
     /**
      * Sends the generated solution to the "client"
      */
-    private void sendSolution(String solutionString) {
+    private void sendMessage(String solutionString) {
         connection.sendMessage(solutionString);
     }
 
@@ -127,30 +134,34 @@ public class Controller implements PropertyChangeListener{
      * @return The String with the first letters
      */
     public String getColorPegSequenceString (ColorPegSequence sequence) {
+        if(sequence.getSequence() == null){
+            return null;
+        }
         ArrayList<ColorPeg> pegSequence = sequence.getSequence();
-        String message = "peg";
+        StringBuilder message = new StringBuilder();
+        message.append("peg");
         for (int i = 0; i < pegSequence.size(); i++) {
             Colour c = pegSequence.get(i).getColour();
             if (c == Colour.BLUE) {
-                message += "b";
+                message.append("b");
             }
             else if (c == Colour.CYAN) {
-                message += "c";
+                message.append("c");
             }
             else if (c == Colour.GREEN) {
-                message += "g";
+                message.append("g");
             }
             else if (c == Colour.MAGENTA) {
-                message += "m";
+                message.append("m");
             }
             else if (c == Colour.RED) {
-                message += "r";
+                message.append("r");
             }
             else if (c == Colour.YELLOW) {
-                message += "y";
+                message.append("y");
             }
         }
-        return message;
+        return message.toString();
     }
 
     /**
@@ -160,7 +171,7 @@ public class Controller implements PropertyChangeListener{
      *                 the color.
      * @return A ColorPegSequence with all the colors in the solution.
      */
-    public static ColorPegSequence getColorPegSequence(String solution) {
+    public ColorPegSequence getColorPegSequence(String solution) {
         ArrayList<ColorPeg> colorSequence = new ArrayList<ColorPeg>();
         ColorPegSequence sequence;
         for (int i = 0; i < solution.length(); i++) {

@@ -22,11 +22,13 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import no.group3.mindmaster.MainActivity;
 import no.group3.mindmaster.Model.ColorPeg;
 import no.group3.mindmaster.Controller.Controller;
 import no.group3.mindmaster.Model.ColorPegSequence;
 import no.group3.mindmaster.Model.Colour;
 import no.group3.mindmaster.Model.KeyPeg;
+import no.group3.mindmaster.Network.Connection;
 import no.group3.mindmaster.R;
 
 public class GameScreen extends Fragment  implements PropertyChangeListener{
@@ -45,9 +47,8 @@ public class GameScreen extends Fragment  implements PropertyChangeListener{
     private Controller controller;
     private LayoutInflater inflater;
 
-    public GameScreen() {
-        controller = Controller.getControllerInstance();
-        System.out.println(controller==null);
+    public GameScreen(Context ctxt, Connection con) {
+        controller = Controller.getInstance(ctxt, con);
         controller.newSoloGame();
     }
 
