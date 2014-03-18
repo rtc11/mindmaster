@@ -23,12 +23,12 @@ import no.group3.mindmaster.Model.Colour;
 public class HistoryViewAdapter extends BaseAdapter {
 
     private final Context context;
-    private ColorPegSequence guess;
+    private ArrayList<ColorPegSequence> history = null;
     private String TAG = "MindMaster.HistoryViewAdapter";
     LayoutInflater inflater = null;
 
-    public HistoryViewAdapter (Context c, ColorPegSequence sequence) {
-        this.guess = sequence;
+    public HistoryViewAdapter (Context c, ArrayList<ColorPegSequence> history) {
+        this.history = history;
         this.context = c;
     }
 
@@ -49,32 +49,37 @@ public class HistoryViewAdapter extends BaseAdapter {
         images.add((ImageView) rowView.findViewById(R.id.list_image4));
         images.add((ImageView) rowView.findViewById(R.id.list_image5));
 
-        //Iterate over the current guess, and set the colors accordingly.
-        for (int i = 0; i < guess.getSequence().size(); i++) {
-            if (guess.getSequence().get(i).getColour() == Colour.BLUE) {
-                images.get(i).setImageResource(R.drawable.blue);
-                Log.d(TAG, "Blue icon set.");
-            }
-            else if (guess.getSequence().get(i).getColour() == Colour.RED) {
-                images.get(i).setImageResource(R.drawable.red);
-                Log.d(TAG, "Red Icon set.");
-            }
-            else if (guess.getSequence().get(i).getColour() == Colour.GREEN) {
-                images.get(i).setImageResource(R.drawable.green);
-                Log.d(TAG, "Green Icon set.");
-            }
-            //TODO: This color needs to be changed.
-            else if (guess.getSequence().get(i).getColour() == Colour.CYAN) {
-                images.get(i).setImageResource(R.drawable.blue);
-                Log.d(TAG, "Cyan Icon set.");
-            }
-            else if (guess.getSequence().get(i).getColour() == Colour.MAGENTA) {
-                images.get(i).setImageResource(R.drawable.purple);
-                Log.d(TAG, "Magenta Icon set.");
-            }
-            else if (guess.getSequence().get(i).getColour() == Colour.YELLOW) {
-                images.get(i).setImageResource(R.drawable.yellow);
-                Log.d(TAG, "Yellow Icon set.");
+        for (int i = 0; i < history.size(); i++) {
+            Log.d(TAG, "History size: " + history.size());
+
+            ColorPegSequence guess = history.get(i);
+            //Iterate over the current guess, and set the colors accordingly.
+            for (int j = 0; j < guess.getSequence().size(); j++) {
+                if (guess.getSequence().get(j).getColour() == Colour.BLUE) {
+                    images.get(j).setImageResource(R.drawable.blue);
+                    Log.d(TAG, "Blue icon set.");
+                }
+                else if (guess.getSequence().get(j).getColour() == Colour.RED) {
+                    images.get(j).setImageResource(R.drawable.red);
+                    Log.d(TAG, "Red Icon set.");
+                }
+                else if (guess.getSequence().get(j).getColour() == Colour.GREEN) {
+                    images.get(j).setImageResource(R.drawable.green);
+                    Log.d(TAG, "Green Icon set.");
+                }
+                //TODO: This color needs to be changed.
+                else if (guess.getSequence().get(j).getColour() == Colour.CYAN) {
+                    images.get(j).setImageResource(R.drawable.orange);
+                    Log.d(TAG, "Cyan Icon set.");
+                }
+                else if (guess.getSequence().get(j).getColour() == Colour.MAGENTA) {
+                    images.get(j).setImageResource(R.drawable.purple);
+                    Log.d(TAG, "Magenta Icon set.");
+                }
+                else if (guess.getSequence().get(j).getColour() == Colour.YELLOW) {
+                    images.get(j).setImageResource(R.drawable.yellow);
+                    Log.d(TAG, "Yellow Icon set.");
+                }
             }
         }
         Log.d(TAG, "Returning rowView");
@@ -83,7 +88,7 @@ public class HistoryViewAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return 1;
+        return history.size();
     }
 
     @Override
