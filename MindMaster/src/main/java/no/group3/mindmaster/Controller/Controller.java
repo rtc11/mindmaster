@@ -18,7 +18,7 @@ import no.group3.mindmaster.Network.Connection;
  * Created by Wschive on 06/03/14.
  */
 
-public class Controller implements PropertyChangeListener{
+public class Controller{
 
     private final String TAG = "MindMaster.Controller";
     private Connection connection;
@@ -34,7 +34,6 @@ public class Controller implements PropertyChangeListener{
 
     public Controller(Context ctxt, Connection con) {
         this.model = new Model(null);
-        model.addPropertyChangeListener(this);
         this.ctxt = ctxt;
         this.connection = con;
         oldHistory = new ArrayList<ColorPegSequence>();
@@ -118,16 +117,6 @@ public class Controller implements PropertyChangeListener{
         return currentHistory;
     }
 
-    @SuppressWarnings("unchecked")
-    @Override
-    public void propertyChange(PropertyChangeEvent pcs){
-        System.out.println(pcs.getPropertyName());
-        //Name of the property that has changed.
-        //String changedProperty = pcs.getPropertyName();
-        //oldHistory = (ArrayList<ColorPegSequence>) pcs.getOldValue();
-        //currentHistory = (ArrayList<ColorPegSequence>) pcs.getNewValue();
-    }
-
     /**
      * Takes a ColorPegSequence and returns a String starting with "peg" followed by the first
      * letter of the four pegs.
@@ -202,7 +191,9 @@ public class Controller implements PropertyChangeListener{
     public void addSequenceToModel(ColorPegSequence colorPegSequence){
         this.model.addToHistory(colorPegSequence);
     }
-
+    public void addOpponentKeyPegsToModel(ArrayList<KeyPeg> keyPegs){
+        model.addOpponentKeyPegs(keyPegs);
+    }
     /**
      * Method getting the keyPegs for this guess.
      *
