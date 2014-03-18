@@ -61,7 +61,7 @@ public class GameScreen extends Fragment {
             public void onClick(View view) {
                 pegsList = new ArrayList<ColorPeg>();
                 for (int i = 0; i < spinnerList.size(); i++){
-                    pegsList.add(makeColorpeg((String)spinnerList.get(i).getSelectedItem()));
+                    pegsList.add(makeColorPeg((String)spinnerList.get(i).getSelectedItem()));
                     Toast.makeText(rootView.getContext(), ""+(String)spinnerList.get(i).getSelectedItem(), Toast.LENGTH_SHORT).show();
                     Log.d(TAG, (String)spinnerList.get(i).getSelectedItem());
                 }
@@ -73,7 +73,7 @@ public class GameScreen extends Fragment {
         });
         return rootView;
     }
-    private ColorPeg makeColorpeg(String s){
+    private ColorPeg makeColorPeg(String s){
         ColorPeg c = null;
         if(s.equals("Blue")){
         c = new ColorPeg(Colour.BLUE);

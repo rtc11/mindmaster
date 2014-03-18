@@ -57,6 +57,7 @@ public class Model {
      * @param sequence - The sequence that is to be added to currentHistory.
      */
     public void addToHistory(ColorPegSequence sequence){
+
         //Update the old history before adding the new sequence
         oldHistory = currentHistory;
         currentHistory.add(sequence);
