@@ -65,6 +65,8 @@ public class ColorPegSolutionSequence{
         return colours;
     }
 
+  
+
     /**
      *
      * @param guess - the guessed ColorPegSequence

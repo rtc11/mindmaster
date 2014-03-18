@@ -47,14 +47,14 @@ public class ColorPegSequence {
      * Takes a ColorPegSequence and returns a String starting with "peg" followed by the first
      * letter of the four pegs.
      *
-     * @param sequence the sequence to analyze.
      * @return The String with the first letters
      */
-    public String toString (ColorPegSequence sequence) {
-        if(sequence.getSequence() == null){
+    @Override
+    public String toString () {
+        if(this.getSequence() == null){
             return null;
         }
-        ArrayList<ColorPeg> pegSequence = sequence.getSequence();
+        ArrayList<ColorPeg> pegSequence = this.getSequence();
         StringBuilder message = new StringBuilder();
         message.append("peg");
         for (int i = 0; i < pegSequence.size(); i++) {
@@ -80,4 +80,6 @@ public class ColorPegSequence {
         }
         return message.toString();
     }
+
+
 }
