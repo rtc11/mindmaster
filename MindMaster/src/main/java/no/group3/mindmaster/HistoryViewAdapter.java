@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import java.util.ArrayList;
+
 import no.group3.mindmaster.Model.ColorPegSequence;
 import no.group3.mindmaster.Model.Colour;
 
@@ -45,7 +46,7 @@ public class HistoryViewAdapter extends BaseAdapter {
 
         Log.d(TAG, "History size: " + history.size());
 
-        ColorPegSequence guess = history.get(history.size() - 1);
+        ColorPegSequence guess = history.get(position);
         //Iterate over the current guess, and set the colors accordingly.
         for (int j = 0; j < guess.getSequence().size(); j++) {
             if (guess.getSequence().get(j).getColour() == Colour.BLUE) {
@@ -61,9 +62,9 @@ public class HistoryViewAdapter extends BaseAdapter {
                 Log.d(TAG, "Green Icon set.");
             }
             //TODO: This color needs to be changed.
-            else if (guess.getSequence().get(j).getColour() == Colour.CYAN) {
+            else if (guess.getSequence().get(j).getColour() == Colour.ORANGE) {
                 images.get(j).setImageResource(R.drawable.orange);
-                Log.d(TAG, "Cyan Icon set.");
+                Log.d(TAG, "Orange Icon set.");
             }
             else if (guess.getSequence().get(j).getColour() == Colour.MAGENTA) {
                 images.get(j).setImageResource(R.drawable.purple);

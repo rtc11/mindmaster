@@ -6,6 +6,7 @@ package no.group3.mindmaster.Views;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import android.app.Fragment;
@@ -40,6 +41,7 @@ public class GameScreen extends Fragment  implements PropertyChangeListener{
     private LayoutInflater inflater;
     private Context context;
     private ArrayList<ColorPegSequence> currentHistory;
+    private ColorPegSequence lastGuess;
     private HistoryViewAdapter historyAdapter;
 
     public GameScreen(Context ctxt, Connection con) {
@@ -84,12 +86,15 @@ public class GameScreen extends Fragment  implements PropertyChangeListener{
 
         Log.d(TAG, "Trying to set the historyAdapter.");
         listView.setAdapter(historyAdapter);
-        historyAdapter.notifyDataSetChanged();
+//        historyAdapter.notifyDataSetChanged();
     }
 
     private void notifyHistoryAdapter(ArrayList<ColorPegSequence> newHistory) {
+        //TODO: cleanup here if this works
         currentHistory.clear();
         currentHistory.addAll(newHistory);
+
+        lastGuess = currentHistory.get(currentHistory.size() - 1);
         historyAdapter.notifyDataSetChanged();
     }
 
@@ -114,6 +119,17 @@ public class GameScreen extends Fragment  implements PropertyChangeListener{
 
         rootView = inflater.inflate(R.layout.game_screen, container, false);
         placePegsInSpinners();
+
+        ColorPeg c1 = new ColorPeg(Colour.CYAN);
+        ColorPeg c2 = new ColorPeg(Colour.CYAN);
+        ColorPeg c3 = new ColorPeg(Colour.CYAN);
+        ColorPeg c4 = new ColorPeg(Colour.CYAN);
+
+        ArrayList<ColorPeg> test = new ArrayList<ColorPeg>();
+        test.add(c1);
+        test.add(c2);
+        test.add(c3);
+        test.add(c4);
 
         currentHistory = new ArrayList<ColorPegSequence>();
         addHistoryAdapter();
