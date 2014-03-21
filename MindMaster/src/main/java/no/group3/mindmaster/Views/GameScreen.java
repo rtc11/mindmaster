@@ -6,7 +6,6 @@ package no.group3.mindmaster.Views;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import android.app.Fragment;
@@ -93,6 +92,9 @@ public class GameScreen extends Fragment  implements PropertyChangeListener{
         }
     }
 
+    /**
+     * Method adding the historyListAdapter. Should be called once when this screen is created.
+     */
     private void addHistoryAdapter() {
         Log.d(TAG, "Trying to get activity and find view.");
 
@@ -103,20 +105,21 @@ public class GameScreen extends Fragment  implements PropertyChangeListener{
 
         Log.d(TAG, "Trying to set the historyAdapter.");
         listView.setAdapter(historyAdapter);
-//        historyAdapter.notifyDataSetChanged();
     }
 
+    /**
+     * Method calling the notifyDataSetChanged method of the historyListAdapter. Should be called
+     * every time there is a change in the history.
+     *
+     * @param newHistory ArrayList with the colorPegSequence of the new history. This should be the
+     *                   entire new history.
+     */
     private void notifyHistoryAdapter(ArrayList<ColorPegSequence> newHistory) {
-        //TODO: cleanup here if this works
         currentHistory.clear();
         currentHistory.addAll(newHistory);
 
         lastGuess = currentHistory.get(currentHistory.size() - 1);
         historyAdapter.notifyDataSetChanged();
-    }
-
-    private void addGuessToHistory() {
-
     }
 
     private void initializeSpinners(){
