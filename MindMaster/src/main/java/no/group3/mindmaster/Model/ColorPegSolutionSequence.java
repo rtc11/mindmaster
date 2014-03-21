@@ -62,66 +62,7 @@ public class ColorPegSolutionSequence{
 
 
 
-//    /**
-//     *
-//     * @param guess - the guessed ColorPegSequence
-//     * @return ArrayList<KeyPeg> containing the answer
-//     */
-//    public ArrayList<KeyPeg> getKeyPegs2(ColorPegSequence guess){
-//
-//        HashMap<Colour, Integer> colours = getColoursInSolution();
-//        ArrayList<KeyPeg> answer = new ArrayList<KeyPeg>();
-//
-//        for(Map.Entry<Colour, Integer> m : colours.entrySet()){
-//            Log.d(TAG, m.getKey() + ":" + m.getValue());
-//        }
-//
-//        for (int i = 0; i < Globals.SEQUENCELENGTH; i++) {
-//            ColorPeg peg = guess.getSequence().get(i);
-//
-//            //if the guess is at the correct spot with correct colour
-//            if (peg.getColour()== this.solution.getSequence().get(i).getColour()){
-//                int temp = colours.remove(peg.getColour());
-//                answer.add(KeyPeg.BLACK);
-//                colours.put(peg.getColour(), temp - 1);
-//                Log.d(TAG, "BLACK: " + KeyPeg.BLACK.toInt());
-//            }
-//        }
-//
-//        ArrayList<ColorPeg> tempGuess = guess.getSequence();
-//
-//        //fills in the values from the hashmap
-//        for (Colour colour : colours.keySet()) {
-//            for (int i = 0; i < colours.get(colour); i++) {
-//                if(tempGuess.contains(colours.get(colour))){
-//                    tempGuess.remove(colours.get(colour));
-//                    answer.add(KeyPeg.WHITE);
-//                    Log.d(TAG, "WHITE: " + KeyPeg.WHITE.toInt());
-//                }
-//            }
-//        }
-//        //if answer is 4, task completed
-//        if(answer.size() == Globals.SEQUENCELENGTH){
-//            return answer;
-//        }
-//        //if answer is less than 4, fill in with blank keypegs
-//        else if (answer.size() < Globals.SEQUENCELENGTH){
-//        Log.d(TAG, "answer.size after white and black check: " + answer.size());
-//
-//            for (int i = 0; i < (Globals.SEQUENCELENGTH - answer.size()); i++) {
-//                answer.add(KeyPeg.TRANSPARENT);
-//                Log.d(TAG, "TRANSPARENT: " + KeyPeg.TRANSPARENT.toInt());
-//            }
-//            return answer;
-//        }
-//        //error since the answer list is too large. I.e. more than 4
-//        else{
-//            Log.e(TAG, "answer too big");
-//            return null;
-//        }
-//
-//
-//    }
+
 
     /**
      * Puts the occurences of each colour in a hashmap, map.get(Colour) gives then the times that colour has appeared
@@ -151,7 +92,6 @@ public class ColorPegSolutionSequence{
 
         int blackPegs = 0, whitePegs = 0;
 
-        Log.d(TAG, "First iteration: " + Globals.SEQUENCELENGTH);
         for (int j = 0; j < Globals.SEQUENCELENGTH; j++) {
             ColorPeg cp = guess.getSequence().get(j);
 
@@ -160,7 +100,6 @@ public class ColorPegSolutionSequence{
                 availableColors[j]= null;
                 tempGuess[j] = null;
                 result.add(KeyPeg.BLACK);
-                Log.d(TAG, "BLACK");
             }
         }
 
@@ -171,7 +110,6 @@ public class ColorPegSolutionSequence{
                         whitePegs++;
                         availableColors[k] = null;
                         result.add(KeyPeg.WHITE);
-                        Log.d(TAG, "WHITE");
                     }
                 }
             }
@@ -180,10 +118,8 @@ public class ColorPegSolutionSequence{
         int nr = 4;
         nr -= whitePegs;
         nr -= blackPegs;
-        Log.d(TAG, "Rest size: " + nr);
         for(int i = 0; i<nr; i++){
             result.add(KeyPeg.TRANSPARENT);
-            Log.d(TAG, "TRANSPARENT");
         }
 
         return result;

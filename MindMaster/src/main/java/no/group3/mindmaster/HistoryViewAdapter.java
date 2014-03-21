@@ -37,9 +37,6 @@ public class HistoryViewAdapter extends BaseAdapter {
     @Override
     public View getView(int position, View view, ViewGroup parent) {
 
-        Log.d(TAG, "Entering getView");
-        Log.d(TAG, "Position: " + position);
-
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View rowView = inflater.inflate(R.layout.list_row, parent, false);
 
@@ -87,7 +84,6 @@ public class HistoryViewAdapter extends BaseAdapter {
         Collections.sort(keyPegs);
 
         for (int i = keyPegs.size() - 1; i >= 0; i--) {
-            Log.d(TAG, "Color: " + keyPegs.get(i));
             if (keyPegs.get(i) == KeyPeg.BLACK) {
                 keyPegImages.get(i).setImageResource(R.drawable.black_peg);
             }

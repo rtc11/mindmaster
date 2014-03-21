@@ -7,6 +7,7 @@ package no.group3.mindmaster.Views;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import android.app.Fragment;
 import android.content.Context;
@@ -15,6 +16,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
 import no.group3.mindmaster.HistoryViewAdapter;
@@ -44,6 +46,11 @@ public class GameScreen extends Fragment  implements PropertyChangeListener{
     private ColorPegSequence lastGuess;
     private HistoryViewAdapter historyAdapter;
     private ListView listView;
+
+    private ImageView opponentKeyPegTopRight,
+            opponentKeyPegTopLeft,
+            opponentKeyPegBottomRight,
+            opponentKeyPegBottomLeft;
 
     /**
      * This constructor is called when we start a multiplayergame over the network
@@ -167,9 +174,17 @@ public class GameScreen extends Fragment  implements PropertyChangeListener{
                         .commit();
             }
         });
-        //Add the history historyAdapter
+
+        opponentKeyPegBottomLeft = (ImageView) rootView.findViewById(R.id.keyPegBottomLeft);
+        opponentKeyPegBottomRight = (ImageView) rootView.findViewById(R.id.keyPegBottomRight);
+        opponentKeyPegTopLeft = (ImageView) rootView.findViewById(R.id.keyPegTopLeft);
+        opponentKeyPegTopRight = (ImageView) rootView.findViewById(R.id.keyPegTopRight);
+
         return rootView;
     }
+
+
+
     private ColorPeg makeColorPeg(long l){
         ColorPeg c = null;
         if(l == 0){
@@ -195,8 +210,35 @@ public class GameScreen extends Fragment  implements PropertyChangeListener{
 
     @Override
     public void propertyChange(PropertyChangeEvent propertyChangeEvent) {
-        Log.d(TAG, "PropertyChangeEvent with tag: " + propertyChangeEvent.getPropertyName() + " received.");
-        ArrayList<ColorPegSequence> history = (ArrayList<ColorPegSequence>) propertyChangeEvent.getNewValue();
-        notifyHistoryAdapter(history);
+        if(propertyChangeEvent.getPropertyName().equals("History")){
+
+            Log.d(TAG, "PropertyChangeEvent with tag: " + propertyChangeEvent.getPropertyName() + " received.");
+            ArrayList<ColorPegSequence> history = (ArrayList<ColorPegSequence>) propertyChangeEvent.getNewValue();
+            notifyHistoryAdapter(history);
+        }
+        else if(propertyChangeEvent.getPropertyName().equals("Pegs")){
+
+
+            ArrayList<ImageView> keyPegImages = new ArrayList<ImageView>();
+            keyPegImages.add(opponentKeyPegBottomRight);
+            keyPegImages.add(opponentKeyPegBottomLeft);
+            keyPegImages.add(opponentKeyPegTopRight);
+            keyPegImages.add(opponentKeyPegTopLeft);
+
+            ArrayList<KeyPeg> keyPegs = (ArrayList<KeyPeg>)propertyChangeEvent.getNewValue();
+            Collections.sort(keyPegs);
+
+            for (int i = keyPegs.size() - 1; i >= 0; i--) {
+                if (keyPegs.get(i) == KeyPeg.BLACK) {
+                    keyPegImages.get(i).setImageResource(R.drawable.black_peg);
+                }
+                else if (keyPegs.get(i) == KeyPeg.WHITE) {
+                    keyPegImages.get(i).setImageResource(R.drawable.white_peg);
+                }
+                else if (keyPegs.get(i) == KeyPeg.TRANSPARENT) {
+                    keyPegImages.get(i).setImageResource(R.drawable.empty_peg);
+                }
+            }
+        }
     }
 }

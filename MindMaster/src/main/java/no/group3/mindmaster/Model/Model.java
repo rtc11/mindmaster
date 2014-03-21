@@ -73,7 +73,6 @@ public class Model {
      * @param sequence - The sequence that is to be added to currentHistory.
      */
     public void addToHistory(ColorPegSequence sequence){
-        //TODO: Remember to call adapter.notifyDataSetChanged()
         //Update the old history before adding the new sequence
         oldHistory = currentHistory;
         currentHistory.add(sequence);
@@ -84,7 +83,6 @@ public class Model {
         ArrayList<KeyPeg> keypegs = controller.getKeyPegs(sequence);
 
         if(!sologame){
-
             //Send guess to opponent
             con.sendMessage(controller.keyPegsToString(keypegs));
         }
