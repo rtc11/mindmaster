@@ -6,23 +6,20 @@ package no.group3.mindmaster.Views;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+
 import android.app.Fragment;
-import android.graphics.Color;
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.Spinner;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import no.group3.mindmaster.MainActivity;
+import no.group3.mindmaster.HistoryViewAdapter;
+import android.widget.Button;
 import no.group3.mindmaster.Model.ColorPeg;
 import no.group3.mindmaster.Controller.Controller;
 import no.group3.mindmaster.Model.ColorPegSequence;
@@ -30,27 +27,28 @@ import no.group3.mindmaster.Model.Colour;
 import no.group3.mindmaster.Model.KeyPeg;
 import no.group3.mindmaster.Network.Connection;
 import no.group3.mindmaster.R;
+import no.group3.mindmaster.SpinnerAdapter;
 
 public class GameScreen extends Fragment  implements PropertyChangeListener{
     // TODO: Change object type in ArrayList to the type of the drawn Peg-object
     private String TAG = "MindMaster.GameScreen";
     private ArrayList<ColorPeg> pegsList;
 
-    // Images for pegs
-    int arr_images[] = { R.drawable.blue,
-            R.drawable.green, R.drawable.orange,
-            R.drawable.purple, R.drawable.red, R.drawable.yellow};
-
     private ArrayList<Spinner> spinnerList;
     private View rootView;
 
     private Controller controller;
     private LayoutInflater inflater;
+    private Context context;
+    private ArrayList<ColorPegSequence> currentHistory;
+    private ColorPegSequence lastGuess;
+    private HistoryViewAdapter historyAdapter;
 
     public GameScreen(Context ctxt, Connection con) {
         controller = Controller.getInstance(ctxt, con);
         controller.newSoloGame();
         controller.addPropertyChangeListener(this);
+        this.context = ctxt;
     }
 
     /**
@@ -67,46 +65,89 @@ public class GameScreen extends Fragment  implements PropertyChangeListener{
     private void placePegsInSpinners(){
         initializeSpinners();
 
-        addAdapters();
+        addSpinnerAdapters();
     }
 
-    // Sets adapter to all of the 4 spinners
-    private void addAdapters() {
+    // Sets historyAdapter to all of the 4 spinners
+    private void addSpinnerAdapters() {
         for (int i = 0; i < 4; i++) {
             Spinner spinner = spinnerList.get(i);
-            spinner.setAdapter(new SpinnerAdapter(getActivity(), R.layout.spinner_row));
+            spinner.setAdapter(new SpinnerAdapter(rootView.getContext(), R.layout.spinner_row));
         }
+    }
+
+    private void addHistoryAdapter() {
+        Log.d(TAG, "Trying to get activity and find view.");
+
+        ListView listView = (ListView)getActivity().findViewById(R.id.history_list);
+
+        Log.d(TAG, "Trying to create new historyAdapter.");
+        historyAdapter = new HistoryViewAdapter(rootView.getContext(), currentHistory);
+
+        Log.d(TAG, "Trying to set the historyAdapter.");
+        listView.setAdapter(historyAdapter);
+//        historyAdapter.notifyDataSetChanged();
+    }
+
+    private void notifyHistoryAdapter(ArrayList<ColorPegSequence> newHistory) {
+        //TODO: cleanup here if this works
+        currentHistory.clear();
+        currentHistory.addAll(newHistory);
+
+        lastGuess = currentHistory.get(currentHistory.size() - 1);
+        historyAdapter.notifyDataSetChanged();
+    }
+
+    private void addGuessToHistory() {
+
     }
 
     private void initializeSpinners(){
         spinnerList = new ArrayList<Spinner>();
-        spinnerList.add((Spinner) rootView.findViewById(R.id.spinner1));
-        spinnerList.add((Spinner) rootView.findViewById(R.id.spinner2));
-        spinnerList.add((Spinner) rootView.findViewById(R.id.spinner3));
-        spinnerList.add((Spinner) rootView.findViewById(R.id.spinner4));
-
+        spinnerList.add((Spinner) getActivity().findViewById(R.id.spinner1));
+        spinnerList.add((Spinner) getActivity().findViewById(R.id.spinner2));
+        spinnerList.add((Spinner) getActivity().findViewById(R.id.spinner3));
+        spinnerList.add((Spinner) getActivity().findViewById(R.id.spinner4));
     }
 
     @Override
     public View onCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         pegsList = new ArrayList<ColorPeg>();
         this.inflater = inflater;
+
+        getActivity().setContentView(R.layout.game_screen);
+
         rootView = inflater.inflate(R.layout.game_screen, container, false);
         placePegsInSpinners();
-        Button okButton = (Button) rootView.findViewById(R.id.button_ok);
+
+        ColorPeg c1 = new ColorPeg(Colour.CYAN);
+        ColorPeg c2 = new ColorPeg(Colour.CYAN);
+        ColorPeg c3 = new ColorPeg(Colour.CYAN);
+        ColorPeg c4 = new ColorPeg(Colour.CYAN);
+
+        ArrayList<ColorPeg> test = new ArrayList<ColorPeg>();
+        test.add(c1);
+        test.add(c2);
+        test.add(c3);
+        test.add(c4);
+
+        currentHistory = new ArrayList<ColorPegSequence>();
+        addHistoryAdapter();
+
+        Button okButton = (Button) getActivity().findViewById(R.id.button_ok);
         okButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(pegsList.size() != 0){
+                if (pegsList.size() != 0) {
                     return;
                 }
-                for (int i = 0; i < spinnerList.size(); i++){
+                for (int i = 0; i < spinnerList.size(); i++) {
                     pegsList.add(makeColorPeg(spinnerList.get(i).getSelectedItemId()));
                 }
                 ColorPegSequence cps = new ColorPegSequence(pegsList);
-                try{
-                controller.addSequenceToModel(cps);
-                }catch(Exception e){
+                try {
+                    controller.addSequenceToModel(cps);
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
                 pegsList = new ArrayList<ColorPeg>();
@@ -115,7 +156,7 @@ public class GameScreen extends Fragment  implements PropertyChangeListener{
                         .commit();
             }
         });
-        Log.d(TAG, "Spinner list created");
+        //Add the history historyAdapter
         return rootView;
     }
     private ColorPeg makeColorPeg(long l){
@@ -143,42 +184,8 @@ public class GameScreen extends Fragment  implements PropertyChangeListener{
 
     @Override
     public void propertyChange(PropertyChangeEvent propertyChangeEvent) {
-        System.out.println("jeg kjorer naa");
-        Toast.makeText(rootView.getContext(), propertyChangeEvent.getPropertyName(), Toast.LENGTH_SHORT).show();
-        Log.d(TAG, propertyChangeEvent.getPropertyName());
-    }
-
-    public class SpinnerAdapter extends ArrayAdapter<String> {
-
-        public SpinnerAdapter(Context context, int textViewResourceId) {
-            super(context, textViewResourceId);
-        }
-
-        @Override
-        public View getDropDownView(int position, View convertView,ViewGroup parent) {
-            return getCustomView(position, convertView, parent);
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            return getCustomView(position, convertView, parent);
-        }
-
-        public View getCustomView(int position, View convertView, ViewGroup parent) {
-
-            LayoutInflater inflater = LayoutInflater.from(getContext());
-            View row = inflater.inflate(R.layout.spinner_row, parent, false);
-
-            ImageView icon = (ImageView)row.findViewById(R.id.image);
-            icon.setImageResource(arr_images[position]);
-
-            return row;
-        }
-
-        // Number of elements/rows in the spinner associated with the adapter
-        @Override
-        public int getCount() {
-            return 6;
-        }
+        Log.d(TAG, "PropertyChangeEvent with tag: " + propertyChangeEvent.getPropertyName() + " received.");
+        ArrayList<ColorPegSequence> history = (ArrayList<ColorPegSequence>) propertyChangeEvent.getNewValue();
+        notifyHistoryAdapter(history);
     }
 }

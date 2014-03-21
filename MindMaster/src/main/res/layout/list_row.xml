@@ -1,7 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="@layout/image_bg"
+    android:orientation="horizontal"
+    android:padding="5dip" >
 
-</LinearLayout>
+    <!--  ListRow Left sied Thumbnail image -->
+    <LinearLayout android:id="@+id/thumbnail"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:background="@layout/image_bg">
+
+        <!-- There needs to be five pictures, as the fifth is the KeyPegs of the current guess -->
+        <ImageView
+            android:id="@+id/list_image1"
+            android:layout_width="60dip"
+            android:layout_height="60dip"
+            android:padding="8dp"
+            android:src="@drawable/icon_twitter_red"/>
+
+        <ImageView
+            android:id="@+id/list_image2"
+            android:layout_width="60dip"
+            android:layout_height="60dip"
+            android:padding="8dp"
+            android:src="@drawable/icon_twitter_red"/>
+
+        <ImageView
+            android:id="@+id/list_image3"
+            android:layout_width="60dip"
+            android:layout_height="60dip"
+            android:padding="8dp"
+            android:src="@drawable/icon_twitter_red"/>
+
+        <ImageView
+            android:id="@+id/list_image4"
+            android:layout_width="60dip"
+            android:layout_height="60dip"
+            android:padding="8dp"
+            android:src="@drawable/icon_twitter_red"/>
+
+        <ImageView
+            android:id="@+id/list_image5"
+            android:layout_width="60dip"
+            android:layout_height="60dip"
+            android:padding="8dp"
+            android:src="@drawable/icon_twitter_red"/>
+
+    </LinearLayout>
+</RelativeLayout>
