@@ -2,6 +2,8 @@ package no.group3.mindmaster.Model;
 
 
 import android.content.Context;
+import android.util.Log;
+
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
@@ -15,6 +17,7 @@ import no.group3.mindmaster.Network.Connection;
  */
 public class Model {
 
+    private static final String TAG = "MindMaster.Model";
     public static boolean sologame = false;
 
     /** List of the current currentHistory of the game */
@@ -100,6 +103,7 @@ public class Model {
     }
 
     private void fireChange(String type){
+        Log.d(TAG, "Event fired: " + type);
         if(type == "History"){
             for(PropertyChangeListener prop: pcs.getPropertyChangeListeners()){
                     prop.propertyChange(new PropertyChangeEvent(this,"History",oldHistory,currentHistory));
