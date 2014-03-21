@@ -1,6 +1,8 @@
 package no.group3.mindmaster.Controller;
 
 import android.content.Context;
+import android.util.Log;
+
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import no.group3.mindmaster.MainActivity;
@@ -128,10 +130,7 @@ public class Controller{
         ColorPegSequence sequence;
         for (int i = 0; i < solution.length(); i++) {
             char c = solution.charAt(i);
-            if (c == 'c') {
-                colorSequence.add(new ColorPeg(Colour.CYAN));
-            }
-            else if (c == 'b') {
+            if (c == 'b') {
                 colorSequence.add(new ColorPeg(Colour.BLUE));
             }
             else if (c == 'g') {
@@ -180,9 +179,9 @@ public class Controller{
         string.append("keypegs");
         for(KeyPeg k : keyPegs){
             switch(k.toInt()){
-                case 0 : string.append("0");
-                case 1 : string.append("1");
-                case 2 : string.append("2");
+                case 0 : string.append("0"); break;
+                case 1 : string.append("1"); break;
+                case 2 : string.append("2"); break;
             }
         }
         return string.toString();

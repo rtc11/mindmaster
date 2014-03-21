@@ -43,10 +43,9 @@ public class UpdateUIThread implements Runnable {
         }
         //The opponent is still waiting for the solution
         else if (msg.contains("waiting")) {
-
             //Send the solution to the opponent
             ColorPegSolutionSequence seq = ColorPegSolutionSequence.getInstance(false);
-            Controller controller = Controller.getInstance(ctxt, con);
+//            Controller controller = Controller.getInstance(ctxt, con);
             String solution = seq.getSolution().toString();
             con.sendMessage("peg" + solution);
         }

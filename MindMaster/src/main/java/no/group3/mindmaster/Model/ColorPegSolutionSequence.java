@@ -1,7 +1,10 @@
 package no.group3.mindmaster.Model;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.zip.GZIPOutputStream;
 
 /**
@@ -9,8 +12,10 @@ import java.util.zip.GZIPOutputStream;
  */
 public class ColorPegSolutionSequence{
 
+    private static final String TAG = "MindMaster.ColorPegSolutionSequence";
     private ColorPegSequence solution = null;
     private static ColorPegSolutionSequence instance = null;
+
 
     /**
      * Creates a random solutionSequence if the caller is the creator of the game, or returns the
@@ -53,71 +58,125 @@ public class ColorPegSolutionSequence{
         this.solution = solutionSequence;
     }
 
+
+
+
+
+//    /**
+//     *
+//     * @param guess - the guessed ColorPegSequence
+//     * @return ArrayList<KeyPeg> containing the answer
+//     */
+//    public ArrayList<KeyPeg> getKeyPegs2(ColorPegSequence guess){
+//
+//        HashMap<Colour, Integer> colours = getColoursInSolution();
+//        ArrayList<KeyPeg> answer = new ArrayList<KeyPeg>();
+//
+//        for(Map.Entry<Colour, Integer> m : colours.entrySet()){
+//            Log.d(TAG, m.getKey() + ":" + m.getValue());
+//        }
+//
+//        for (int i = 0; i < Globals.SEQUENCELENGTH; i++) {
+//            ColorPeg peg = guess.getSequence().get(i);
+//
+//            //if the guess is at the correct spot with correct colour
+//            if (peg.getColour()== this.solution.getSequence().get(i).getColour()){
+//                int temp = colours.remove(peg.getColour());
+//                answer.add(KeyPeg.BLACK);
+//                colours.put(peg.getColour(), temp - 1);
+//                Log.d(TAG, "BLACK: " + KeyPeg.BLACK.toInt());
+//            }
+//        }
+//
+//        ArrayList<ColorPeg> tempGuess = guess.getSequence();
+//
+//        //fills in the values from the hashmap
+//        for (Colour colour : colours.keySet()) {
+//            for (int i = 0; i < colours.get(colour); i++) {
+//                if(tempGuess.contains(colours.get(colour))){
+//                    tempGuess.remove(colours.get(colour));
+//                    answer.add(KeyPeg.WHITE);
+//                    Log.d(TAG, "WHITE: " + KeyPeg.WHITE.toInt());
+//                }
+//            }
+//        }
+//        //if answer is 4, task completed
+//        if(answer.size() == Globals.SEQUENCELENGTH){
+//            return answer;
+//        }
+//        //if answer is less than 4, fill in with blank keypegs
+//        else if (answer.size() < Globals.SEQUENCELENGTH){
+//        Log.d(TAG, "answer.size after white and black check: " + answer.size());
+//
+//            for (int i = 0; i < (Globals.SEQUENCELENGTH - answer.size()); i++) {
+//                answer.add(KeyPeg.TRANSPARENT);
+//                Log.d(TAG, "TRANSPARENT: " + KeyPeg.TRANSPARENT.toInt());
+//            }
+//            return answer;
+//        }
+//        //error since the answer list is too large. I.e. more than 4
+//        else{
+//            Log.e(TAG, "answer too big");
+//            return null;
+//        }
+//
+//
+//    }
+
     /**
      * Puts the occurences of each colour in a hashmap, map.get(Colour) gives then the times that colour has appeared
      * @return a hashmap, indexed by colour, containing the occurences of each colour.
      *
      */
-    private HashMap<Colour, Integer> getColoursInSolution(){
+    private ArrayList<Colour> getColoursInSolution(){
 
-        HashMap<Colour, Integer> lo = new HashMap<Colour, Integer>();
+        ArrayList<Colour> lo = new ArrayList<Colour>();
 
         for(ColorPeg cp : solution.getSequence()){
-            if(lo.containsKey(cp.getColour())){
-                int temp = lo.remove(cp.getColour());
-                lo.put(cp.getColour(), (temp + 1));
-            }
-            else{
-                lo.put(cp.getColour(), 1);
-            }
+           lo.add(cp.getColour());
         }
 
         return lo;
     }
 
-
-
-    /**
-     *
-     * @param guess - the guessed ColorPegSequence
-     * @return ArrayList<KeyPeg> containing the answer
-     */
     public ArrayList<KeyPeg> getKeyPegs(ColorPegSequence guess){
+        ArrayList<Colour> availableColors = getColoursInSolution();
+        ArrayList<KeyPeg> result = new ArrayList<KeyPeg>();
+        int blackPegs = 0, whitePegs = 0;
 
-        HashMap<Colour, Integer> colours = getColoursInSolution();
-        ArrayList<KeyPeg> answer = new ArrayList<KeyPeg>();
+        Log.d(TAG, "First iteration: " + Globals.SEQUENCELENGTH);
+        for (int j = 0; j < Globals.SEQUENCELENGTH; j++) {
+            ColorPeg cp = guess.getSequence().get(j);
+
+            if(cp.equals(solution.getSequence().get(j))){
+                blackPegs++;
+                availableColors.remove(cp);
+                result.add(KeyPeg.BLACK);
+                Log.d(TAG, "BLACK");
+            }
+        }
 
         for (int i = 0; i < Globals.SEQUENCELENGTH; i++) {
-            ColorPeg peg = guess.getSequence().get(i);
-            //if the guess is at the correct spot with correct colour
-            if (this.solution.getSequence().get(i).getColour().equals(peg.getColour())){
-                answer.add(KeyPeg.BLACK);
-                colours.put(peg.getColour(), colours.get(peg.getColour()) - 1);
+            ColorPeg cp = guess.getSequence().get(i);
+            if(availableColors.contains(cp)){
+                whitePegs++;
+                availableColors.remove(cp);
+                result.add(KeyPeg.WHITE);
+                Log.d(TAG, "WHITE");
+
             }
-        }
-        //fills in the values from the hashmap
-        for (Colour colour : colours.keySet()) {
-            for (int i = 0; i < colours.get(colour); i++) {
-                answer.add(KeyPeg.WHITE);
-            }
-        }
-        //if answer is 4, task completed
-        if(answer.size() == Globals.SEQUENCELENGTH){
-            return answer;
-        }
-        //if answer is less than 4, fill in with blank keypegs
-        else if (answer.size() < Globals.SEQUENCELENGTH){
-            for (int i = 0; i < Globals.SEQUENCELENGTH -answer.size(); i++) {
-                answer.add(KeyPeg.TRANSPARENT);
-            }
-            return answer;
-        }
-        //error since the answer list is too large. I.e. more than 4
-        else{
-            System.err.println("answer too big");
-            return null;
         }
 
+        int nr = 4;
+        nr -= whitePegs;
+        nr -= blackPegs;
+        Log.d(TAG, "Rest size: " + nr);
+        for(int i = 0; i<nr; i++){
+            result.add(KeyPeg.TRANSPARENT);
+            Log.d(TAG, "TRANSPARENT");
+        }
 
+        return result;
     }
+
 }
