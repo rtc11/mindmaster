@@ -6,7 +6,6 @@ package no.group3.mindmaster.Views;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import android.app.Fragment;
@@ -50,6 +49,7 @@ public class GameScreen extends Fragment  implements PropertyChangeListener{
     private ColorPegSequence lastGuess;
     private HistoryViewAdapter historyAdapter;
     private TextView turnText;
+    private ListView listView;
 
     /**
      * This constructor is called when we start a multiplayergame over the network
@@ -111,30 +111,35 @@ public class GameScreen extends Fragment  implements PropertyChangeListener{
         }
     }
 
+    /**
+     * Method adding the historyListAdapter. Should be called once when this screen is created.
+     */
     private void addHistoryAdapter() {
         Log.d(TAG, "Trying to get activity and find view.");
 
-        ListView listView = (ListView)getActivity().findViewById(R.id.listView_history);
+        listView = (ListView)getActivity().findViewById(R.id.listView_history);
 
         Log.d(TAG, "Trying to create new historyAdapter.");
         historyAdapter = new HistoryViewAdapter(rootView.getContext(), currentHistory);
 
         Log.d(TAG, "Trying to set the historyAdapter.");
         listView.setAdapter(historyAdapter);
-//        historyAdapter.notifyDataSetChanged();
     }
 
+    /**
+     * Method calling the notifyDataSetChanged method of the historyListAdapter. Should be called
+     * every time there is a change in the history.
+     *
+     * @param newHistory ArrayList with the colorPegSequence of the new history. This should be the
+     *                   entire new history.
+     */
     private void notifyHistoryAdapter(ArrayList<ColorPegSequence> newHistory) {
-        //TODO: cleanup here if this works
         currentHistory.clear();
         currentHistory.addAll(newHistory);
         changeTurnText();
         lastGuess = currentHistory.get(currentHistory.size() - 1);
         historyAdapter.notifyDataSetChanged();
-    }
-
-    private void addGuessToHistory() {
-
+        listView.setSelection(historyAdapter.getCount() - 1);
     }
 
     private void initializeSpinners(){

@@ -144,6 +144,11 @@ public class ColorPegSolutionSequence{
     public ArrayList<KeyPeg> getKeyPegs(ColorPegSequence guess){
         Colour[] availableColors = getColoursInSolution();
         ArrayList<KeyPeg> result = new ArrayList<KeyPeg>();
+        Colour[] tempGuess = new Colour[Globals.SEQUENCELENGTH];
+        for (int h = 0; h < Globals.SEQUENCELENGTH; h ++) {
+            tempGuess[h] = guess.getSequence().get(h).getColour();
+        }
+
         int blackPegs = 0, whitePegs = 0;
 
         Log.d(TAG, "First iteration: " + Globals.SEQUENCELENGTH);
@@ -153,20 +158,21 @@ public class ColorPegSolutionSequence{
             if(cp.getColour().toInt() == (solution.getSequence().get(j).getColour().toInt())){
                 blackPegs++;
                 availableColors[j]= null;
+                tempGuess[j] = null;
                 result.add(KeyPeg.BLACK);
                 Log.d(TAG, "BLACK");
             }
         }
 
         for (int i = 0; i < Globals.SEQUENCELENGTH; i++) {
-            ColorPeg cp = guess.getSequence().get(i);
-            for(int k = 0; k < availableColors.length; k++){
-                if(availableColors[k] != null && availableColors[k].toInt() == cp.getColour().toInt()){
-                    whitePegs++;
-                    availableColors[k] = null;
-                    result.add(KeyPeg.WHITE);
-                    Log.d(TAG, "WHITE");
-
+            if (tempGuess[i] != null) {
+                for(int k = 0; k < availableColors.length; k++){
+                    if(availableColors[k] != null && availableColors[k].toInt() == tempGuess[i].toInt()){
+                        whitePegs++;
+                        availableColors[k] = null;
+                        result.add(KeyPeg.WHITE);
+                        Log.d(TAG, "WHITE");
+                    }
                 }
             }
         }
