@@ -22,6 +22,7 @@ import android.widget.Spinner;
 import no.group3.mindmaster.HistoryViewAdapter;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import no.group3.mindmaster.Model.ColorPeg;
 import no.group3.mindmaster.Controller.Controller;
@@ -158,6 +159,7 @@ public class GameScreen extends Fragment  implements PropertyChangeListener{
             public void onClick(View view) {
                 if(Globals.isMyTurn()){
                     if(pegsList.size() != 0){
+                        turnText.setText(R.string.notYourTurn);
                         return;
                     }
                     for (int i = 0; i < spinnerList.size(); i++) {
@@ -177,6 +179,8 @@ public class GameScreen extends Fragment  implements PropertyChangeListener{
                             .commit();
 
                 }
+                else
+                    Toast.makeText(context, "It is not your turn", Toast.LENGTH_LONG);
             }
         });
         //Add the history historyAdapter

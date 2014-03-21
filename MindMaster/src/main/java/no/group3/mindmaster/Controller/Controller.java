@@ -74,7 +74,7 @@ public class Controller{
 
         //If this is the client
         if(!isGameCreator){
-            Globals.setMyTurn(true);
+            Globals.setMyTurn(false);
             //Wait until we receive the solution
             while(!isReady){
                 try {
