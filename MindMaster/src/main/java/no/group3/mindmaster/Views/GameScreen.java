@@ -39,6 +39,8 @@ public class GameScreen extends Fragment  implements PropertyChangeListener{
     private Controller controller;
     private LayoutInflater inflater;
     private Context context;
+    private ArrayList<ColorPegSequence> currentHistory;
+    private HistoryViewAdapter historyAdapter;
 
     public GameScreen(Context ctxt, Connection con) {
         controller = Controller.getInstance(ctxt, con);
@@ -64,7 +66,7 @@ public class GameScreen extends Fragment  implements PropertyChangeListener{
         addSpinnerAdapters();
     }
 
-    // Sets adapter to all of the 4 spinners
+    // Sets historyAdapter to all of the 4 spinners
     private void addSpinnerAdapters() {
         for (int i = 0; i < 4; i++) {
             Spinner spinner = spinnerList.get(i);
@@ -72,26 +74,26 @@ public class GameScreen extends Fragment  implements PropertyChangeListener{
         }
     }
 
-    private void addHistoryAdapters(ArrayList<ColorPegSequence> history) {
-
-//        //Testing to see if history adapter is working
-//        ArrayList<ColorPeg> list = new ArrayList<ColorPeg>();
-//        list.add(new ColorPeg(Colour.BLUE));
-//        list.add(new ColorPeg(Colour.YELLOW));
-//        list.add(new ColorPeg(Colour.RED));
-//        list.add(new ColorPeg(Colour.GREEN));
-//
-//        ColorPegSequence sequence = new ColorPegSequence(list);
-
+    private void addHistoryAdapter() {
         Log.d(TAG, "Trying to get activity and find view.");
 
         ListView listView = (ListView)getActivity().findViewById(R.id.history_list);
 
-        Log.d(TAG, "Trying to create new adapter.");
-        HistoryViewAdapter adapter = new HistoryViewAdapter(rootView.getContext(), history);
+        Log.d(TAG, "Trying to create new historyAdapter.");
+        historyAdapter = new HistoryViewAdapter(rootView.getContext(), currentHistory);
 
-        Log.d(TAG, "Trying to set the adapter.");
-        listView.setAdapter(adapter);
+        Log.d(TAG, "Trying to set the historyAdapter.");
+        listView.setAdapter(historyAdapter);
+        historyAdapter.notifyDataSetChanged();
+    }
+
+    private void notifyHistoryAdapter(ArrayList<ColorPegSequence> newHistory) {
+        currentHistory.clear();
+        currentHistory.addAll(newHistory);
+        historyAdapter.notifyDataSetChanged();
+    }
+
+    private void addGuessToHistory() {
 
     }
 
@@ -112,6 +114,9 @@ public class GameScreen extends Fragment  implements PropertyChangeListener{
 
         rootView = inflater.inflate(R.layout.game_screen, container, false);
         placePegsInSpinners();
+
+        currentHistory = new ArrayList<ColorPegSequence>();
+        addHistoryAdapter();
 
         Button okButton = (Button) getActivity().findViewById(R.id.button_ok);
         okButton.setOnClickListener(new View.OnClickListener() {
@@ -135,6 +140,7 @@ public class GameScreen extends Fragment  implements PropertyChangeListener{
                         .commit();
             }
         });
+        //Add the history historyAdapter
         return rootView;
     }
     private ColorPeg makeColorPeg(long l){
@@ -164,34 +170,6 @@ public class GameScreen extends Fragment  implements PropertyChangeListener{
     public void propertyChange(PropertyChangeEvent propertyChangeEvent) {
         Log.d(TAG, "PropertyChangeEvent with tag: " + propertyChangeEvent.getPropertyName() + " received.");
         ArrayList<ColorPegSequence> history = (ArrayList<ColorPegSequence>) propertyChangeEvent.getNewValue();
-        addHistoryAdapters(history);
-//
-//        for (int i = 0; i < history.size(); i++) {
-//            Log.d(TAG, "History size: " + history.size());
-//
-//            ColorPegSequence guess = history.get(i);
-//            //Iterate over the current guess, and set the colors accordingly.
-//            for (int j = 0; j < guess.getSequence().size(); j++) {
-//                if (guess.getSequence().get(i).getColour() == Colour.BLUE) {
-//                    Log.d(TAG, "Blue icon set.");
-//                }
-//                else if (guess.getSequence().get(i).getColour() == Colour.RED) {
-//                    Log.d(TAG, "Red Icon set.");
-//                }
-//                else if (guess.getSequence().get(i).getColour() == Colour.GREEN) {
-//                    Log.d(TAG, "Green Icon set.");
-//                }
-//                //TODO: This color needs to be changed.
-//                else if (guess.getSequence().get(i).getColour() == Colour.CYAN) {
-//                    Log.d(TAG, "Cyan Icon set.");
-//                }
-//                else if (guess.getSequence().get(i).getColour() == Colour.MAGENTA) {
-//                    Log.d(TAG, "Magenta Icon set.");
-//                }
-//                else if (guess.getSequence().get(i).getColour() == Colour.YELLOW) {
-//                    Log.d(TAG, "Yellow Icon set.");
-//                }
-//            }
-//        }
+        notifyHistoryAdapter(history);
     }
 }
