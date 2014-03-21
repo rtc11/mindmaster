@@ -21,6 +21,8 @@ import android.widget.Spinner;
 
 import no.group3.mindmaster.HistoryViewAdapter;
 import android.widget.Button;
+import android.widget.TextView;
+
 import no.group3.mindmaster.Model.ColorPeg;
 import no.group3.mindmaster.Controller.Controller;
 import no.group3.mindmaster.Model.ColorPegSequence;
@@ -45,12 +47,14 @@ public class GameScreen extends Fragment  implements PropertyChangeListener{
     private ArrayList<ColorPegSequence> currentHistory;
     private ColorPegSequence lastGuess;
     private HistoryViewAdapter historyAdapter;
+    private TextView turnText;
 
     public GameScreen(Context ctxt, Connection con) {
         controller = Controller.getInstance(ctxt, con);
         controller.newSoloGame();
         controller.addPropertyChangeListener(this);
         this.context = ctxt;
+
     }
 
     public GameScreen(Context ctxt) {
@@ -70,8 +74,20 @@ public class GameScreen extends Fragment  implements PropertyChangeListener{
 
     private void placePegsInSpinners(){
         initializeSpinners();
-
         addSpinnerAdapters();
+    }
+
+    /**
+     * Sets the text to say your turn or not your turn based on Global.isMyTurn()
+     */
+    public void changeTurnText(){
+        if(Globals.isMyTurn()){
+            turnText.setText(R.string.yourTurn);
+        }
+        else{
+            turnText.setText(R.string.notYourTurn);
+        }
+
     }
 
     // Sets historyAdapter to all of the 4 spinners
@@ -99,7 +115,7 @@ public class GameScreen extends Fragment  implements PropertyChangeListener{
         //TODO: cleanup here if this works
         currentHistory.clear();
         currentHistory.addAll(newHistory);
-
+        changeTurnText();
         lastGuess = currentHistory.get(currentHistory.size() - 1);
         historyAdapter.notifyDataSetChanged();
     }
@@ -125,7 +141,14 @@ public class GameScreen extends Fragment  implements PropertyChangeListener{
 
         rootView = inflater.inflate(R.layout.game_screen, container, false);
         placePegsInSpinners();
+        turnText = (TextView)rootView.findViewById(R.id.yourTextView);
 
+        if(Globals.isMyTurn()){
+            turnText.setText(R.string.yourTurn);
+        }
+        else{
+            turnText.setText(R.string.notYourTurn);
+        }
         currentHistory = new ArrayList<ColorPegSequence>();
         addHistoryAdapter();
 
@@ -146,6 +169,8 @@ public class GameScreen extends Fragment  implements PropertyChangeListener{
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
+                    turnText.setText(R.string.notYourTurn);
+                    Globals.changeTurn();
                     pegsList = new ArrayList<ColorPeg>();
                     getFragmentManager().beginTransaction()
                             .addToBackStack(null)

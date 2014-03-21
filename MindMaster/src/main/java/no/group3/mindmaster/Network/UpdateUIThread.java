@@ -9,6 +9,7 @@ import no.group3.mindmaster.Controller.Controller;
 import no.group3.mindmaster.Model.ColorPegSolutionSequence;
 import no.group3.mindmaster.Model.Globals;
 import no.group3.mindmaster.Model.KeyPeg;
+import no.group3.mindmaster.Views.GameScreen;
 
 /**
  * Created by tordly on 18.03.14.
