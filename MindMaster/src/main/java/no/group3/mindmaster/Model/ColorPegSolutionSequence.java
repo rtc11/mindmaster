@@ -128,19 +128,21 @@ public class ColorPegSolutionSequence{
      * @return a hashmap, indexed by colour, containing the occurences of each colour.
      *
      */
-    private ArrayList<Colour> getColoursInSolution(){
+    private Colour[] getColoursInSolution(){
 
-        ArrayList<Colour> lo = new ArrayList<Colour>();
+        Colour[] lo = new Colour[solution.getSequence().size()];
 
-        for(ColorPeg cp : solution.getSequence()){
-           lo.add(cp.getColour());
+        for(int i = 0; i < solution.getSequence().size(); i++) {
+            Colour cp = solution.getSequence().get(i).getColour();
+            lo[i] = cp;
+
         }
 
         return lo;
     }
 
     public ArrayList<KeyPeg> getKeyPegs(ColorPegSequence guess){
-        ArrayList<Colour> availableColors = getColoursInSolution();
+        Colour[] availableColors = getColoursInSolution();
         ArrayList<KeyPeg> result = new ArrayList<KeyPeg>();
         int blackPegs = 0, whitePegs = 0;
 
@@ -148,9 +150,9 @@ public class ColorPegSolutionSequence{
         for (int j = 0; j < Globals.SEQUENCELENGTH; j++) {
             ColorPeg cp = guess.getSequence().get(j);
 
-            if(cp.equals(solution.getSequence().get(j))){
+            if(cp.getColour().toInt() == (solution.getSequence().get(j).getColour().toInt())){
                 blackPegs++;
-                availableColors.remove(cp);
+                availableColors[j]= null;
                 result.add(KeyPeg.BLACK);
                 Log.d(TAG, "BLACK");
             }
@@ -158,12 +160,14 @@ public class ColorPegSolutionSequence{
 
         for (int i = 0; i < Globals.SEQUENCELENGTH; i++) {
             ColorPeg cp = guess.getSequence().get(i);
-            if(availableColors.contains(cp)){
-                whitePegs++;
-                availableColors.remove(cp);
-                result.add(KeyPeg.WHITE);
-                Log.d(TAG, "WHITE");
+            for(int k = 0; k < availableColors.length; k++){
+                if(availableColors[k] != null && availableColors[k].toInt() == cp.getColour().toInt()){
+                    whitePegs++;
+                    availableColors[k] = null;
+                    result.add(KeyPeg.WHITE);
+                    Log.d(TAG, "WHITE");
 
+                }
             }
         }
 
