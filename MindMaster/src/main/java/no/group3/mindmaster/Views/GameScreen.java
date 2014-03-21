@@ -136,6 +136,7 @@ public class GameScreen extends Fragment  implements PropertyChangeListener{
     private void notifyHistoryAdapter(ArrayList<ColorPegSequence> newHistory) {
         currentHistory.clear();
         currentHistory.addAll(newHistory);
+        Globals.changeTurn();
         changeTurnText();
         lastGuess = currentHistory.get(currentHistory.size() - 1);
         historyAdapter.notifyDataSetChanged();
@@ -197,7 +198,7 @@ public class GameScreen extends Fragment  implements PropertyChangeListener{
 
                 }
                 else
-                    Toast.makeText(context, "It is not your turn", Toast.LENGTH_LONG);
+                    Toast.makeText(rootView.getContext(), "It is not your turn", Toast.LENGTH_LONG);
             }
         });
         //Add the history historyAdapter

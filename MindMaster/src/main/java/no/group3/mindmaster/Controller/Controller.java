@@ -61,7 +61,6 @@ public class Controller{
 
         //If this is the game-creator (the host)
         if (isGameCreator) {
-            Globals.setMyTurn(true);
             //Create or get the singleton instance of ColorPegSolutionSequence
             solution = ColorPegSolutionSequence.getInstance(isGameCreator);
 
@@ -74,7 +73,6 @@ public class Controller{
 
         //If this is the client
         if(!isGameCreator){
-            Globals.setMyTurn(false);
             //Wait until we receive the solution
             while(!isReady){
                 try {
@@ -93,6 +91,7 @@ public class Controller{
 
         MainActivity ma = MainActivity.getInstance();
         ma.startGameFragment();
+        Globals.setMyTurn(isGameCreator);
 
     }
 
