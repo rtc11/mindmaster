@@ -80,6 +80,7 @@ public class Model {
 
         ArrayList<KeyPeg> keypegs = controller.getKeyPegs(sequence);
 
+        //Send guess to opponent
         con.sendMessage(controller.keyPegsToString(keypegs));
 
         fireChange("History");

@@ -20,7 +20,7 @@ public class ColorPegSequence {
             this.sequence = sequence;
         }
         else{
-            Log.d(TAG, "ColorPegSequence not created. There were not exactly 4 pegs in the list");
+            Log.d(TAG, "Constructor: ColorPegSequence not created. There were not exactly 4 pegs in the list");
         }
 
     }
@@ -38,7 +38,7 @@ public class ColorPegSequence {
             this.sequence = sequence;
         }
         else{
-            Log.d(TAG, "ColorPegSequence not created. There were not exactly 4 pegs in the list");
+            Log.d(TAG, "setSequence: ColorPegSequence not created. There were not exactly 4 pegs in the list");
         }
 
     }
@@ -61,9 +61,6 @@ public class ColorPegSequence {
             Colour c = pegSequence.get(i).getColour();
             if (c == Colour.BLUE) {
                 message.append("b");
-            }
-            else if (c == Colour.CYAN) {
-                message.append("c");
             }
             else if (c == Colour.GREEN) {
                 message.append("g");

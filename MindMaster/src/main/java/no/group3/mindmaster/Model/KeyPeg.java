@@ -8,7 +8,7 @@ package no.group3.mindmaster.Model;
  */
 public enum KeyPeg {
 
-    BLACK(2), WHITE(1), TRANSPARENT(0);
+    TRANSPARENT(0), WHITE(1), BLACK(2);
 
     private int peg;
 
