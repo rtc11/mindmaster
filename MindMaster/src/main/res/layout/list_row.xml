@@ -43,12 +43,48 @@
             android:padding="8dp"
             android:src="@drawable/icon_twitter_red"/>
 
-        <ImageView
-            android:id="@+id/list_image5"
-            android:layout_width="60dip"
-            android:layout_height="60dip"
-            android:padding="8dp"
-            android:src="@drawable/icon_twitter_red"/>
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true">
+
+            <!-- TOP LEFT -->
+            <ImageView
+                android:id="@+id/keyPegTopLeft"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/empty_peg"
+                android:background="@android:color/transparent"/>
+
+            <!-- TOP RIGHT -->
+            <ImageView
+                android:id="@+id/keyPegTopRight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/empty_peg"
+                android:background="@android:color/transparent"
+                android:layout_toRightOf="@id/keyPegTopLeft"/>
+
+            <!-- BOTTOM LEFT -->
+            <ImageView
+                android:id="@+id/keyPegBottomLeft"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/empty_peg"
+                android:background="@android:color/transparent"
+                android:layout_below="@id/keyPegTopLeft"/>
+
+            <!-- BOTTOM RIGHT -->
+            <ImageView
+                android:id="@+id/keyPegBottomRight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/empty_peg"
+                android:background="@android:color/transparent"
+                android:layout_below="@id/keyPegTopRight"
+                android:layout_toRightOf="@id/keyPegTopLeft"/>
+
+        </RelativeLayout>
 
     </LinearLayout>
 </RelativeLayout>
