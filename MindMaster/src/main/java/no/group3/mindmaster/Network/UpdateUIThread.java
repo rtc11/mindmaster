@@ -65,7 +65,6 @@ public class UpdateUIThread implements Runnable {
             Controller controller = Controller.getInstance(ctxt);
             controller.addOpponentKeyPegsToModel(keypegs);
 
-            Log.d(TAG, "Pegs: " + keyp1 + " " + keyp2 + " " + keyp3 + " " + keyp4);
         }
     }
 }
