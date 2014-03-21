@@ -43,6 +43,7 @@ public class GameScreen extends Fragment  implements PropertyChangeListener{
     private ArrayList<ColorPegSequence> currentHistory;
     private ColorPegSequence lastGuess;
     private HistoryViewAdapter historyAdapter;
+    private ListView listView;
 
     /**
      * This constructor is called when we start a multiplayergame over the network
@@ -98,7 +99,7 @@ public class GameScreen extends Fragment  implements PropertyChangeListener{
     private void addHistoryAdapter() {
         Log.d(TAG, "Trying to get activity and find view.");
 
-        ListView listView = (ListView)getActivity().findViewById(R.id.listView_history);
+        listView = (ListView)getActivity().findViewById(R.id.listView_history);
 
         Log.d(TAG, "Trying to create new historyAdapter.");
         historyAdapter = new HistoryViewAdapter(rootView.getContext(), currentHistory);
@@ -120,6 +121,7 @@ public class GameScreen extends Fragment  implements PropertyChangeListener{
 
         lastGuess = currentHistory.get(currentHistory.size() - 1);
         historyAdapter.notifyDataSetChanged();
+        listView.setSelection(historyAdapter.getCount() - 1);
     }
 
     private void initializeSpinners(){
