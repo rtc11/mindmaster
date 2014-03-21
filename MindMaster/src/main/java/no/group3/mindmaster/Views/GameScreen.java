@@ -51,6 +51,10 @@ public class GameScreen extends Fragment  implements PropertyChangeListener{
         this.context = ctxt;
     }
 
+    public GameScreen(Context ctxt) {
+        this.context = ctxt;
+    }
+
     /**
      * Method calculating the keyPegs for this guess. The controller is through this method asked
      * to tell the model (ColorPegSolutionSequence) to calculate the KeyPegs.
@@ -79,7 +83,7 @@ public class GameScreen extends Fragment  implements PropertyChangeListener{
     private void addHistoryAdapter() {
         Log.d(TAG, "Trying to get activity and find view.");
 
-        ListView listView = (ListView)getActivity().findViewById(R.id.history_list);
+        ListView listView = (ListView)getActivity().findViewById(R.id.listView_history);
 
         Log.d(TAG, "Trying to create new historyAdapter.");
         historyAdapter = new HistoryViewAdapter(rootView.getContext(), currentHistory);
@@ -119,17 +123,6 @@ public class GameScreen extends Fragment  implements PropertyChangeListener{
 
         rootView = inflater.inflate(R.layout.game_screen, container, false);
         placePegsInSpinners();
-
-        ColorPeg c1 = new ColorPeg(Colour.CYAN);
-        ColorPeg c2 = new ColorPeg(Colour.CYAN);
-        ColorPeg c3 = new ColorPeg(Colour.CYAN);
-        ColorPeg c4 = new ColorPeg(Colour.CYAN);
-
-        ArrayList<ColorPeg> test = new ArrayList<ColorPeg>();
-        test.add(c1);
-        test.add(c2);
-        test.add(c3);
-        test.add(c4);
 
         currentHistory = new ArrayList<ColorPegSequence>();
         addHistoryAdapter();
