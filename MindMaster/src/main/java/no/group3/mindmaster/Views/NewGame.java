@@ -90,7 +90,7 @@ public class NewGame extends Fragment {
             @Override
             public void onClick(View view) {
                 getFragmentManager().beginTransaction()
-                        .replace(R.id.container, new GameScreen(getActivity().getBaseContext(), con))
+                        .replace(R.id.container, new GameScreen(getActivity().getBaseContext()))
                         .addToBackStack(null)
                         .commit();
             }

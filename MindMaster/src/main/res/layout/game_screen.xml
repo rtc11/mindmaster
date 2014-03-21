@@ -20,6 +20,59 @@
             android:text="@string/yourTurn"
             android:id="@+id/yourTextView" />
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Opponents keypegs: "
+            android:id="@+id/oppTextView"
+            android:gravity="right"
+            android:layout_alignParentTop="true"
+            android:layout_toLeftOf="@+id/relativeLayout" />
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text="@string/yourTurn"
+            android:id="@+id/relativeLayout">
+
+            <!-- TOP LEFT -->
+            <ImageView
+                android:id="@+id/keyPegTopLeft"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/empty_peg"
+                android:background="@android:color/transparent"/>
+
+            <!-- TOP RIGHT -->
+            <ImageView
+                android:id="@+id/keyPegTopRight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/black_peg"
+                android:background="@android:color/transparent"
+                android:layout_toRightOf="@id/keyPegTopLeft"/>
+
+            <!-- BOTTOM LEFT -->
+            <ImageView
+                android:id="@+id/keyPegBottomLeft"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/white_peg"
+                android:background="@android:color/transparent"
+                android:layout_below="@id/keyPegTopLeft"/>
+
+            <!-- BOTTOM RIGHT -->
+            <ImageView
+                android:id="@+id/keyPegBottomRight"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/white_peg"
+                android:background="@android:color/transparent"
+                android:layout_below="@id/keyPegTopRight"
+                android:layout_toRightOf="@id/keyPegTopLeft"/>
+
+        </RelativeLayout>
     </RelativeLayout>
 
     <RelativeLayout
