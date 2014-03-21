@@ -7,6 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+
+import java.security.Key;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -75,11 +77,26 @@ public class HistoryViewAdapter extends BaseAdapter {
             }
         }
         ArrayList<KeyPeg> keyPegs = solution.getKeyPegs(guess);
+        ArrayList<ImageView> keyPegImages = new ArrayList<ImageView>();
+
+        keyPegImages.add((ImageView) rowView.findViewById(R.id.keyPegBottomRightHistory));
+        keyPegImages.add((ImageView) rowView.findViewById(R.id.keyPegBottomLeftHistory));
+        keyPegImages.add((ImageView) rowView.findViewById(R.id.keyPegTopRightHistory));
+        keyPegImages.add((ImageView) rowView.findViewById(R.id.keyPegTopLeftHistory));
 
         Collections.sort(keyPegs);
 
-        for (int i = 0; i < keyPegs.size(); i++) {
+        for (int i = keyPegs.size() - 1; i >= 0; i--) {
             Log.d(TAG, "Color: " + keyPegs.get(i));
+            if (keyPegs.get(i) == KeyPeg.BLACK) {
+                keyPegImages.get(i).setImageResource(R.drawable.black_peg);
+            }
+            else if (keyPegs.get(i) == KeyPeg.WHITE) {
+                keyPegImages.get(i).setImageResource(R.drawable.white_peg);
+            }
+            else if (keyPegs.get(i) == KeyPeg.TRANSPARENT) {
+                keyPegImages.get(i).setImageResource(R.drawable.empty_peg);
+            }
         }
         return rowView;
     }

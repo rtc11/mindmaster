@@ -50,7 +50,7 @@
 
             <!-- TOP LEFT -->
             <ImageView
-                android:id="@+id/keyPegTopLeft"
+                android:id="@+id/keyPegTopLeftHistory"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/empty_peg"
@@ -58,31 +58,31 @@
 
             <!-- TOP RIGHT -->
             <ImageView
-                android:id="@+id/keyPegTopRight"
+                android:id="@+id/keyPegTopRightHistory"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/empty_peg"
                 android:background="@android:color/transparent"
-                android:layout_toRightOf="@id/keyPegTopLeft"/>
+                android:layout_toRightOf="@id/keyPegTopLeftHistory"/>
 
             <!-- BOTTOM LEFT -->
             <ImageView
-                android:id="@+id/keyPegBottomLeft"
+                android:id="@+id/keyPegBottomLeftHistory"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/empty_peg"
                 android:background="@android:color/transparent"
-                android:layout_below="@id/keyPegTopLeft"/>
+                android:layout_below="@id/keyPegTopLeftHistory"/>
 
             <!-- BOTTOM RIGHT -->
             <ImageView
-                android:id="@+id/keyPegBottomRight"
+                android:id="@+id/keyPegBottomRightHistory"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/empty_peg"
                 android:background="@android:color/transparent"
-                android:layout_below="@id/keyPegTopRight"
-                android:layout_toRightOf="@id/keyPegTopLeft"/>
+                android:layout_below="@id/keyPegTopRightHistory"
+                android:layout_toRightOf="@id/keyPegTopLeftHistory"/>
 
         </RelativeLayout>
 
