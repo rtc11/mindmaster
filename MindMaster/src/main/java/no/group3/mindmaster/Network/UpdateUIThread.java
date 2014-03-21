@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 import no.group3.mindmaster.Controller.Controller;
 import no.group3.mindmaster.Model.ColorPegSolutionSequence;
+import no.group3.mindmaster.Model.Globals;
 import no.group3.mindmaster.Model.KeyPeg;
 
 /**
@@ -51,6 +52,7 @@ public class UpdateUIThread implements Runnable {
             con.sendMessage("peg" + solution);
         }
         else if (msg.contains("keypeg")){
+            Globals.setMyTurn(true);
             String keyPegString = msg.replaceAll("keypeg", "");
             ArrayList<KeyPeg> keypegs = new ArrayList<KeyPeg>();
 

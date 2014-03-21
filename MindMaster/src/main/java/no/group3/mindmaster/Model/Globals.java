@@ -13,4 +13,23 @@ public class Globals {
      * the number of colours in the game
      */
     public static int NUMBEROFCOLOURS = Colour.values().length;
+
+    /**
+     * Indicates wheter it is your turn or not
+     */
+    private static boolean myTurn = true;
+
+    public static void setMyTurn(boolean turn) {
+        myTurn = turn;
+    }
+    public static boolean isMyTurn(){
+        return myTurn;
+    }
+    public static  void changeTurn(){
+        if(myTurn){
+            myTurn = false;
+        }
+        else
+            myTurn = true;
+    }
 }

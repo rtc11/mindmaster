@@ -8,7 +8,6 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
 import android.app.Fragment;
-import android.graphics.Color;
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
@@ -22,11 +21,11 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import no.group3.mindmaster.MainActivity;
 import no.group3.mindmaster.Model.ColorPeg;
 import no.group3.mindmaster.Controller.Controller;
 import no.group3.mindmaster.Model.ColorPegSequence;
 import no.group3.mindmaster.Model.Colour;
+import no.group3.mindmaster.Model.Globals;
 import no.group3.mindmaster.Model.KeyPeg;
 import no.group3.mindmaster.Network.Connection;
 import no.group3.mindmaster.R;
@@ -51,6 +50,8 @@ public class GameScreen extends Fragment  implements PropertyChangeListener{
         controller = Controller.getInstance(ctxt, con);
         controller.newSoloGame();
         controller.addPropertyChangeListener(this);
+
+
     }
 
     /**
@@ -97,22 +98,25 @@ public class GameScreen extends Fragment  implements PropertyChangeListener{
         okButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(pegsList.size() != 0){
-                    return;
+                if(Globals.isMyTurn()){
+                    if(pegsList.size() != 0){
+                        return;
+                    }
+                    for (int i = 0; i < spinnerList.size(); i++){
+                        pegsList.add(makeColorPeg(spinnerList.get(i).getSelectedItemId()));
+                    }
+                    ColorPegSequence cps = new ColorPegSequence(pegsList);
+                    try{
+
+                        controller.addSequenceToModel(cps);
+                    }catch(Exception e){
+                        e.printStackTrace();
+                    }
+                    pegsList = new ArrayList<ColorPeg>();
+                    getFragmentManager().beginTransaction()
+                            .addToBackStack(null)
+                            .commit();
                 }
-                for (int i = 0; i < spinnerList.size(); i++){
-                    pegsList.add(makeColorPeg(spinnerList.get(i).getSelectedItemId()));
-                }
-                ColorPegSequence cps = new ColorPegSequence(pegsList);
-                try{
-                controller.addSequenceToModel(cps);
-                }catch(Exception e){
-                    e.printStackTrace();
-                }
-                pegsList = new ArrayList<ColorPeg>();
-                getFragmentManager().beginTransaction()
-                        .addToBackStack(null)
-                        .commit();
             }
         });
         Log.d(TAG, "Spinner list created");

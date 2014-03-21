@@ -11,5 +11,6 @@
     <string name="how_to">How To</string>
 
     <string name="peg_prompt">Peg</string>
-
+    <string name="yourTurn">It is your turn</string>
+    <string name="notYourTurn">It is not your turn</string>
 </resources>
