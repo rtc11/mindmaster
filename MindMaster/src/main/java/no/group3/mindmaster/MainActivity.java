@@ -35,7 +35,7 @@ public class MainActivity extends Activity {
         con = Connection.getInstance(getBaseContext());
 
         //Create the controller
-        controller = Controller.getInstance(getBaseContext(), con);
+        controller = Controller.getInstance(getBaseContext());
 
         if (savedInstanceState == null) {
             getFragmentManager().beginTransaction()

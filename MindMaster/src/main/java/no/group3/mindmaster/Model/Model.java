@@ -14,6 +14,9 @@ import no.group3.mindmaster.Network.Connection;
  * Created by Wschive on 06/03/14.
  */
 public class Model {
+
+    public static boolean sologame = false;
+
     /** List of the current currentHistory of the game */
     private ArrayList<ColorPegSequence> currentHistory;
     /** List of the old currentHistory. Used to send with the firePropertyChange() */
@@ -76,12 +79,15 @@ public class Model {
         currentHistory.add(sequence);
 
         Connection con = Connection.getInstance(ctxt);
-        Controller controller = Controller.getInstance(ctxt, con);
+        Controller controller = Controller.getInstance(ctxt);
 
         ArrayList<KeyPeg> keypegs = controller.getKeyPegs(sequence);
 
-        //Send guess to opponent
-        con.sendMessage(controller.keyPegsToString(keypegs));
+        if(!sologame){
+
+            //Send guess to opponent
+            con.sendMessage(controller.keyPegsToString(keypegs));
+        }
 
         fireChange("History");
 

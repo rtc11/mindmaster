@@ -32,17 +32,17 @@ public class Controller{
     public static boolean isReady = false;
     public static boolean isGameCreator = false;
 
-    public Controller(Context ctxt, Connection con) {
+    public Controller(Context ctxt) {
         this.ctxt = ctxt;
         this.model = new Model(ctxt);
-        this.connection = con;
+        this.connection = Connection.getInstance(ctxt);
         oldHistory = new ArrayList<ColorPegSequence>();
         currentHistory = new ArrayList<ColorPegSequence>();
     }
-    public static Controller getInstance(Context ctxt, Connection con){
+    public static Controller getInstance(Context ctxt){
         if (ControllerInstance == null) {
             synchronized (Controller.class){
-                ControllerInstance = new Controller(ctxt, con);
+                ControllerInstance = new Controller(ctxt);
             }
         }
         return ControllerInstance;
@@ -101,6 +101,8 @@ public class Controller{
      */
     public void newSoloGame(){
         solution = ColorPegSolutionSequence.getInstance(true);
+        //MainActivity ma = MainActivity.getInstance(); TODO:check if this is redundant or not
+        //ma.startGameFragment();
     }
 
     /**

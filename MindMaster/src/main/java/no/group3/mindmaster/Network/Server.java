@@ -53,7 +53,7 @@ public class Server implements Runnable {
                 new Thread(out).start();
 
                 //Get the controller to call the new game method
-                Controller controller = Controller.getInstance(ctxt, con);
+                Controller controller = Controller.getInstance(ctxt);
                 controller.newGame(true); //We are the game creator
 
             } catch (IOException ex) {
