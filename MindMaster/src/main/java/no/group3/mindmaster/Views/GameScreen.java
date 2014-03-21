@@ -30,6 +30,7 @@ import no.group3.mindmaster.Model.ColorPegSequence;
 import no.group3.mindmaster.Model.Colour;
 import no.group3.mindmaster.Model.Globals;
 import no.group3.mindmaster.Model.KeyPeg;
+import no.group3.mindmaster.Model.Model;
 import no.group3.mindmaster.Network.Connection;
 import no.group3.mindmaster.R;
 import no.group3.mindmaster.SpinnerAdapter;
@@ -50,16 +51,27 @@ public class GameScreen extends Fragment  implements PropertyChangeListener{
     private HistoryViewAdapter historyAdapter;
     private TextView turnText;
 
+    /**
+     * This constructor is called when we start a multiplayergame over the network
+     * @param ctxt - current context
+     * @param con - connection instance
+     */
     public GameScreen(Context ctxt, Connection con) {
-        controller = Controller.getInstance(ctxt, con);
-        controller.newSoloGame();
-        controller.addPropertyChangeListener(this);
         this.context = ctxt;
-
+        controller = Controller.getInstance(ctxt);
+        controller.addPropertyChangeListener(this);
     }
 
+    /**
+     * This constructor is used when we start a singleplayer game
+     * @param ctxt
+     */
     public GameScreen(Context ctxt) {
         this.context = ctxt;
+        controller = Controller.getInstance(ctxt);
+        controller.addPropertyChangeListener(this);
+        controller.newSoloGame();
+        Model.sologame = true;
     }
 
     /**

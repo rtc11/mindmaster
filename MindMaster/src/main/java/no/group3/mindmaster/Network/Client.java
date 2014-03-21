@@ -45,7 +45,7 @@ public class Client implements Runnable {
             new Thread(in).start();
 
             //Get the controller to call the new game method
-            Controller controller = Controller.getInstance(ctxt, con);
+            Controller controller = Controller.getInstance(ctxt);
             controller.newGame(false); //We are not the game creator
 
         } catch (Exception e) {

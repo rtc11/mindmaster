@@ -37,7 +37,7 @@ public class UpdateUIThread implements Runnable {
 
             //Get the solution from the host
             ColorPegSolutionSequence seq = ColorPegSolutionSequence.getInstance(false);
-            Controller controller = Controller.getInstance(ctxt, con);
+            Controller controller = Controller.getInstance(ctxt);
             seq.setSolution(controller.getColorPegSequence(solution));
 
             //We are the client and received the solution, tell the controller that we are ready
@@ -65,7 +65,7 @@ public class UpdateUIThread implements Runnable {
             keypegs.add(keyp3);
             keypegs.add(keyp4);
 
-            Controller controller = Controller.getInstance(ctxt, con);
+            Controller controller = Controller.getInstance(ctxt);
             controller.addOpponentKeyPegsToModel(keypegs);
 
             Log.d(TAG, "Pegs: " + keyp1 + " " + keyp2 + " " + keyp3 + " " + keyp4);
