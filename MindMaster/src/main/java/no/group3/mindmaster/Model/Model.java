@@ -89,7 +89,7 @@ public class Model {
 
         if (!keypegs.contains(KeyPeg.WHITE) && !keypegs.contains(KeyPeg.TRANSPARENT)){
             Log.d(TAG, "Game won.");
-            AlertDialog ad = new AlertDialog(true, ctxt);
+            AlertDialog ad = new AlertDialog(true);
             MainActivity ma = MainActivity.getInstance();
             ad.show(ma.getFragmentManager(), "end_game");
         }

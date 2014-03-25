@@ -17,11 +17,9 @@ import no.group3.mindmaster.Views.MainMenu;
 public class AlertDialog extends DialogFragment {
 
     private boolean isWinner = false;
-    private Context context;
 
-    public AlertDialog(boolean isWinner, Context context) {
+    public AlertDialog(boolean isWinner) {
         this.isWinner = isWinner;
-        this.context = context;
     }
 
     @Override
@@ -36,10 +34,11 @@ public class AlertDialog extends DialogFragment {
                             ma.restartGameFragment();
                         }
                     })
+                    //Return to main menu
                     .setNegativeButton(R.string.no_button, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int id) {
-
+                            MainActivity ma = MainActivity.getInstance();
                         }
                     });
         }
@@ -47,6 +46,15 @@ public class AlertDialog extends DialogFragment {
             builder.setMessage(R.string.game_lost)
                     .setPositiveButton(R.string.rematch_button, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
+                            MainActivity ma = MainActivity.getInstance();
+                            ma.restartGameFragment();
+                        }
+                    })
+                    //Return to main menu
+                    .setNegativeButton(R.string.no_button, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int id) {
+                            MainActivity ma = MainActivity.getInstance();
                         }
                     });
         }

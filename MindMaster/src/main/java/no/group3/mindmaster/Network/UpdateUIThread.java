@@ -6,8 +6,10 @@ import android.util.Log;
 import java.util.ArrayList;
 
 import no.group3.mindmaster.Controller.Controller;
+import no.group3.mindmaster.MainActivity;
 import no.group3.mindmaster.Model.ColorPegSolutionSequence;
 import no.group3.mindmaster.Model.KeyPeg;
+import no.group3.mindmaster.Utils.AlertDialog;
 
 /**
  * Created by tordly on 18.03.14.
@@ -39,7 +41,10 @@ public class UpdateUIThread implements Runnable {
             keypegs.add(KeyPeg.getKeyPeg(Character.getNumericValue(keyPegString.charAt(3))));
 
             if(!keypegs.contains(KeyPeg.WHITE) && !keypegs.contains(KeyPeg.TRANSPARENT)){
-                Log.d(TAG, "you lost");
+                Log.d(TAG, "Game lost.");
+                AlertDialog ad = new AlertDialog(false);
+                MainActivity ma = MainActivity.getInstance();
+                ad.show(ma.getFragmentManager(), "end_game");
             }
 
             Controller controller = Controller.getInstance(ctxt);
