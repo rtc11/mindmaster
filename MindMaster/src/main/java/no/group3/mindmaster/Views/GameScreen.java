@@ -26,6 +26,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import no.group3.mindmaster.MainActivity;
 import no.group3.mindmaster.Model.ColorPeg;
 import no.group3.mindmaster.Controller.Controller;
 import no.group3.mindmaster.Model.ColorPegSequence;
@@ -53,11 +54,10 @@ public class GameScreen extends Fragment  implements PropertyChangeListener{
     private HistoryViewAdapter historyAdapter;
     private TextView turnText;
     private ListView listView;
+    private ArrayList<ImageView> keyPegImages;
+    private TextView opponentScore;
 
-    private ImageView opponentKeyPegTopRight,
-            opponentKeyPegTopLeft,
-            opponentKeyPegBottomRight,
-            opponentKeyPegBottomLeft;
+
 
     /**
      * This constructor is called when we start a multiplayergame over the network
@@ -151,7 +151,6 @@ public class GameScreen extends Fragment  implements PropertyChangeListener{
         getActivity().setContentView(R.layout.game_screen);
         rootView = inflater.inflate(R.layout.game_screen, container, false);
         placePegsInSpinners();
-        turnText = (TextView)rootView.findViewById(R.id.yourturntext);
         currentHistory = new ArrayList<ColorPegSequence>();
         addHistoryAdapter();
         Button okButton = (Button) getActivity().findViewById(R.id.button_ok);
@@ -159,13 +158,9 @@ public class GameScreen extends Fragment  implements PropertyChangeListener{
             @Override
             public void onClick(View view) {
                 System.out.println(controller.isMyTurn());
+                MainActivity ma = MainActivity.getInstance();
+                ma.setTurnText();
                 if(controller.isMyTurn()){
-                    turnText.setText("Your turn");
-                }
-                else{
-                    turnText.setText("Not turn");
-                }
-                if(true){
                     for (int i = 0; i < spinnerList.size(); i++) {
                         pegsList.add(makeColorPeg(spinnerList.get(i).getSelectedItemId()));
                     }
@@ -189,7 +184,9 @@ public class GameScreen extends Fragment  implements PropertyChangeListener{
         return rootView;
     }
 
-
+    public void setOpponentScore(String score){
+        this.opponentScore.setText(score);
+    }
 
     private ColorPeg makeColorPeg(long l){
         ColorPeg c = null;
@@ -223,44 +220,6 @@ public class GameScreen extends Fragment  implements PropertyChangeListener{
             ArrayList<ColorPegSequence> history = (ArrayList<ColorPegSequence>) propertyChangeEvent.getNewValue();
             notifyHistoryAdapter(history);
         }
-        else if(propertyChangeEvent.getPropertyName().equals("Pegs")){
 
-            Log.d(TAG, "Trying to add opponents key pegs");
-
-            opponentKeyPegBottomLeft = (ImageView) this.getView().findViewById(R.id.keyPegBottomLeft);
-            opponentKeyPegBottomRight = (ImageView) this.getView().findViewById(R.id.keyPegBottomRight);
-            opponentKeyPegTopLeft = (ImageView) this.getView().findViewById(R.id.keyPegTopLeft);
-            opponentKeyPegTopRight = (ImageView) this.getView().findViewById(R.id.keyPegTopRight);
-
-            ArrayList<ImageView> keyPegImages = new ArrayList<ImageView>();
-            keyPegImages.add(opponentKeyPegBottomRight);
-            keyPegImages.add(opponentKeyPegBottomLeft);
-            keyPegImages.add(opponentKeyPegTopRight);
-            keyPegImages.add(opponentKeyPegTopLeft);
-
-            ArrayList<KeyPeg> keyPegs = (ArrayList<KeyPeg>)propertyChangeEvent.getNewValue();
-            Collections.sort(keyPegs);
-
-            for (int i = keyPegs.size() - 1; i >= 0; i--) {
-                if (keyPegs.get(i) == KeyPeg.BLACK) {
-                    keyPegImages.get(i).setImageResource(R.drawable.black_peg);
-                    Log.d(TAG, "black peg added from opponent");
-                }
-                else if (keyPegs.get(i) == KeyPeg.WHITE) {
-                    keyPegImages.get(i).setImageResource(R.drawable.white_peg);
-                    Log.d(TAG, "white peg added from opponent");
-                }
-                else if (keyPegs.get(i) == KeyPeg.TRANSPARENT) {
-                    keyPegImages.get(i).setImageResource(R.drawable.empty_peg);
-                    Log.d(TAG, "transparent peg added from opponent");
-                }
-            }
-
-            Fragment frag = getFragmentManager().findFragmentByTag(getTag());
-            FragmentTransaction trans = getFragmentManager().beginTransaction();
-            trans.detach(frag);
-            trans.attach(frag);
-            trans.commit();
-        }
     }
 }

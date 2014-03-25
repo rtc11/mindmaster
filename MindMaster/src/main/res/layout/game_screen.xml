@@ -17,16 +17,8 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/yourturntext" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Opponents keypegs: "
-            android:id="@+id/oppTextView"
-            android:gravity="right"
-            android:layout_alignParentTop="true"
-            android:layout_toLeftOf="@+id/relativeLayout" />
+            android:id="@+id/yourturntext"
+            android:text="" />
 
         <RelativeLayout
             android:layout_width="wrap_content"

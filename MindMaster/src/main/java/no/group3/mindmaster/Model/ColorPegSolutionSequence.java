@@ -86,7 +86,7 @@ public class ColorPegSolutionSequence{
         Colour[] availableColors = getColoursInSolution();
         ArrayList<KeyPeg> result = new ArrayList<KeyPeg>();
         Colour[] tempGuess = new Colour[Globals.SEQUENCELENGTH];
-        for (int h = 0; h < Globals.SEQUENCELENGTH; h ++) {
+        for (int h = 0; h < Globals.SEQUENCELENGTH; h++) {
             tempGuess[h] = guess.getSequence().get(h).getColour();
         }
 
@@ -104,11 +104,12 @@ public class ColorPegSolutionSequence{
         }
 
         for (int i = 0; i < Globals.SEQUENCELENGTH; i++) {
-            if (tempGuess[i] != null) {
-                for(int k = 0; k < availableColors.length; k++){
-                    if(availableColors[k] != null && availableColors[k].toInt() == tempGuess[i].toInt()){
+            for(int k = 0; k < availableColors.length; k++){
+                if(tempGuess[i] != null && availableColors[k] != null){
+                    if(availableColors[k].toInt() == tempGuess[i].toInt()) {
                         whitePegs++;
                         availableColors[k] = null;
+                        tempGuess[i] = null;
                         result.add(KeyPeg.WHITE);
                     }
                 }

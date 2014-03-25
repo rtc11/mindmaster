@@ -50,6 +50,10 @@ public class Controller{
         return ControllerInstance;
     }
 
+    public Model getModel(){
+        return this.model;
+    }
+
     public boolean isGameCreator(){
         return this.isGameCreator;
     }
