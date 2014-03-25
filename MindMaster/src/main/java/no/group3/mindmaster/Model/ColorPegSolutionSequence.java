@@ -36,6 +36,18 @@ public class ColorPegSolutionSequence{
         }
     }
 
+    public ColorPegSequence generateSolution(){
+        Colour values[] = Colour.values();
+        ArrayList<ColorPeg> sequence = new ArrayList<ColorPeg>();
+        for(int i = 0; i<Globals.SEQUENCELENGTH; i++){
+            sequence.add(new ColorPeg( values[(int)(Math.random()*values.length)] ));
+        }
+        this.solution = new ColorPegSequence(sequence);
+        this.solution.setSequence(sequence);
+
+        return this.solution;
+    }
+
     public static ColorPegSolutionSequence getInstance(boolean isGameCreator){
         if(instance == null){
             synchronized (ColorPegSolutionSequence.class){
