@@ -50,7 +50,7 @@ public class Server implements Runnable {
 
                 //Start incoming communication
                 in = new IncomingCommunication(socket, handler, ctxt);
-                new Thread(out).start();
+                new Thread(in).start();
 
                 //Get the controller to call the new game method
                 Controller controller = Controller.getInstance(ctxt);
