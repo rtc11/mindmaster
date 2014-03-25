@@ -2,6 +2,7 @@ package no.group3.mindmaster.Network;
 
 import android.content.Context;
 import android.os.Handler;
+import android.util.Log;
 
 import java.io.BufferedWriter;
 import java.io.OutputStreamWriter;
@@ -17,6 +18,7 @@ import no.group3.mindmaster.MainActivity;
  */
 public class Connection {
 
+    private static final String TAG = "MindMaster.Connection";
     //HAHSMAP KEYS
     public static String DNS1 = "DNS1";
     public static String DNS2 = "DNS2";
@@ -92,9 +94,11 @@ public class Connection {
      */
     public void sendMessage(String message) {
         if(Controller.getInstance(ctxt).isGameCreator()){
+            Log.d(TAG, "isGameCreator = true. Server trying to send message");
             server.sendMessage(message);
         }
         else{
+            Log.d(TAG, "isGameCreator = false. Client trying to send message");
             client.sendMessage(message);
         }
     }
