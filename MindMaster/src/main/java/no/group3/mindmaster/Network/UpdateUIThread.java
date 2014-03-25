@@ -40,6 +40,10 @@ public class UpdateUIThread implements Runnable {
             keypegs.add(KeyPeg.getKeyPeg(Character.getNumericValue(keyPegString.charAt(2))));
             keypegs.add(KeyPeg.getKeyPeg(Character.getNumericValue(keyPegString.charAt(3))));
 
+            if(!keypegs.contains(KeyPeg.WHITE) && !keypegs.contains(KeyPeg.TRANSPARENT)){
+                Log.d(TAG, "you lost");
+            }
+
             Controller controller = Controller.getInstance(ctxt);
             controller.addOpponentKeyPegsToModel(keypegs);
         }
