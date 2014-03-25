@@ -7,10 +7,8 @@ package no.group3.mindmaster.Views;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
-import java.util.Collections;
 
 import android.app.Fragment;
-import android.app.FragmentTransaction;
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
@@ -20,7 +18,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
-import no.group3.mindmaster.HistoryViewAdapter;
+import no.group3.mindmaster.Utils.HistoryViewAdapter;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -30,9 +28,8 @@ import no.group3.mindmaster.Model.ColorPegSequence;
 import no.group3.mindmaster.Model.Colour;
 import no.group3.mindmaster.Model.KeyPeg;
 import no.group3.mindmaster.Model.Model;
-import no.group3.mindmaster.Network.Connection;
 import no.group3.mindmaster.R;
-import no.group3.mindmaster.SpinnerAdapter;
+import no.group3.mindmaster.Utils.SpinnerAdapter;
 
 public class GameScreen extends Fragment  implements PropertyChangeListener{
     // TODO: Change object type in ArrayList to the type of the drawn Peg-object

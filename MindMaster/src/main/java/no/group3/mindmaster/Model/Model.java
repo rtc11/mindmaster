@@ -10,7 +10,9 @@ import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 
 import no.group3.mindmaster.Controller.Controller;
+import no.group3.mindmaster.MainActivity;
 import no.group3.mindmaster.Network.Connection;
+import no.group3.mindmaster.Utils.AlertDialog;
 
 /**
  * Created by Wschive on 06/03/14.
@@ -84,6 +86,13 @@ public class Model {
         Controller controller = Controller.getInstance(ctxt);
 
         ArrayList<KeyPeg> keypegs = controller.getKeyPegs(sequence);
+
+        if (!keypegs.contains(KeyPeg.WHITE) && !keypegs.contains(KeyPeg.TRANSPARENT)){
+            Log.d(TAG, "Game won.");
+            AlertDialog ad = new AlertDialog(true);
+            MainActivity ma = MainActivity.getInstance();
+            ad.show(ma.getFragmentManager(), "end_game");
+        }
 
         if(!sologame){
             Log.d(TAG, "Trying to send keypegs to opponent");

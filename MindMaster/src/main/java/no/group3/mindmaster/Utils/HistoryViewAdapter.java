@@ -1,4 +1,4 @@
-package no.group3.mindmaster;
+package no.group3.mindmaster.Utils;
 
 import android.content.Context;
 import android.util.Log;
@@ -18,6 +18,7 @@ import no.group3.mindmaster.Model.ColorPegSequence;
 import no.group3.mindmaster.Model.ColorPegSolutionSequence;
 import no.group3.mindmaster.Model.Colour;
 import no.group3.mindmaster.Model.KeyPeg;
+import no.group3.mindmaster.R;
 
 /**
  * Created by JeppeE on 17/03/14.
