@@ -20,6 +20,14 @@
             android:id="@+id/yourturntext"
             android:text="" />
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/yourturntext"
+            android:id="@+id/opponentkeypegs"
+            android:text="Opponent Keypegs:" />
+
+
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
