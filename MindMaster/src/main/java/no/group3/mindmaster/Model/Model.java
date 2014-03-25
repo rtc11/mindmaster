@@ -138,7 +138,9 @@ public class Model {
                 .getInstance(controller.isGameCreator())
                 .generateSolution();
         Log.d(TAG, "solution: " + solution.getSequence().toString());
-        con.sendMessage(solution.getSequence().toString());
+        if(controller.isGameCreator()){
+            con.sendMessage(solution.getSequence().toString());
+        }
         this.currentHistory = new ArrayList<ColorPegSequence>();
         this.oldHistory = new ArrayList<ColorPegSequence>();
     }
