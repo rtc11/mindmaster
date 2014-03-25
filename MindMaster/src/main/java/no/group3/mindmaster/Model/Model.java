@@ -134,12 +134,14 @@ public class Model {
     public void reset() {
         Connection con = Connection.getInstance(ctxt);
         Controller controller = Controller.getInstance(ctxt);
-        ColorPegSequence solution = ColorPegSolutionSequence
+
+        if(controller.isGameCreator()){
+            ColorPegSequence solution = ColorPegSolutionSequence
                 .getInstance(controller.isGameCreator())
                 .generateSolution();
-        Log.d(TAG, "solution: " + solution.getSequence().toString());
-        if(controller.isGameCreator()){
-            con.sendMessage(solution.getSequence().toString());
+
+            String solutionString = solution.toString();
+            con.sendMessage(solutionString);
         }
         this.currentHistory = new ArrayList<ColorPegSequence>();
         this.oldHistory = new ArrayList<ColorPegSequence>();
