@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
@@ -55,24 +56,16 @@ public class GameScreen extends Fragment  implements PropertyChangeListener{
     /**
      * This constructor is called when we start a multiplayergame over the network
      * @param ctxt - current context
-     * @param con - connection instance
      */
-    public GameScreen(Context ctxt, Connection con) {
+    public GameScreen(Context ctxt, boolean isSinglePlayer) {
         this.context = ctxt;
         controller = Controller.getInstance(ctxt);
         controller.addPropertyChangeListener(this);
-    }
 
-    /**
-     * This constructor is used when we start a singleplayer game
-     * @param ctxt
-     */
-    public GameScreen(Context ctxt) {
-        this.context = ctxt;
-        controller = Controller.getInstance(ctxt);
-        controller.addPropertyChangeListener(this);
-        controller.newSoloGame();
-        Model.sologame = true;
+        if(isSinglePlayer){
+            controller.newSoloGame();
+            Model.sologame = true;
+        }
     }
 
     /**
@@ -88,7 +81,6 @@ public class GameScreen extends Fragment  implements PropertyChangeListener{
 
     private void placePegsInSpinners(){
         initializeSpinners();
-
         addSpinnerAdapters();
     }
 
@@ -104,14 +96,8 @@ public class GameScreen extends Fragment  implements PropertyChangeListener{
      * Method adding the historyListAdapter. Should be called once when this screen is created.
      */
     private void addHistoryAdapter() {
-        Log.d(TAG, "Trying to get activity and find view.");
-
         listView = (ListView)getActivity().findViewById(R.id.listView_history);
-
-        Log.d(TAG, "Trying to create new historyAdapter.");
         historyAdapter = new HistoryViewAdapter(rootView.getContext(), currentHistory);
-
-        Log.d(TAG, "Trying to set the historyAdapter.");
         listView.setAdapter(historyAdapter);
     }
 
@@ -141,11 +127,10 @@ public class GameScreen extends Fragment  implements PropertyChangeListener{
 
     @Override
     public View onCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        pegsList = new ArrayList<ColorPeg>();
+        this.pegsList = new ArrayList<ColorPeg>();
         this.inflater = inflater;
 
         getActivity().setContentView(R.layout.game_screen);
-
         rootView = inflater.inflate(R.layout.game_screen, container, false);
         placePegsInSpinners();
 
@@ -156,9 +141,8 @@ public class GameScreen extends Fragment  implements PropertyChangeListener{
         okButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (pegsList.size() != 0) {
-                    return;
-                }
+                if (pegsList.size() != 0) return;
+
                 for (int i = 0; i < spinnerList.size(); i++) {
                     pegsList.add(makeColorPeg(spinnerList.get(i).getSelectedItemId()));
                 }
@@ -174,11 +158,6 @@ public class GameScreen extends Fragment  implements PropertyChangeListener{
                         .commit();
             }
         });
-
-        opponentKeyPegBottomLeft = (ImageView) rootView.findViewById(R.id.keyPegBottomLeft);
-        opponentKeyPegBottomRight = (ImageView) rootView.findViewById(R.id.keyPegBottomRight);
-        opponentKeyPegTopLeft = (ImageView) rootView.findViewById(R.id.keyPegTopLeft);
-        opponentKeyPegTopRight = (ImageView) rootView.findViewById(R.id.keyPegTopRight);
 
         return rootView;
     }
@@ -210,14 +189,21 @@ public class GameScreen extends Fragment  implements PropertyChangeListener{
 
     @Override
     public void propertyChange(PropertyChangeEvent propertyChangeEvent) {
+        Log.d(TAG, "PropertyChangeEvent with tag: " + propertyChangeEvent.getPropertyName() + " received.");
+
         if(propertyChangeEvent.getPropertyName().equals("History")){
 
-            Log.d(TAG, "PropertyChangeEvent with tag: " + propertyChangeEvent.getPropertyName() + " received.");
             ArrayList<ColorPegSequence> history = (ArrayList<ColorPegSequence>) propertyChangeEvent.getNewValue();
             notifyHistoryAdapter(history);
         }
         else if(propertyChangeEvent.getPropertyName().equals("Pegs")){
 
+            Log.d(TAG, "Trying to add opponents key pegs");
+
+            opponentKeyPegBottomLeft = (ImageView) this.getView().findViewById(R.id.keyPegBottomLeft);
+            opponentKeyPegBottomRight = (ImageView) this.getView().findViewById(R.id.keyPegBottomRight);
+            opponentKeyPegTopLeft = (ImageView) this.getView().findViewById(R.id.keyPegTopLeft);
+            opponentKeyPegTopRight = (ImageView) this.getView().findViewById(R.id.keyPegTopRight);
 
             ArrayList<ImageView> keyPegImages = new ArrayList<ImageView>();
             keyPegImages.add(opponentKeyPegBottomRight);
@@ -231,14 +217,23 @@ public class GameScreen extends Fragment  implements PropertyChangeListener{
             for (int i = keyPegs.size() - 1; i >= 0; i--) {
                 if (keyPegs.get(i) == KeyPeg.BLACK) {
                     keyPegImages.get(i).setImageResource(R.drawable.black_peg);
+                    Log.d(TAG, "black peg added from opponent");
                 }
                 else if (keyPegs.get(i) == KeyPeg.WHITE) {
                     keyPegImages.get(i).setImageResource(R.drawable.white_peg);
+                    Log.d(TAG, "white peg added from opponent");
                 }
                 else if (keyPegs.get(i) == KeyPeg.TRANSPARENT) {
                     keyPegImages.get(i).setImageResource(R.drawable.empty_peg);
+                    Log.d(TAG, "transparent peg added from opponent");
                 }
             }
+
+            Fragment frag = getFragmentManager().findFragmentByTag(getTag());
+            FragmentTransaction trans = getFragmentManager().beginTransaction();
+            trans.detach(frag);
+            trans.attach(frag);
+            trans.commit();
         }
     }
 }

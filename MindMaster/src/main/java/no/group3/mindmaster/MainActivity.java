@@ -39,7 +39,7 @@ public class MainActivity extends Activity {
 
         if (savedInstanceState == null) {
             getFragmentManager().beginTransaction()
-                    .add(R.id.container, new MainMenu(getBaseContext(), con))
+                    .add(R.id.container, new MainMenu(getBaseContext()))
                     .commit();
         }
     }
@@ -52,7 +52,7 @@ public class MainActivity extends Activity {
 
     public void startGameFragment(){
         getFragmentManager().beginTransaction()
-                .replace(R.id.container, new GameScreen(getBaseContext(), con))
+                .replace(R.id.container, new GameScreen(getBaseContext(), false))
                 .addToBackStack(null)
                 .commit();
     }

@@ -25,7 +25,7 @@ public class IncomingCommunication implements Runnable {
         this.socket = socket;
         this.updateConversationHandler = handler;
         this.ctxt = ctxt;
-        con = Connection.getInstance(ctxt);
+        this.con = Connection.getInstance(ctxt);
 
         try{
             input = new BufferedReader(new InputStreamReader(this.socket.getInputStream()));
@@ -39,12 +39,12 @@ public class IncomingCommunication implements Runnable {
 
     @Override
     public void run() {
-        while(socket.isBound()){
+        while(socket.isConnected()){
             try{
-                if(input.ready()){
-                    String read = input.readLine();
-                    updateConversationHandler.post(new UpdateUIThread(read, ctxt, con));
+                String read;
+                if((read = input.readLine()) != null){
                     Log.d(TAG, "Message received: " + read);
+                    updateConversationHandler.post(new UpdateUIThread(read, ctxt, con));
                 }
             }catch(IOException e){
                 Log.d(TAG, e.getMessage());

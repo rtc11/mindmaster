@@ -1,6 +1,7 @@
 package no.group3.mindmaster.Views;
 
 import android.app.Fragment;
+import android.content.Context;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputType;
@@ -25,15 +26,19 @@ public class NewGame extends Fragment {
     private final String TAG = "MindMaster.NewGame";
     private Connection con;
     private String address = "";
+    private Context ctxt;
+    private Controller controller;
     private static final int PORT = 13443;
 
     //This is not the game creator
     private boolean isGameCreator = false;
 
-    public NewGame(Connection con){
-        this.con = con;
+    public NewGame(Context ctxt){
+        this.ctxt = ctxt;
+        this.con = Connection.getInstance(ctxt);
+        this.controller = Controller.getInstance(ctxt);
+        this.controller.setAsGameCreator(false);
         Log.d(TAG, "JOINING GAME");
-        Controller.isGameCreator = false;
     }
 
     private String getAddress(){
@@ -80,17 +85,18 @@ public class NewGame extends Fragment {
             @Override
             public void onClick(View view) {
                 getFragmentManager().beginTransaction()
-                        .replace(R.id.container, new MainMenu(getActivity().getBaseContext(), con))
+                        .replace(R.id.container, new MainMenu(getActivity().getBaseContext()))
                         .addToBackStack(null)
                         .commit();
             }
         });
 
+        //Start single player
         button_TestScreen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 getFragmentManager().beginTransaction()
-                        .replace(R.id.container, new GameScreen(getActivity().getBaseContext()))
+                        .replace(R.id.container, new GameScreen(getActivity().getBaseContext(), true))
                         .addToBackStack(null)
                         .commit();
             }

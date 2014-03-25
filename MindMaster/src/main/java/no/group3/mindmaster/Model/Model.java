@@ -104,13 +104,14 @@ public class Model {
 
     private void fireChange(String type){
         Log.d(TAG, "Event fired: " + type);
+
         if(type == "History"){
             for(PropertyChangeListener prop: pcs.getPropertyChangeListeners()){
-                    prop.propertyChange(new PropertyChangeEvent(this,"History",oldHistory,currentHistory));
+                    prop.propertyChange(new PropertyChangeEvent(this, "History", oldHistory, currentHistory));
             }
         }else if(type == "Pegs"){
             for(PropertyChangeListener prop: pcs.getPropertyChangeListeners()){
-                prop.propertyChange(new PropertyChangeEvent(this,"Pegs",oldOpponentKeyPegs,currentOpponentKeyPegs));
+                prop.propertyChange(new PropertyChangeEvent(this, "Pegs", oldOpponentKeyPegs, currentOpponentKeyPegs));
             }
         }
     }

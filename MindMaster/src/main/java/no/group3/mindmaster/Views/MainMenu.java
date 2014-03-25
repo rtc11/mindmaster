@@ -22,12 +22,15 @@ import no.group3.mindmaster.Network.Utils;
  * A placeholder fragment containing a simple view.
  */
 public class MainMenu extends Fragment {
-    public static  Utils utils; //TODO: if context somehow is changes, remember to update it
-    private Connection con;
 
-    public MainMenu(Context context, Connection con) {
-        this.utils = Utils.getInstance(context);
-        this.con = con;
+    private Utils utils;
+    private Connection con;
+    private Context ctxt;
+
+    public MainMenu(Context ctxt) {
+        this.ctxt = ctxt;
+        this.utils = Utils.getInstance(ctxt);
+        this.con = Connection.getInstance(ctxt);
     }
 
     @Override
@@ -43,7 +46,7 @@ public class MainMenu extends Fragment {
             @Override
             public void onClick(View view) {
                 getFragmentManager().beginTransaction()
-                        .replace(R.id.container, new NewGame(con))
+                        .replace(R.id.container, new NewGame(ctxt))
                         .addToBackStack(null)
                         .commit();
             }
@@ -54,7 +57,7 @@ public class MainMenu extends Fragment {
             @Override
             public void onClick(View view) {
                 getFragmentManager().beginTransaction()
-                        .replace(R.id.container, new Connect(con))
+                        .replace(R.id.container, new Connect(ctxt))
                         .addToBackStack(null)
                         .commit();
             }
@@ -65,7 +68,7 @@ public class MainMenu extends Fragment {
             @Override
             public void onClick(View view) {
                 getFragmentManager().beginTransaction()
-                        .replace(R.id.container, new HowTo(con))
+                        .replace(R.id.container, new HowTo(ctxt))
                         .addToBackStack(null)
                         .commit();
             }
