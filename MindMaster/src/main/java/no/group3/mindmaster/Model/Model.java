@@ -30,8 +30,7 @@ public class Model {
     private ArrayList<KeyPeg> oldOpponentKeyPegs;
     private ArrayList<KeyPeg> currentOpponentKeyPegs;
 
-    ArrayList<KeyPeg> keyPegs;
-    ColorPegSolutionSequence solution = null;
+    private ColorPegSolutionSequence solution = null;
     private PropertyChangeSupport pcs;
     private Context ctxt;
 
@@ -42,7 +41,7 @@ public class Model {
         this.ctxt = ctxt;
         this.currentHistory = new ArrayList<ColorPegSequence>();
         this.oldHistory = new ArrayList<ColorPegSequence>();
-        pcs = new PropertyChangeSupport(this);
+        this.pcs = new PropertyChangeSupport(this);
     }
 
     public void setSolution(ColorPegSolutionSequence solution){
@@ -127,5 +126,19 @@ public class Model {
                 prop.propertyChange(new PropertyChangeEvent(this, "Pegs", oldOpponentKeyPegs, currentOpponentKeyPegs));
             }
         }
+    }
+
+    /**
+     * Reset the game
+     */
+    public void reset() {
+        Connection con = Connection.getInstance(ctxt);
+        Controller controller = Controller.getInstance(ctxt);
+        ColorPegSequence solution = ColorPegSolutionSequence
+                .getInstance(controller.isGameCreator())
+                .generateSolution();
+        con.sendMessage("peg" + solution);
+        this.currentHistory = new ArrayList<ColorPegSequence>();
+        this.oldHistory = new ArrayList<ColorPegSequence>();
     }
 }
