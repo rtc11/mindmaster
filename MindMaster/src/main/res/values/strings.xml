@@ -18,4 +18,7 @@
     <string name="rematch_button">Play again</string>
     <string name="no_button">Main Menu</string>
 
+    <!-- Turns -->
+    <string name="yourTurn">It is your turn</string>
+    <string name="notYourTurn">It is not your turn</string>
 </resources>

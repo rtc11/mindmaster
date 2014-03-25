@@ -10,6 +10,7 @@ import no.group3.mindmaster.Model.ColorPeg;
 import no.group3.mindmaster.Model.ColorPegSequence;
 import no.group3.mindmaster.Model.ColorPegSolutionSequence;
 import no.group3.mindmaster.Model.Colour;
+import no.group3.mindmaster.Model.Globals;
 import no.group3.mindmaster.Model.KeyPeg;
 import no.group3.mindmaster.Model.Model;
 import no.group3.mindmaster.Network.Connection;
@@ -73,7 +74,6 @@ public class Controller{
 
         //If this is the game-creator (the host)
         if (isGameCreator) {
-
             //Create or get the singleton instance of ColorPegSolutionSequence
             solution = ColorPegSolutionSequence.getInstance(isGameCreator);
 
@@ -86,7 +86,6 @@ public class Controller{
 
         //If this is the client
         if(!isGameCreator){
-
             //Wait until we receive the solution
             while(!isReady){
                 try {
@@ -104,6 +103,7 @@ public class Controller{
 
         model.setSolution(solution);
 
+        setMyTurn(isGameCreator);
         MainActivity ma = MainActivity.getInstance();
         ma.startGameFragment();
 
@@ -201,5 +201,18 @@ public class Controller{
             }
         }
         return string.toString();
+    }
+    public void setMyTurn(boolean turn) {
+        this.model.setMyTurn(turn);
+    }
+    public boolean isMyTurn(){
+        return this.model.isMyTurn();
+    }
+    public void changeTurn(){
+        if(this.model.isMyTurn()){
+            this.model.setMyTurn(false);
+        }
+        else
+            this.model.setMyTurn(true);
     }
 }

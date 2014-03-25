@@ -70,7 +70,5 @@ public class UpdateUIThread implements Runnable {
             String solution = seq.getSolution().toString();
             con.sendMessage("peg" + solution);
         }
-
-
     }
 }

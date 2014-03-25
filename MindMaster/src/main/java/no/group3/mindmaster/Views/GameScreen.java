@@ -21,7 +21,9 @@ import android.widget.Spinner;
 import no.group3.mindmaster.Utils.HistoryViewAdapter;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import no.group3.mindmaster.MainActivity;
 import no.group3.mindmaster.Model.ColorPeg;
 import no.group3.mindmaster.Controller.Controller;
 import no.group3.mindmaster.Model.ColorPegSequence;
@@ -45,6 +47,7 @@ public class GameScreen extends Fragment  implements PropertyChangeListener{
     private ArrayList<ColorPegSequence> currentHistory;
     private ColorPegSequence lastGuess;
     private HistoryViewAdapter historyAdapter;
+    private TextView turnText;
     private ListView listView;
     private ArrayList<ImageView> keyPegImages;
     private TextView opponentScore;
@@ -85,6 +88,19 @@ public class GameScreen extends Fragment  implements PropertyChangeListener{
         addSpinnerAdapters();
     }
 
+    /**
+     * Sets the text to say your turn or not your turn based on Global.isMyTurn()
+     */
+    public void changeTurnText(){
+        if(controller.isMyTurn()){
+            turnText.setText(R.string.yourTurn);
+        }
+        else{
+            turnText.setText(R.string.notYourTurn);
+        }
+
+    }
+
     // Sets historyAdapter to all of the 4 spinners
     private void addSpinnerAdapters() {
         for (int i = 0; i < 4; i++) {
@@ -112,7 +128,6 @@ public class GameScreen extends Fragment  implements PropertyChangeListener{
     private void notifyHistoryAdapter(ArrayList<ColorPegSequence> newHistory) {
         currentHistory.clear();
         currentHistory.addAll(newHistory);
-
         lastGuess = currentHistory.get(currentHistory.size() - 1);
         historyAdapter.notifyDataSetChanged();
         listView.setSelection(historyAdapter.getCount() - 1);
@@ -130,36 +145,41 @@ public class GameScreen extends Fragment  implements PropertyChangeListener{
     public View onCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         this.pegsList = new ArrayList<ColorPeg>();
         this.inflater = inflater;
-
         getActivity().setContentView(R.layout.game_screen);
         rootView = inflater.inflate(R.layout.game_screen, container, false);
         placePegsInSpinners();
-
         currentHistory = new ArrayList<ColorPegSequence>();
         addHistoryAdapter();
-
         Button okButton = (Button) getActivity().findViewById(R.id.button_ok);
         okButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (pegsList.size() != 0) return;
-
-                for (int i = 0; i < spinnerList.size(); i++) {
-                    pegsList.add(makeColorPeg(spinnerList.get(i).getSelectedItemId()));
+                System.out.println(controller.isMyTurn());
+                MainActivity ma = MainActivity.getInstance();
+                ma.setTurnText();
+                if(controller.isMyTurn()){
+                    for (int i = 0; i < spinnerList.size(); i++) {
+                        pegsList.add(makeColorPeg(spinnerList.get(i).getSelectedItemId()));
+                    }
+                    ColorPegSequence cps = new ColorPegSequence(pegsList);
+                    try {
+                        controller.addSequenceToModel(cps);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    controller.changeTurn();
+                    pegsList = new ArrayList<ColorPeg>();
+                    ma.setTurnText();
+                    getFragmentManager().beginTransaction()
+                            .addToBackStack(null)
+                            .commit();
                 }
-                ColorPegSequence cps = new ColorPegSequence(pegsList);
-                try {
-                    controller.addSequenceToModel(cps);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                pegsList = new ArrayList<ColorPeg>();
-                getFragmentManager().beginTransaction()
-                        .addToBackStack(null)
-                        .commit();
+                else
+                    Toast.makeText(rootView.getContext(), "It is not your turn", Toast.LENGTH_LONG);
             }
         });
-
+        MainActivity ma = MainActivity.getInstance();
+        ma.setTurnText();
         return rootView;
     }
 

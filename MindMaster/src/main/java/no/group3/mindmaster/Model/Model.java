@@ -33,7 +33,10 @@ public class Model {
     private ColorPegSolutionSequence solution = null;
     private PropertyChangeSupport pcs;
     private Context ctxt;
-
+    /**
+     * Indicates wheter it is your turn or not
+     */
+    private boolean myTurn;
     /**
      * Constructor for the model.
      */
@@ -111,7 +114,10 @@ public class Model {
     public void addOpponentKeyPegs(ArrayList<KeyPeg> opponentKeyPegs){
         this.oldOpponentKeyPegs = this.currentOpponentKeyPegs;
         this.currentOpponentKeyPegs = opponentKeyPegs;
+        this.setMyTurn(true);
         fireChange("Pegs");
+        MainActivity ma = MainActivity.getInstance();
+        ma.setTurnText();
     }
 
     private void fireChange(String type){
@@ -143,5 +149,13 @@ public class Model {
         }
         this.currentHistory = new ArrayList<ColorPegSequence>();
         this.oldHistory = new ArrayList<ColorPegSequence>();
+    }
+
+    public void setMyTurn(boolean turn) {
+        myTurn = turn;
+    }
+
+    public boolean isMyTurn(){
+        return myTurn;
     }
 }

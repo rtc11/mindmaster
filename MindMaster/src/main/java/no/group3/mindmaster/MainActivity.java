@@ -101,6 +101,15 @@ public class MainActivity extends Activity implements PropertyChangeListener{
         }
         return super.onOptionsItemSelected(item);
     }
+public void setTurnText(){
+    TextView turnText = (TextView)findViewById(R.id.yourturntext);
+    if(controller.isMyTurn()){
+        turnText.setText("Your turn");
+    }
+    else{
+        turnText.setText("Not your turn");
+    }
+}
 
 
     @Override
