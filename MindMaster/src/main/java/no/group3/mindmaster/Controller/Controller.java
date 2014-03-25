@@ -89,9 +89,9 @@ public class Controller{
 
         model.setSolution(solution);
 
+        Globals.setMyTurn(isGameCreator);
         MainActivity ma = MainActivity.getInstance();
         ma.startGameFragment();
-        Globals.setMyTurn(isGameCreator);
 
     }
 

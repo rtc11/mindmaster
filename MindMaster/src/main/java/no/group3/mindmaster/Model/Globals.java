@@ -17,7 +17,7 @@ public class Globals {
     /**
      * Indicates wheter it is your turn or not
      */
-    private static boolean myTurn = true;
+    private static boolean myTurn = false;
 
     public static void setMyTurn(boolean turn) {
         myTurn = turn;
