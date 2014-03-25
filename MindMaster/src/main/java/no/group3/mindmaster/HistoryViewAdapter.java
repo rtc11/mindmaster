@@ -24,23 +24,22 @@ import no.group3.mindmaster.Model.KeyPeg;
  */
 public class HistoryViewAdapter extends BaseAdapter {
 
-    private final Context context;
+    private final Context ctxt;
     private ArrayList<ColorPegSequence> history = null;
     private String TAG = "MindMaster.HistoryViewAdapter";
-    LayoutInflater inflater = null;
+    private LayoutInflater inflater = null;
+    private Controller controller;
 
-    public HistoryViewAdapter (Context c, ArrayList<ColorPegSequence> history) {
+    public HistoryViewAdapter (Context ctxt, ArrayList<ColorPegSequence> history) {
         this.history = history;
-        this.context = c;
+        this.ctxt = ctxt;
+        this.controller  = Controller.getInstance(ctxt);
     }
 
     @Override
     public View getView(int position, View view, ViewGroup parent) {
 
-        Log.d(TAG, "Entering getView");
-        Log.d(TAG, "Position: " + position);
-
-        inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        inflater = (LayoutInflater) ctxt.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View rowView = inflater.inflate(R.layout.list_row, parent, false);
 
         ArrayList<ImageView> images = new ArrayList<ImageView>();
@@ -51,8 +50,7 @@ public class HistoryViewAdapter extends BaseAdapter {
         images.add((ImageView) rowView.findViewById(R.id.list_image4));
 
         //Get the solution so we can calculate the keypegs for the current guess.
-        ColorPegSolutionSequence solution = ColorPegSolutionSequence.getInstance(Controller.isGameCreator);
-
+        ColorPegSolutionSequence solution = ColorPegSolutionSequence.getInstance(controller.isGameCreator());
         ColorPegSequence guess = history.get(position);
 
         //Iterate over the current guess, and set the colors accordingly.
@@ -87,7 +85,6 @@ public class HistoryViewAdapter extends BaseAdapter {
         Collections.sort(keyPegs);
 
         for (int i = keyPegs.size() - 1; i >= 0; i--) {
-            Log.d(TAG, "Color: " + keyPegs.get(i));
             if (keyPegs.get(i) == KeyPeg.BLACK) {
                 keyPegImages.get(i).setImageResource(R.drawable.black_peg);
             }

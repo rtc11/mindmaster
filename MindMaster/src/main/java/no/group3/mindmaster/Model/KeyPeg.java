@@ -19,6 +19,13 @@ public enum KeyPeg implements Comparator<KeyPeg> {
         this.peg = i;
     }
 
+    public static KeyPeg getKeyPeg(int i){
+        if(i == 0)return KeyPeg.TRANSPARENT;
+        if(i == 1)return KeyPeg.WHITE;
+        if(i == 2)return KeyPeg.BLACK;
+        return null;
+    }
+
     public int toInt(){
         return this.peg;
     }

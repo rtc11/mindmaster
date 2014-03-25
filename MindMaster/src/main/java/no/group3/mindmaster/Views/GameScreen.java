@@ -7,18 +7,23 @@ package no.group3.mindmaster.Views;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
 import no.group3.mindmaster.HistoryViewAdapter;
 import android.widget.Button;
+import android.widget.TextView;
+
 import no.group3.mindmaster.Model.ColorPeg;
 import no.group3.mindmaster.Controller.Controller;
 import no.group3.mindmaster.Model.ColorPegSequence;
@@ -44,28 +49,24 @@ public class GameScreen extends Fragment  implements PropertyChangeListener{
     private ColorPegSequence lastGuess;
     private HistoryViewAdapter historyAdapter;
     private ListView listView;
+    private ArrayList<ImageView> keyPegImages;
+    private TextView opponentScore;
+
+
 
     /**
      * This constructor is called when we start a multiplayergame over the network
      * @param ctxt - current context
-     * @param con - connection instance
      */
-    public GameScreen(Context ctxt, Connection con) {
+    public GameScreen(Context ctxt, boolean isSinglePlayer) {
         this.context = ctxt;
         controller = Controller.getInstance(ctxt);
         controller.addPropertyChangeListener(this);
-    }
 
-    /**
-     * This constructor is used when we start a singleplayer game
-     * @param ctxt
-     */
-    public GameScreen(Context ctxt) {
-        this.context = ctxt;
-        controller = Controller.getInstance(ctxt);
-        controller.addPropertyChangeListener(this);
-        controller.newSoloGame();
-        Model.sologame = true;
+        if(isSinglePlayer){
+            controller.newSoloGame();
+            Model.sologame = true;
+        }
     }
 
     /**
@@ -81,7 +82,6 @@ public class GameScreen extends Fragment  implements PropertyChangeListener{
 
     private void placePegsInSpinners(){
         initializeSpinners();
-
         addSpinnerAdapters();
     }
 
@@ -97,14 +97,8 @@ public class GameScreen extends Fragment  implements PropertyChangeListener{
      * Method adding the historyListAdapter. Should be called once when this screen is created.
      */
     private void addHistoryAdapter() {
-        Log.d(TAG, "Trying to get activity and find view.");
-
         listView = (ListView)getActivity().findViewById(R.id.listView_history);
-
-        Log.d(TAG, "Trying to create new historyAdapter.");
         historyAdapter = new HistoryViewAdapter(rootView.getContext(), currentHistory);
-
-        Log.d(TAG, "Trying to set the historyAdapter.");
         listView.setAdapter(historyAdapter);
     }
 
@@ -134,11 +128,10 @@ public class GameScreen extends Fragment  implements PropertyChangeListener{
 
     @Override
     public View onCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        pegsList = new ArrayList<ColorPeg>();
+        this.pegsList = new ArrayList<ColorPeg>();
         this.inflater = inflater;
 
         getActivity().setContentView(R.layout.game_screen);
-
         rootView = inflater.inflate(R.layout.game_screen, container, false);
         placePegsInSpinners();
 
@@ -149,9 +142,8 @@ public class GameScreen extends Fragment  implements PropertyChangeListener{
         okButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (pegsList.size() != 0) {
-                    return;
-                }
+                if (pegsList.size() != 0) return;
+
                 for (int i = 0; i < spinnerList.size(); i++) {
                     pegsList.add(makeColorPeg(spinnerList.get(i).getSelectedItemId()));
                 }
@@ -167,9 +159,19 @@ public class GameScreen extends Fragment  implements PropertyChangeListener{
                         .commit();
             }
         });
-        //Add the history historyAdapter
+
+        opponentScore = (TextView) rootView.findViewById(R.id.oppScore);
+        setOpponentScore("1");
+
+
+
         return rootView;
     }
+
+    public void setOpponentScore(String score){
+        this.opponentScore.setText(score);
+    }
+
     private ColorPeg makeColorPeg(long l){
         ColorPeg c = null;
         if(l == 0){
@@ -196,7 +198,12 @@ public class GameScreen extends Fragment  implements PropertyChangeListener{
     @Override
     public void propertyChange(PropertyChangeEvent propertyChangeEvent) {
         Log.d(TAG, "PropertyChangeEvent with tag: " + propertyChangeEvent.getPropertyName() + " received.");
-        ArrayList<ColorPegSequence> history = (ArrayList<ColorPegSequence>) propertyChangeEvent.getNewValue();
-        notifyHistoryAdapter(history);
+
+        if(propertyChangeEvent.getPropertyName().equals("History")){
+
+            ArrayList<ColorPegSequence> history = (ArrayList<ColorPegSequence>) propertyChangeEvent.getNewValue();
+            notifyHistoryAdapter(history);
+        }
+
     }
 }

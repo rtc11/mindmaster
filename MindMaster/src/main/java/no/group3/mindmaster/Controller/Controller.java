@@ -30,15 +30,16 @@ public class Controller{
     private ArrayList<ColorPegSequence> currentHistory;
     /** If this is the client, we are not ready before we receive the solution from the server */
     public static boolean isReady = false;
-    public static boolean isGameCreator = false;
+    private boolean isGameCreator = false;
 
-    public Controller(Context ctxt) {
+    private Controller(Context ctxt) {
         this.ctxt = ctxt;
         this.model = new Model(ctxt);
         this.connection = Connection.getInstance(ctxt);
         oldHistory = new ArrayList<ColorPegSequence>();
         currentHistory = new ArrayList<ColorPegSequence>();
     }
+
     public static Controller getInstance(Context ctxt){
         if (ControllerInstance == null) {
             synchronized (Controller.class){
@@ -46,6 +47,18 @@ public class Controller{
             }
         }
         return ControllerInstance;
+    }
+
+    public Model getModel(){
+        return this.model;
+    }
+
+    public boolean isGameCreator(){
+        return this.isGameCreator;
+    }
+
+    public void setAsGameCreator(boolean creator){
+        this.isGameCreator = creator;
     }
 
     /**
@@ -78,7 +91,8 @@ public class Controller{
             while(!isReady){
                 try {
                     Thread.sleep(500);
-                    sendMessage("waiting");
+//                    sendMessage("waiting");
+//                    Log.d(TAG, "waiting for solution...");
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }

@@ -39,7 +39,7 @@ public class Server implements Runnable {
         }
 
         //Accepts thousands of connections
-        while (!Thread.currentThread().isInterrupted()) {
+//        while (!Thread.currentThread().isInterrupted()) {
             try {
                 socket = serverSocket.accept();
                 Log.d(TAG, "Connected to client");
@@ -59,7 +59,7 @@ public class Server implements Runnable {
             } catch (IOException ex) {
                 Log.d(TAG, ex.getMessage());
             }
-        }
+//        }
     }
 
     public void sendMessage(String message){

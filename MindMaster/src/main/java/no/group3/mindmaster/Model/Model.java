@@ -2,6 +2,8 @@ package no.group3.mindmaster.Model;
 
 
 import android.content.Context;
+import android.util.Log;
+
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
@@ -15,6 +17,7 @@ import no.group3.mindmaster.Network.Connection;
  */
 public class Model {
 
+    private static final String TAG = "MindMaster.Model";
     public static boolean sologame = false;
 
     /** List of the current currentHistory of the game */
@@ -73,7 +76,6 @@ public class Model {
      * @param sequence - The sequence that is to be added to currentHistory.
      */
     public void addToHistory(ColorPegSequence sequence){
-        //TODO: Remember to call adapter.notifyDataSetChanged()
         //Update the old history before adding the new sequence
         oldHistory = currentHistory;
         currentHistory.add(sequence);
@@ -84,7 +86,6 @@ public class Model {
         ArrayList<KeyPeg> keypegs = controller.getKeyPegs(sequence);
 
         if(!sologame){
-
             //Send guess to opponent
             con.sendMessage(controller.keyPegsToString(keypegs));
         }
@@ -102,13 +103,15 @@ public class Model {
     }
 
     private void fireChange(String type){
+        Log.d(TAG, "Event fired: " + type);
+
         if(type == "History"){
             for(PropertyChangeListener prop: pcs.getPropertyChangeListeners()){
-                    prop.propertyChange(new PropertyChangeEvent(this,"History",oldHistory,currentHistory));
+                    prop.propertyChange(new PropertyChangeEvent(this, "History", oldHistory, currentHistory));
             }
         }else if(type == "Pegs"){
             for(PropertyChangeListener prop: pcs.getPropertyChangeListeners()){
-                prop.propertyChange(new PropertyChangeEvent(this,"Pegs",oldOpponentKeyPegs,currentOpponentKeyPegs));
+                prop.propertyChange(new PropertyChangeEvent(this, "Pegs", oldOpponentKeyPegs, currentOpponentKeyPegs));
             }
         }
     }
