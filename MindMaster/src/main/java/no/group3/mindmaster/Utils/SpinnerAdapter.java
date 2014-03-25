@@ -1,4 +1,4 @@
-package no.group3.mindmaster;
+package no.group3.mindmaster.Utils;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -6,6 +6,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+
+import no.group3.mindmaster.R;
 
 /**
  * Created by JeppeE on 18/03/14.

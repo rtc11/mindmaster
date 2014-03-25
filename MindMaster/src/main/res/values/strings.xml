@@ -12,4 +12,9 @@
 
     <string name="peg_prompt">Peg</string>
 
+    <!-- Alert dialog strings -->
+    <string name="game_won">You have won the game! Congratulations</string>
+    <string name="game_lost">You have lost the game :(</string>
+    <string name="ok_button">Ok</string>
+
 </resources>
