@@ -33,6 +33,7 @@ public class MainActivity extends Activity implements PropertyChangeListener{
     private Controller controller = null;
     private Connection con = null;
     private static MainActivity instance = null;
+    private GameScreen gameFragment = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,12 +64,22 @@ public class MainActivity extends Activity implements PropertyChangeListener{
     }
 
     public void startGameFragment(){
+        gameFragment = new GameScreen(getBaseContext(), false);
         getFragmentManager().beginTransaction()
-                .replace(R.id.container, new GameScreen(getBaseContext(), false))
+                .replace(R.id.container, gameFragment)
                 .addToBackStack(null)
                 .commit();
     }
 
+    public void restartGameFragment(){
+        getFragmentManager().beginTransaction()
+                .remove(gameFragment);
+        gameFragment = new GameScreen(getBaseContext(), false);
+        getFragmentManager().beginTransaction()
+                .add(R.id.container, gameFragment)
+                .addToBackStack(null)
+                .commit();
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
