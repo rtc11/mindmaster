@@ -52,7 +52,7 @@ public class UpdateUIThread implements Runnable {
             con.sendMessage("peg" + solution);
         }
         else if (msg.contains("keypeg")){
-            Globals.setMyTurn(true);
+            controller.setMyTurn(true);
             String keyPegString = msg.replaceAll("keypeg", "");
             ArrayList<KeyPeg> keypegs = new ArrayList<KeyPeg>();
 

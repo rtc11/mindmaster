@@ -29,7 +29,10 @@ public class Model {
     ColorPegSolutionSequence solution = null;
     private PropertyChangeSupport pcs;
     private Context ctxt;
-
+    /**
+     * Indicates wheter it is your turn or not
+     */
+    private boolean myTurn;
     /**
      * Constructor for the model.
      */
@@ -111,5 +114,11 @@ public class Model {
                 prop.propertyChange(new PropertyChangeEvent(this,"Pegs",oldOpponentKeyPegs,currentOpponentKeyPegs));
             }
         }
+    }
+    public void setMyTurn(boolean turn) {
+        myTurn = turn;
+    }
+    public boolean isMyTurn(){
+        return myTurn;
     }
 }

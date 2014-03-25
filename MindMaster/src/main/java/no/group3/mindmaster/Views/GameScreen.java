@@ -94,7 +94,7 @@ public class GameScreen extends Fragment  implements PropertyChangeListener{
      * Sets the text to say your turn or not your turn based on Global.isMyTurn()
      */
     public void changeTurnText(){
-        if(Globals.isMyTurn()){
+        if(controller.isMyTurn()){
             turnText.setText(R.string.yourTurn);
         }
         else{
@@ -136,7 +136,7 @@ public class GameScreen extends Fragment  implements PropertyChangeListener{
     private void notifyHistoryAdapter(ArrayList<ColorPegSequence> newHistory) {
         currentHistory.clear();
         currentHistory.addAll(newHistory);
-        Globals.changeTurn();
+        controller.changeTurn();
         changeTurnText();
         lastGuess = currentHistory.get(currentHistory.size() - 1);
         historyAdapter.notifyDataSetChanged();
@@ -162,7 +162,7 @@ public class GameScreen extends Fragment  implements PropertyChangeListener{
         placePegsInSpinners();
         turnText = (TextView)rootView.findViewById(R.id.yourTextView);
 
-        if(Globals.isMyTurn()){
+        if(controller.isMyTurn()){
             turnText.setText(R.string.yourTurn);
         }
         else{
@@ -175,7 +175,7 @@ public class GameScreen extends Fragment  implements PropertyChangeListener{
         okButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(Globals.isMyTurn()){
+                if(controller.isMyTurn()){
                     if(pegsList.size() != 0){
                         turnText.setText(R.string.notYourTurn);
                         return;
@@ -190,7 +190,7 @@ public class GameScreen extends Fragment  implements PropertyChangeListener{
                         e.printStackTrace();
                     }
                     turnText.setText(R.string.notYourTurn);
-                    Globals.changeTurn();
+                    controller.changeTurn();
                     pegsList = new ArrayList<ColorPeg>();
                     getFragmentManager().beginTransaction()
                             .addToBackStack(null)

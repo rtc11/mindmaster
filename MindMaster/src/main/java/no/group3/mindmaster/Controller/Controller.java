@@ -89,7 +89,7 @@ public class Controller{
 
         model.setSolution(solution);
 
-        Globals.setMyTurn(isGameCreator);
+        setMyTurn(isGameCreator);
         MainActivity ma = MainActivity.getInstance();
         ma.startGameFragment();
 
@@ -187,5 +187,18 @@ public class Controller{
             }
         }
         return string.toString();
+    }
+    public void setMyTurn(boolean turn) {
+        this.model.setMyTurn(turn);
+    }
+    public boolean isMyTurn(){
+        return this.model.isMyTurn();
+    }
+    public void changeTurn(){
+        if(this.model.isMyTurn()){
+            this.model.setMyTurn(false);
+        }
+        else
+            this.model.setMyTurn(true);
     }
 }
