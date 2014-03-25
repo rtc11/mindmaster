@@ -67,6 +67,9 @@ public class GameScreen extends Fragment  implements PropertyChangeListener{
             controller.newSoloGame();
             Model.sologame = true;
         }
+        else{
+            Model.sologame = false;
+        }
     }
 
     /**
@@ -160,16 +163,7 @@ public class GameScreen extends Fragment  implements PropertyChangeListener{
             }
         });
 
-        opponentScore = (TextView) rootView.findViewById(R.id.oppScore);
-        setOpponentScore("1");
-
-
-
         return rootView;
-    }
-
-    public void setOpponentScore(String score){
-        this.opponentScore.setText(score);
     }
 
     private ColorPeg makeColorPeg(long l){

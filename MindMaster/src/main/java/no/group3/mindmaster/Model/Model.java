@@ -18,7 +18,7 @@ import no.group3.mindmaster.Network.Connection;
 public class Model {
 
     private static final String TAG = "MindMaster.Model";
-    public static boolean sologame = false;
+    public static boolean sologame = false; //TODO: should this be static?
 
     /** List of the current currentHistory of the game */
     private ArrayList<ColorPegSequence> currentHistory;
@@ -86,8 +86,12 @@ public class Model {
         ArrayList<KeyPeg> keypegs = controller.getKeyPegs(sequence);
 
         if(!sologame){
+            Log.d(TAG, "Trying to send keypegs to opponent");
             //Send guess to opponent
             con.sendMessage(controller.keyPegsToString(keypegs));
+        }
+        else{
+            Log.d(TAG, "Should not go here unless single player mode");
         }
 
         fireChange("History");
