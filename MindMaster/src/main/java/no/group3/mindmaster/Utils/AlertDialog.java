@@ -39,6 +39,7 @@ public class AlertDialog extends DialogFragment {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int id) {
                             MainActivity ma = MainActivity.getInstance();
+                            ma.mainMenuFragment();
                         }
                     });
         }
@@ -55,6 +56,7 @@ public class AlertDialog extends DialogFragment {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int id) {
                             MainActivity ma = MainActivity.getInstance();
+                            ma.mainMenuFragment();
                         }
                     });
         }

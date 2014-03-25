@@ -34,6 +34,7 @@ public class MainActivity extends Activity implements PropertyChangeListener{
     private Connection con = null;
     private static MainActivity instance = null;
     private GameScreen gameFragment = null;
+    private MainMenu mainMenu = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,6 +79,17 @@ public class MainActivity extends Activity implements PropertyChangeListener{
 
         getFragmentManager().beginTransaction()
                 .replace(R.id.container, gameFragment)
+                .addToBackStack(null)
+                .commit();
+    }
+
+    public void mainMenuFragment(){
+        setContentView(R.layout.activity_main);
+        mainMenu = new MainMenu(getBaseContext());
+        controller.getModel().reset();
+
+        getFragmentManager().beginTransaction()
+                .replace(R.id.container, mainMenu)
                 .addToBackStack(null)
                 .commit();
     }
