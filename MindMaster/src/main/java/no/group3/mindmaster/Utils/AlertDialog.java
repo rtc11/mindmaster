@@ -33,7 +33,7 @@ public class AlertDialog extends DialogFragment {
                     .setPositiveButton(R.string.rematch_button, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
                             MainActivity ma = MainActivity.getInstance();
-                            ma.startGameFragment();
+                            ma.restartGameFragment();
                         }
                     })
                     .setNegativeButton(R.string.no_button, new DialogInterface.OnClickListener() {

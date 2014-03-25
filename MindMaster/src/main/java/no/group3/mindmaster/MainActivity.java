@@ -73,7 +73,6 @@ public class MainActivity extends Activity implements PropertyChangeListener{
 
     public void restartGameFragment(){
         gameFragment = new GameScreen(getBaseContext(), false);
-        setContentView(R.layout.activity_main);
         getFragmentManager().beginTransaction()
                 .replace(R.id.container, gameFragment)
                 .addToBackStack(null)
