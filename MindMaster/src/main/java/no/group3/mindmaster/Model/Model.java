@@ -137,7 +137,8 @@ public class Model {
         ColorPegSequence solution = ColorPegSolutionSequence
                 .getInstance(controller.isGameCreator())
                 .generateSolution();
-        con.sendMessage("peg" + solution);
+        Log.d(TAG, "solution: " + solution.getSequence().toString());
+        con.sendMessage(solution.getSequence().toString());
         this.currentHistory = new ArrayList<ColorPegSequence>();
         this.oldHistory = new ArrayList<ColorPegSequence>();
     }
