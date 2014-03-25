@@ -85,6 +85,11 @@ public class Model {
 
         ArrayList<KeyPeg> keypegs = controller.getKeyPegs(sequence);
 
+        if (!keypegs.contains(KeyPeg.WHITE) && !keypegs.contains(KeyPeg.TRANSPARENT)){
+            Log.d(TAG, "Game won.");
+            
+        }
+
         if(!sologame){
             Log.d(TAG, "Trying to send keypegs to opponent");
             //Send guess to opponent
