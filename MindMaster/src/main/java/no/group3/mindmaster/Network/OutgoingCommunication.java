@@ -40,7 +40,7 @@ public class OutgoingCommunication implements Runnable {
      * Send message to the server
      */
     public void sendMessage(String message) {
-        Log.d(TAG, "Sending message...: " + message);
+        Log.d(TAG, "Sending message...: " + message + " from" + this);
         if(socket != null && output != null){
             if (socket.isBound()) {
                 output.println(message);

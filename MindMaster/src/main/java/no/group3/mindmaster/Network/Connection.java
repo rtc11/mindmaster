@@ -40,7 +40,6 @@ public class Connection {
     public static final int PORT = 13443;
 
     private boolean isOutputCommunicationConnected = false;
-    private boolean isInputCommunicationConnected = false;
 
 
     private Connection(Context c) {
@@ -92,7 +91,7 @@ public class Connection {
      *                by the first letter of the peg indicating its color.
      */
     public void sendMessage(String message) {
-        if(Controller.isGameCreator){
+        if(Controller.getInstance(ctxt).isGameCreator()){
             server.sendMessage(message);
         }
         else{

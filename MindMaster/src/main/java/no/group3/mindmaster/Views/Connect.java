@@ -1,6 +1,7 @@
 package no.group3.mindmaster.Views;
 
 import android.app.Fragment;
+import android.content.Context;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
@@ -21,13 +22,17 @@ import no.group3.mindmaster.R;
  * THIS IS THE SERVER (HOST)
  */
 public class Connect extends Fragment {
-    private Connection con;
+    private Context ctxt;
     private final String TAG = "MindMaster.Connect";
+    private Connection con;
+    private Controller controller;
 
-    public Connect(Connection con){
-        this.con = con;
+    public Connect(Context ctxt){
+        this.ctxt = ctxt;
         Log.d(TAG, "HOSTING GAME");
-        Controller.isGameCreator = true;
+        con = Connection.getInstance(ctxt);
+        controller = Controller.getInstance(ctxt);
+        controller.setAsGameCreator(true);
 
         Log.d(TAG, "Connecting...");
         con.serverThread();
@@ -47,7 +52,7 @@ public class Connect extends Fragment {
             @Override
             public void onClick(View view) {
                 getFragmentManager().beginTransaction()
-                        .replace(R.id.container, new MainMenu(getActivity().getBaseContext(),con))
+                        .replace(R.id.container, new MainMenu(getActivity().getBaseContext()))
                         .commit();
             }
         });

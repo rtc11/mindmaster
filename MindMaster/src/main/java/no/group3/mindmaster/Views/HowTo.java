@@ -1,6 +1,7 @@
 package no.group3.mindmaster.Views;
 
 import android.app.Fragment;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,9 +17,11 @@ import no.group3.mindmaster.R;
 public class HowTo extends Fragment {
 
     private Connection con;
+    private Context ctxt;
 
-    public HowTo(Connection con) {
-        this.con = con;
+    public HowTo(Context ctxt) {
+        this.ctxt = ctxt;
+        this.con = Connection.getInstance(ctxt);
     }
 
     @Override
@@ -30,7 +33,7 @@ public class HowTo extends Fragment {
             @Override
             public void onClick(View view) {
                 getFragmentManager().beginTransaction()
-                        .replace(R.id.container, new MainMenu(getActivity().getBaseContext(), con))
+                        .replace(R.id.container, new MainMenu(getActivity().getBaseContext()))
                         .addToBackStack(null)
                         .commit();
             }

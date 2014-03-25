@@ -3,7 +3,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:background="@layout/image_bg"
+    android:background="@drawable/image_bg"
     android:orientation="horizontal"
     android:padding="5dip" >
 
@@ -12,7 +12,7 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:background="@layout/image_bg">
+        android:background="@drawable/image_bg">
 
         <!-- There needs to be five pictures, as the fifth is the KeyPegs of the current guess -->
         <ImageView
