@@ -67,22 +67,5 @@ public class UpdateUIThread implements Runnable {
             String solution = seq.getSolution().toString();
             con.sendMessage("peg" + solution);
         }
-        else {
-            if (msg.contains("keypeg")) {
-                Controller controller = Controller.getInstance(ctxt);
-                controller.setMyTurn(true);
-                String keyPegString = msg.replaceAll("keypeg", "");
-                ArrayList<KeyPeg> keypegs = new ArrayList<KeyPeg>();
-
-                KeyPeg keyp1 = KeyPeg.valueOf(String.valueOf(keyPegString.charAt(0)));
-                KeyPeg keyp2 = KeyPeg.valueOf(String.valueOf(keyPegString.charAt(1)));
-                KeyPeg keyp3 = KeyPeg.valueOf(String.valueOf(keyPegString.charAt(2)));
-                KeyPeg keyp4 = KeyPeg.valueOf(String.valueOf(keyPegString.charAt(3)));
-                keypegs.add(keyp1);
-                keypegs.add(keyp2);
-                keypegs.add(keyp3);
-                keypegs.add(keyp4);
-            }
-        }
     }
 }

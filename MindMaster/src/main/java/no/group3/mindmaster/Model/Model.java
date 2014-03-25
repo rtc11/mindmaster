@@ -10,6 +10,7 @@ import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 
 import no.group3.mindmaster.Controller.Controller;
+import no.group3.mindmaster.MainActivity;
 import no.group3.mindmaster.Network.Connection;
 
 /**
@@ -106,7 +107,10 @@ public class Model {
     public void addOpponentKeyPegs(ArrayList<KeyPeg> opponentKeyPegs){
         this.oldOpponentKeyPegs = this.currentOpponentKeyPegs;
         this.currentOpponentKeyPegs = opponentKeyPegs;
+        this.setMyTurn(true);
         fireChange("Pegs");
+        MainActivity ma = MainActivity.getInstance();
+        ma.setTurnText();
     }
 
     private void fireChange(String type){

@@ -150,7 +150,6 @@ public class GameScreen extends Fragment  implements PropertyChangeListener{
     public View onCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         this.pegsList = new ArrayList<ColorPeg>();
         this.inflater = inflater;
-
         getActivity().setContentView(R.layout.game_screen);
         rootView = inflater.inflate(R.layout.game_screen, container, false);
         placePegsInSpinners();
@@ -175,6 +174,7 @@ public class GameScreen extends Fragment  implements PropertyChangeListener{
                     }
                     controller.changeTurn();
                     pegsList = new ArrayList<ColorPeg>();
+                    ma.setTurnText();
                     getFragmentManager().beginTransaction()
                             .addToBackStack(null)
                             .commit();
@@ -183,7 +183,8 @@ public class GameScreen extends Fragment  implements PropertyChangeListener{
                     Toast.makeText(rootView.getContext(), "It is not your turn", Toast.LENGTH_LONG);
             }
         });
-
+        MainActivity ma = MainActivity.getInstance();
+        ma.setTurnText();
         return rootView;
     }
 
