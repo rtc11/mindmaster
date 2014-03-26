@@ -62,6 +62,63 @@
                 android:background="#7F7F7F"
                 android:padding="1dp"/>
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="@string/howto_colorPick"
+                android:id="@+id/textView_colorPickText"
+                android:layout_gravity="center_horizontal"
+                android:paddingTop="40dp"
+                android:paddingBottom="20dp"/>
+
+            <no.group3.mindmaster.DynamicImageView
+                android:id="@+id/colorPick_image"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:src="@drawable/screen_colorpick"
+                android:scaleType="centerCrop"
+                android:background="#7F7F7F"
+                android:padding="1dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="@string/howto_pickSent"
+                android:id="@+id/textView_pickSentText"
+                android:layout_gravity="center_horizontal"
+                android:paddingTop="40dp"
+                android:paddingBottom="20dp"/>
+
+            <no.group3.mindmaster.DynamicImageView
+                android:id="@+id/pickSent_image"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:src="@drawable/screen_picksent"
+                android:scaleType="centerCrop"
+                android:background="#7F7F7F"
+                android:padding="1dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="@string/howto_pegDesc"
+                android:id="@+id/textView_pegDescText"
+                android:layout_gravity="center_horizontal"
+                android:paddingTop="40dp"
+                android:paddingBottom="20dp"/>
+
+            <no.group3.mindmaster.DynamicImageView
+                android:id="@+id/pegDesc_image"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:scaleType="centerCrop"
+                android:background="#7F7F7F"
+                android:padding="1dp"/>
+
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
