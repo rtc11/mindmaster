@@ -2,27 +2,27 @@
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:padding="10dp">
 
     <ScrollView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/scrollView" >
+        android:id="@+id/scrollView">
 
         <LinearLayout
             android:id="@+id/howcontainer"
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="10dp">
+            android:layout_height="match_parent">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
-                android:text="How to play"
-                android:id="@+id/textView"
-                android:layout_gravity="center_horizontal" />
+                android:text="How To Play"
+                android:id="@+id/textView_title"
+                android:layout_gravity="center_horizontal"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -30,13 +30,18 @@
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:text="@string/howto_host"
                 android:id="@+id/textView_hostText"
-                android:layout_gravity="center_horizontal" />
+                android:layout_gravity="center_horizontal"
+                android:paddingTop="40dp"
+                android:paddingBottom="20dp"/>
 
-            <ImageView
+            <no.group3.mindmaster.DynamicImageView
                 android:id="@+id/host_image"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:src="@drawable/screen_host" />
+                android:src="@drawable/screen_host"
+                android:scaleType="centerCrop"
+                android:background="#7F7F7F"
+                android:padding="1dp"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -44,20 +49,25 @@
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:text="@string/howto_connect"
                 android:id="@+id/textView_connectText"
-                android:layout_gravity="center_horizontal" />
+                android:layout_gravity="center_horizontal"
+                android:paddingTop="40dp"
+                android:paddingBottom="20dp"/>
 
-            <ImageView
+            <no.group3.mindmaster.DynamicImageView
                 android:id="@+id/connect_image"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:src="@drawable/screen_connect" />
+                android:src="@drawable/screen_connect"
+                android:scaleType="centerCrop"
+                android:background="#7F7F7F"
+                android:padding="1dp"/>
 
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Main Menu"
                 android:id="@+id/buttonmain"
-                android:layout_gravity="center_horizontal" />
+                android:layout_gravity="center_horizontal"/>
 
         </LinearLayout>
 

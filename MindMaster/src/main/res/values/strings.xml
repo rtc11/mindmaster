@@ -15,16 +15,15 @@
     <string name="howto_host">
         This is a game for two players. One of the two players must be host, and the other must then
         connect to the hosting player, before the game session can start.
-        \n
-        First one of the two players must initiate a game by pressing the button named "Host Game"
+        \n\n1.) First, one of the two players must initiate a game by pressing the button named "Host Game"
         in  the Main Menu. Then the player will be prompted with a screen seen as the one below.
         The player has now hosted a game, with the given IP-address and is waiting for an opponent.
     </string>
 
     <string name="howto_connect">
-        When the first player has initiated a game and is waiting for an opponent,
+        2.) When the first player has initiated a game and is waiting for an opponent,
         the other player must press the button name "Join Game" in the Main Menu.
-        The player will then be prompted with with a screen seen as the one below.
+        The player will then be prompted with a screen seen as the one below.
     </string>
 
 </resources>
