@@ -12,7 +12,7 @@
 
     <string name="peg_prompt">Peg</string>
 
-<<<<<<< HEAD
+    <!-- Text paragraphs for the 'HowTo'-screen -->
     <string name="howto_host">
         This is a game for two players. One of the two players must be host, and the other must then
         connect to the hosting player, before the game session can start.
@@ -20,14 +20,12 @@
         in  the Main Menu. Then the player will be prompted with a screen seen as the one below.
         The player has now hosted a game, with the given IP-address and is waiting for an opponent.
     </string>
-
     <string name="howto_connect">
         2.) When the first player has initiated a game and is waiting for an opponent,
         the other player must press the button name "Join Game" in the Main Menu.
         The player will then be prompted with a screen seen as the one below.
     </string>
 
-=======
     <!-- Alert dialog strings -->
     <string name="game_won">You have won the game! Congratulations! Do you want to play again?</string>
     <string name="game_lost">You have lost the game :( Do you want to play again?</string>
