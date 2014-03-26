@@ -7,10 +7,8 @@ package no.group3.mindmaster.Views;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
-import java.util.Collections;
 
 import android.app.Fragment;
-import android.app.FragmentTransaction;
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
@@ -20,19 +18,20 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
-import no.group3.mindmaster.HistoryViewAdapter;
+import no.group3.mindmaster.Utils.HistoryViewAdapter;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import no.group3.mindmaster.MainActivity;
 import no.group3.mindmaster.Model.ColorPeg;
 import no.group3.mindmaster.Controller.Controller;
 import no.group3.mindmaster.Model.ColorPegSequence;
 import no.group3.mindmaster.Model.Colour;
 import no.group3.mindmaster.Model.KeyPeg;
 import no.group3.mindmaster.Model.Model;
-import no.group3.mindmaster.Network.Connection;
 import no.group3.mindmaster.R;
-import no.group3.mindmaster.SpinnerAdapter;
+import no.group3.mindmaster.Utils.SpinnerAdapter;
 
 public class GameScreen extends Fragment  implements PropertyChangeListener{
     // TODO: Change object type in ArrayList to the type of the drawn Peg-object
@@ -48,6 +47,7 @@ public class GameScreen extends Fragment  implements PropertyChangeListener{
     private ArrayList<ColorPegSequence> currentHistory;
     private ColorPegSequence lastGuess;
     private HistoryViewAdapter historyAdapter;
+    private TextView turnText;
     private ListView listView;
     private ArrayList<ImageView> keyPegImages;
     private TextView opponentScore;
@@ -67,6 +67,9 @@ public class GameScreen extends Fragment  implements PropertyChangeListener{
             controller.newSoloGame();
             Model.sologame = true;
         }
+        else{
+            Model.sologame = false;
+        }
     }
 
     /**
@@ -83,6 +86,19 @@ public class GameScreen extends Fragment  implements PropertyChangeListener{
     private void placePegsInSpinners(){
         initializeSpinners();
         addSpinnerAdapters();
+    }
+
+    /**
+     * Sets the text to say your turn or not your turn based on Global.isMyTurn()
+     */
+    public void changeTurnText(){
+        if(controller.isMyTurn()){
+            turnText.setText(R.string.yourTurn);
+        }
+        else{
+            turnText.setText(R.string.notYourTurn);
+        }
+
     }
 
     // Sets historyAdapter to all of the 4 spinners
@@ -112,7 +128,6 @@ public class GameScreen extends Fragment  implements PropertyChangeListener{
     private void notifyHistoryAdapter(ArrayList<ColorPegSequence> newHistory) {
         currentHistory.clear();
         currentHistory.addAll(newHistory);
-
         lastGuess = currentHistory.get(currentHistory.size() - 1);
         historyAdapter.notifyDataSetChanged();
         listView.setSelection(historyAdapter.getCount() - 1);
@@ -130,46 +145,42 @@ public class GameScreen extends Fragment  implements PropertyChangeListener{
     public View onCreateView (LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         this.pegsList = new ArrayList<ColorPeg>();
         this.inflater = inflater;
-
         getActivity().setContentView(R.layout.game_screen);
         rootView = inflater.inflate(R.layout.game_screen, container, false);
         placePegsInSpinners();
-
         currentHistory = new ArrayList<ColorPegSequence>();
         addHistoryAdapter();
-
         Button okButton = (Button) getActivity().findViewById(R.id.button_ok);
         okButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (pegsList.size() != 0) return;
-
-                for (int i = 0; i < spinnerList.size(); i++) {
-                    pegsList.add(makeColorPeg(spinnerList.get(i).getSelectedItemId()));
+                System.out.println(controller.isMyTurn());
+                MainActivity ma = MainActivity.getInstance();
+                ma.setTurnText();
+                if(controller.isMyTurn()){
+                    for (int i = 0; i < spinnerList.size(); i++) {
+                        pegsList.add(makeColorPeg(spinnerList.get(i).getSelectedItemId()));
+                    }
+                    ColorPegSequence cps = new ColorPegSequence(pegsList);
+                    try {
+                        controller.addSequenceToModel(cps);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    controller.changeTurn();
+                    pegsList = new ArrayList<ColorPeg>();
+                    ma.setTurnText();
+                    getFragmentManager().beginTransaction()
+                            .addToBackStack(null)
+                            .commit();
                 }
-                ColorPegSequence cps = new ColorPegSequence(pegsList);
-                try {
-                    controller.addSequenceToModel(cps);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                pegsList = new ArrayList<ColorPeg>();
-                getFragmentManager().beginTransaction()
-                        .addToBackStack(null)
-                        .commit();
+                else
+                    Toast.makeText(rootView.getContext(), "It is not your turn", Toast.LENGTH_LONG);
             }
         });
-
-        opponentScore = (TextView) rootView.findViewById(R.id.oppScore);
-        setOpponentScore("1");
-
-
-
+        MainActivity ma = MainActivity.getInstance();
+        ma.setTurnText();
         return rootView;
-    }
-
-    public void setOpponentScore(String score){
-        this.opponentScore.setText(score);
     }
 
     private ColorPeg makeColorPeg(long l){

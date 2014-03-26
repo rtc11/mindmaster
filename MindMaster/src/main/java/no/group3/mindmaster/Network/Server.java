@@ -18,14 +18,12 @@ public class Server implements Runnable {
     /** The server socket */
     private ServerSocket serverSocket;
     private Socket socket;
-    private Connection con;
     private Handler handler;
     private Context ctxt;
     private IncomingCommunication in;
     private OutgoingCommunication out;
 
     public Server(Context ctxt) {
-        this.con = Connection.getInstance(ctxt);
         this.ctxt = ctxt;
         this.handler = new Handler();
     }
@@ -50,7 +48,7 @@ public class Server implements Runnable {
 
                 //Start incoming communication
                 in = new IncomingCommunication(socket, handler, ctxt);
-                new Thread(out).start();
+                new Thread(in).start();
 
                 //Get the controller to call the new game method
                 Controller controller = Controller.getInstance(ctxt);

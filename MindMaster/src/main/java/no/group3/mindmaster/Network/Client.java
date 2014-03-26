@@ -18,7 +18,6 @@ public class Client implements Runnable {
     private String serverIP;
     private Context ctxt;
     private Handler handler;
-    private Connection con;
     private OutgoingCommunication out;
     private IncomingCommunication in;
 
@@ -26,7 +25,6 @@ public class Client implements Runnable {
         this.serverIP = serverIP;
         this.ctxt = ctxt;
         this.handler = new Handler();
-        this.con = Connection.getInstance(ctxt);
     }
 
     @Override

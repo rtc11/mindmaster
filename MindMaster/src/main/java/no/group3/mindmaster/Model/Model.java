@@ -10,7 +10,9 @@ import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 
 import no.group3.mindmaster.Controller.Controller;
+import no.group3.mindmaster.MainActivity;
 import no.group3.mindmaster.Network.Connection;
+import no.group3.mindmaster.Utils.AlertDialog;
 
 /**
  * Created by Wschive on 06/03/14.
@@ -18,7 +20,7 @@ import no.group3.mindmaster.Network.Connection;
 public class Model {
 
     private static final String TAG = "MindMaster.Model";
-    public static boolean sologame = false;
+    public static boolean sologame = false; //TODO: should this be static?
 
     /** List of the current currentHistory of the game */
     private ArrayList<ColorPegSequence> currentHistory;
@@ -28,11 +30,13 @@ public class Model {
     private ArrayList<KeyPeg> oldOpponentKeyPegs;
     private ArrayList<KeyPeg> currentOpponentKeyPegs;
 
-    ArrayList<KeyPeg> keyPegs;
-    ColorPegSolutionSequence solution = null;
+    private ColorPegSolutionSequence solution = null;
     private PropertyChangeSupport pcs;
     private Context ctxt;
-
+    /**
+     * Indicates wheter it is your turn or not
+     */
+    private boolean myTurn;
     /**
      * Constructor for the model.
      */
@@ -40,7 +44,7 @@ public class Model {
         this.ctxt = ctxt;
         this.currentHistory = new ArrayList<ColorPegSequence>();
         this.oldHistory = new ArrayList<ColorPegSequence>();
-        pcs = new PropertyChangeSupport(this);
+        this.pcs = new PropertyChangeSupport(this);
     }
 
     public void setSolution(ColorPegSolutionSequence solution){
@@ -85,9 +89,20 @@ public class Model {
 
         ArrayList<KeyPeg> keypegs = controller.getKeyPegs(sequence);
 
+        if (!keypegs.contains(KeyPeg.WHITE) && !keypegs.contains(KeyPeg.TRANSPARENT)){
+            Log.d(TAG, "Game won.");
+            AlertDialog ad = new AlertDialog(true);
+            MainActivity ma = MainActivity.getInstance();
+            ad.show(ma.getFragmentManager(), "end_game");
+        }
+
         if(!sologame){
+            Log.d(TAG, "Trying to send keypegs to opponent");
             //Send guess to opponent
             con.sendMessage(controller.keyPegsToString(keypegs));
+        }
+        else{
+            Log.d(TAG, "Should not go here unless single player mode");
         }
 
         fireChange("History");
@@ -99,7 +114,10 @@ public class Model {
     public void addOpponentKeyPegs(ArrayList<KeyPeg> opponentKeyPegs){
         this.oldOpponentKeyPegs = this.currentOpponentKeyPegs;
         this.currentOpponentKeyPegs = opponentKeyPegs;
+        this.setMyTurn(true);
         fireChange("Pegs");
+        MainActivity ma = MainActivity.getInstance();
+        ma.setTurnText();
     }
 
     private void fireChange(String type){
@@ -114,5 +132,32 @@ public class Model {
                 prop.propertyChange(new PropertyChangeEvent(this, "Pegs", oldOpponentKeyPegs, currentOpponentKeyPegs));
             }
         }
+    }
+
+    /**
+     * Reset the game
+     */
+    public void reset() {
+        Connection con = Connection.getInstance(ctxt);
+        Controller controller = Controller.getInstance(ctxt);
+
+        if(controller.isGameCreator()){
+            ColorPegSequence solution = ColorPegSolutionSequence
+                .getInstance(controller.isGameCreator())
+                .generateSolution();
+
+            String solutionString = solution.toString();
+            con.sendMessage(solutionString);
+        }
+        this.currentHistory = new ArrayList<ColorPegSequence>();
+        this.oldHistory = new ArrayList<ColorPegSequence>();
+    }
+
+    public void setMyTurn(boolean turn) {
+        myTurn = turn;
+    }
+
+    public boolean isMyTurn(){
+        return myTurn;
     }
 }

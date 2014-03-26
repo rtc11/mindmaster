@@ -33,6 +33,8 @@ public class MainActivity extends Activity implements PropertyChangeListener{
     private Controller controller = null;
     private Connection con = null;
     private static MainActivity instance = null;
+    private GameScreen gameFragment = null;
+    private MainMenu mainMenu = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,12 +65,34 @@ public class MainActivity extends Activity implements PropertyChangeListener{
     }
 
     public void startGameFragment(){
+        gameFragment = new GameScreen(getBaseContext(), false);
         getFragmentManager().beginTransaction()
-                .replace(R.id.container, new GameScreen(getBaseContext(), false))
+                .replace(R.id.container, gameFragment)
                 .addToBackStack(null)
                 .commit();
     }
 
+    public void restartGameFragment(){
+        setContentView(R.layout.activity_main);
+        gameFragment = new GameScreen(getBaseContext(), false);
+        controller.getModel().reset();
+
+        getFragmentManager().beginTransaction()
+                .replace(R.id.container, gameFragment)
+                .addToBackStack(null)
+                .commit();
+    }
+
+    public void mainMenuFragment(){
+        setContentView(R.layout.activity_main);
+        mainMenu = new MainMenu(getBaseContext());
+        controller.getModel().reset();
+
+        getFragmentManager().beginTransaction()
+                .replace(R.id.container, mainMenu)
+                .addToBackStack(null)
+                .commit();
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -89,6 +113,15 @@ public class MainActivity extends Activity implements PropertyChangeListener{
         }
         return super.onOptionsItemSelected(item);
     }
+public void setTurnText(){
+    TextView turnText = (TextView)findViewById(R.id.yourturntext);
+    if(controller.isMyTurn()){
+        turnText.setText("Your turn");
+    }
+    else{
+        turnText.setText("Not your turn");
+    }
+}
 
 
     @Override
