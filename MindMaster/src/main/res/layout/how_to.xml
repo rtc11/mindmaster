@@ -110,12 +110,11 @@
                 android:paddingTop="40dp"
                 android:paddingBottom="20dp"/>
 
-            <no.group3.mindmaster.DynamicImageView
+            <ImageView
                 android:id="@+id/pegDesc_image"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-
-                android:scaleType="centerCrop"
+                android:src="@drawable/screen_pegdesc3"
                 android:background="#7F7F7F"
                 android:padding="1dp"/>
 
