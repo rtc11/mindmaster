@@ -18,26 +18,59 @@
     <!-- Text paragraphs for the HowTo-screen -->
     <!-- Text paragraphs for the 'HowTo'-screen -->
     <string name="howto_host">
-        This is a game for two players. One of the two players must be host, and the other must then
-        connect to the hosting player, before the game session can start.
+        This is a game for two players. One of the two players must be the host, and the other must then
+        connect to the hosting player before the game session can start.
         \n\n1.) First, one of the two players must initiate a game by pressing the button named "Host Game"
-        in  the Main Menu. Then the player will be prompted with a screen seen as the one below.
-        The player has now hosted a game, with the given IP-address and is waiting for an opponent.
+        in the Main Menu. The player will then be prompted with a screen seen as the one seen below.
+        The player has now hosted a game with a given IP-address and is waiting for an opponent.
     </string>
     <string name="howto_connect">
-        2.) When the first player has initiated a game and is waiting for an opponent,
+        2.) When the first player has initiated a game and is currently waiting for an opponent,
         the other player must press the button name "Join Game" in the Main Menu.
-        The player will then be prompted with a screen seen as the one below.
+        The player will then be prompted with a screen seen as the one seen below.
     </string>
     <string name="howto_colorPick">
-        color pick
+        3.) In the bottom part of the screen, the player can pick colors(default is blue).
+        There are four slots for guessing the color of each slot in the solution.
+        The player must choose between six different colors for each of the four slots.
+        When the player has decided that the guess is complete and ready to be sent,
+        the button "OK" must be press to enter the guess.
     </string>
     <string name="howto_pickSent">
-        peg sent
-    </string>>
+        4.) Below is an example of the game screen after the first entry of a player\'s guess has be entered.
+        The last guess will be displayed at the top of the list as a row including the colors of the
+        player\'s previous guess, and the pegs(Pegs, black and white, are explained in detail in the paragraph below)
+        at the end of the row displaying the correctness of the colors in the guess.
+        \n\nAs seen in the screen example below, there is a text in top left corner of the screen
+        that informs the player of who\'s turn it is. It states: "It is your turn" if it is the current player\'s turn,
+        else it states: "It is not your turn" if it is the opponent\'s turn.
+        When it is not your turn, you can still submit guesses, but the list of the opponents keyPegs will not be updated until,
+        he or she has submitted their next guess.
+        \n\nThe guesses will be ordered in a list, making it possible to scroll in the history
+        of guesses and using this history to make conclusions about the solution.
+    </string>
     <string name="howto_pegDesc">
-        peg desc
-    </string>>
+        5.) KeyPeg Description:
+        \n\nWe have to types of keyPegs:
+        \n\nBLACK: A peg with the color black indicates that one of the four guesses(color)
+        is the correct color AND at the correct slot. But it does not indicate which one of there is correctly placed.
+        \n\and
+        \n\nWHITE: A peg with the color white indicates that one of the four guesses(color)
+        is the color, but not placed in the correct slot.
+        Meaning, that if you replace a color to the correct slot, the peg will turn from black to white.
+        \n\nWhen one of the two players has submitted a guess identical to the solution,
+        the guess in the list will have four black pegs associated to it,
+        and both players will be informed of result of the game(win or loss).
+        \n\nGraphical view of pegs:
+        \nFor each guess a player can view in the list how many correctly guessed slots(BLACK)
+        and correctly guessed color(WHITE) to rightmost end of the row. A player should use the information
+        given about white and black pegs from all the guesses, to make further guesses that approaches the solution.
+        \nIn the top right corner of the game screen the player can view the result of the opponents latest guess,
+        in the form of black and white.
+        In other words, a player can not use the opposing player\'s guess to enhance the performance,
+        but only view his/hers progress.
+        \n\nYou are now now ready to begin playing MindMaster, good luck!
+    </string>
 
     <!-- Alert dialog strings -->
     <string name="game_won">You have won the game! Congratulations! Do you want to play again?</string>
