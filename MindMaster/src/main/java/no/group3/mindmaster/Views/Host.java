@@ -21,13 +21,13 @@ import no.group3.mindmaster.R;
 /**
  * THIS IS THE SERVER (HOST)
  */
-public class Connect extends Fragment {
+public class Host extends Fragment {
     private Context ctxt;
-    private final String TAG = "MindMaster.Connect";
+    private final String TAG = "MindMaster.Host";
     private Connection con;
     private Controller controller;
 
-    public Connect(Context ctxt){
+    public Host(Context ctxt){
         this.ctxt = ctxt;
         Log.d(TAG, "HOSTING GAME");
         con = Connection.getInstance(ctxt);

@@ -21,9 +21,9 @@ import no.group3.mindmaster.R;
 /**
  * THIS IS THE CLIENT (JOIN)
  */
-public class NewGame extends Fragment {
+public class Client extends Fragment {
 
-    private final String TAG = "MindMaster.NewGame";
+    private final String TAG = "MindMaster.Client";
     private Connection con;
     private String address = "";
     private Context ctxt;
@@ -33,7 +33,7 @@ public class NewGame extends Fragment {
     //This is not the game creator
     private boolean isGameCreator = false;
 
-    public NewGame(Context ctxt){
+    public Client(Context ctxt){
         this.ctxt = ctxt;
         this.con = Connection.getInstance(ctxt);
         this.controller = Controller.getInstance(ctxt);

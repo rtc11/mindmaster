@@ -11,9 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.TextView;
 
-import no.group3.mindmaster.MainActivity;
 import no.group3.mindmaster.Network.Connection;
 import no.group3.mindmaster.R;
 import no.group3.mindmaster.Network.Utils;
@@ -46,7 +44,7 @@ public class MainMenu extends Fragment {
             @Override
             public void onClick(View view) {
                 getFragmentManager().beginTransaction()
-                        .replace(R.id.container, new NewGame(ctxt))
+                        .replace(R.id.container, new Client(ctxt))
                         .addToBackStack(null)
                         .commit();
             }
@@ -57,7 +55,7 @@ public class MainMenu extends Fragment {
             @Override
             public void onClick(View view) {
                 getFragmentManager().beginTransaction()
-                        .replace(R.id.container, new Connect(ctxt))
+                        .replace(R.id.container, new Host(ctxt))
                         .addToBackStack(null)
                         .commit();
             }
