@@ -1,7 +1,6 @@
 package no.group3.mindmaster.Controller;
 
 import android.content.Context;
-import android.util.Log;
 
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
@@ -10,7 +9,6 @@ import no.group3.mindmaster.Model.ColorPeg;
 import no.group3.mindmaster.Model.ColorPegSequence;
 import no.group3.mindmaster.Model.ColorPegSolutionSequence;
 import no.group3.mindmaster.Model.Colour;
-import no.group3.mindmaster.Model.Globals;
 import no.group3.mindmaster.Model.KeyPeg;
 import no.group3.mindmaster.Model.Model;
 import no.group3.mindmaster.Network.Connection;
@@ -74,11 +72,9 @@ public class Controller{
 
         //If this is the game-creator (the host)
         if (isGameCreator) {
-            //Create or get the singleton instance of ColorPegSolutionSequence
-            solution = ColorPegSolutionSequence.getInstance(isGameCreator);
 
             //Get the string-representation of the solution
-            String solutionString = solution.getSolution().toString();
+            String solutionString = model.newGame(isGameCreator);
 
             //Send the solution to the opponent (the client)
             sendMessage(solutionString);
@@ -98,10 +94,9 @@ public class Controller{
             }
 
             //The solution have been received and instantiated
-            solution = ColorPegSolutionSequence.getInstance(isGameCreator);
+            model.newGame(isGameCreator);
         }
 
-        model.setSolution(solution);
 
         setMyTurn(isGameCreator);
         MainActivity ma = MainActivity.getInstance();
@@ -180,7 +175,7 @@ public class Controller{
      * @return ArrayList containing the KeyPegs for the current guess
      */
     public ArrayList<KeyPeg> getKeyPegs(ColorPegSequence guess) {
-        return solution.getKeyPegs(guess);
+        return model.getKeyPegs(guess);
     }
     public void addPropertyChangeListener(PropertyChangeListener listener) {
         this.model.addPropertyChangeListener(listener);

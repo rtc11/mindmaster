@@ -46,6 +46,10 @@ public class Model {
         this.oldHistory = new ArrayList<ColorPegSequence>();
         this.pcs = new PropertyChangeSupport(this);
     }
+    public String newGame(boolean isGameCreator){
+        this.solution = ColorPegSolutionSequence.getInstance(isGameCreator);
+        return solution.getSolution().toString();
+    }
 
     public void setSolution(ColorPegSolutionSequence solution){
         this.solution = solution;
@@ -108,7 +112,9 @@ public class Model {
         fireChange("History");
 
     }
-
+    public ArrayList<KeyPeg> getKeyPegs(ColorPegSequence guess){
+        return solution.getKeyPegs(guess);
+    }
 
 
     public void addOpponentKeyPegs(ArrayList<KeyPeg> opponentKeyPegs){
