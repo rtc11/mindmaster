@@ -11,7 +11,9 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Insert opponent IP-address"
         android:id="@+id/textView"
-        android:layout_gravity="center_horizontal" />
+        android:layout_gravity="center_horizontal"
+        android:textSize="25dp"
+        android:padding="10dp"/>
 
     <EditText
         android:layout_width="match_parent"
@@ -21,24 +23,27 @@
         android:layout_gravity="center_horizontal" />
 
     <Button
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="Connect"
         android:id="@+id/buttonconnect"
-        android:layout_gravity="center_horizontal" />
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="15dp"/>
 
     <Button
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="Main Menu"
         android:id="@+id/buttonmainip"
-        android:layout_gravity="center_horizontal" />
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="15dp"/>
 
     <Button
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="Test Screen"
         android:id="@+id/button_TestScreen"
-        android:layout_gravity="center_horizontal" />
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="15dp"/>
 
 </LinearLayout>
