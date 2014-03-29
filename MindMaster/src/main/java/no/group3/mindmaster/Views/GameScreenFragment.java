@@ -33,9 +33,9 @@ import no.group3.mindmaster.Model.Model;
 import no.group3.mindmaster.R;
 import no.group3.mindmaster.Utils.SpinnerAdapter;
 
-public class GameScreen extends Fragment  implements PropertyChangeListener{
+public class GameScreenFragment extends Fragment  implements PropertyChangeListener{
     // TODO: Change object type in ArrayList to the type of the drawn Peg-object
-    private String TAG = "MindMaster.GameScreen";
+    private String TAG = "MindMaster.GameScreenFragment";
     private ArrayList<ColorPeg> pegsList;
 
     private ArrayList<Spinner> spinnerList;
@@ -58,7 +58,7 @@ public class GameScreen extends Fragment  implements PropertyChangeListener{
      * This constructor is called when we start a multiplayergame over the network
      * @param ctxt - current context
      */
-    public GameScreen(Context ctxt, boolean isSinglePlayer) {
+    public GameScreenFragment(Context ctxt, boolean isSinglePlayer) {
         this.context = ctxt;
         controller = Controller.getInstance(ctxt);
         controller.addPropertyChangeListener(this);

@@ -2,32 +2,28 @@ package no.group3.mindmaster.Views;
 
 import android.app.Fragment;
 import android.content.Context;
-import android.graphics.Color;
-import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import no.group3.mindmaster.Controller.Controller;
 import no.group3.mindmaster.Network.Connection;
-import no.group3.mindmaster.Network.Utils;
 import no.group3.mindmaster.R;
 
 /**
  * THIS IS THE SERVER (HOST)
  */
-public class Host extends Fragment {
+public class HostGameFragment extends Fragment {
     private Context ctxt;
-    private final String TAG = "MindMaster.Host";
+    private final String TAG = "MindMaster.HostGameFragment";
     private Connection con;
     private Controller controller;
 
-    public Host(Context ctxt){
+    public HostGameFragment(Context ctxt){
         this.ctxt = ctxt;
         Log.d(TAG, "HOSTING GAME");
         con = Connection.getInstance(ctxt);
@@ -52,7 +48,7 @@ public class Host extends Fragment {
             @Override
             public void onClick(View view) {
                 getFragmentManager().beginTransaction()
-                        .replace(R.id.container, new MainMenu(getActivity().getBaseContext()))
+                        .replace(R.id.container, new MainMenuFragment(getActivity().getBaseContext()))
                         .commit();
             }
         });

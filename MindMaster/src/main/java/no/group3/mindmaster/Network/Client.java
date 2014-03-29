@@ -13,7 +13,7 @@ import no.group3.mindmaster.Controller.Controller;
  */
 public class Client implements Runnable {
 
-    private static final String TAG = "MindMaster.Client";
+    private static final String TAG = "MindMaster.JoinGameFragment";
     private Socket socket;
     private String serverIP;
     private Context ctxt;

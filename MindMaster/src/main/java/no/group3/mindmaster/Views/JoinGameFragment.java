@@ -4,7 +4,6 @@ import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
 import android.text.Editable;
-import android.text.InputType;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,16 +13,15 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import no.group3.mindmaster.Controller.Controller;
-import no.group3.mindmaster.MainActivity;
 import no.group3.mindmaster.Network.Connection;
 import no.group3.mindmaster.R;
 
 /**
  * THIS IS THE CLIENT (JOIN)
  */
-public class Client extends Fragment {
+public class JoinGameFragment extends Fragment {
 
-    private final String TAG = "MindMaster.Client";
+    private final String TAG = "MindMaster.JoinGameFragment";
     private Connection con;
     private String address = "";
     private Context ctxt;
@@ -33,7 +31,7 @@ public class Client extends Fragment {
     //This is not the game creator
     private boolean isGameCreator = false;
 
-    public Client(Context ctxt){
+    public JoinGameFragment(Context ctxt){
         this.ctxt = ctxt;
         this.con = Connection.getInstance(ctxt);
         this.controller = Controller.getInstance(ctxt);
@@ -85,7 +83,7 @@ public class Client extends Fragment {
             @Override
             public void onClick(View view) {
                 getFragmentManager().beginTransaction()
-                        .replace(R.id.container, new MainMenu(getActivity().getBaseContext()))
+                        .replace(R.id.container, new MainMenuFragment(getActivity().getBaseContext()))
                         .addToBackStack(null)
                         .commit();
             }
@@ -96,7 +94,7 @@ public class Client extends Fragment {
             @Override
             public void onClick(View view) {
                 getFragmentManager().beginTransaction()
-                        .replace(R.id.container, new GameScreen(getActivity().getBaseContext(), true))
+                        .replace(R.id.container, new GameScreenFragment(getActivity().getBaseContext(), true))
                         .addToBackStack(null)
                         .commit();
             }

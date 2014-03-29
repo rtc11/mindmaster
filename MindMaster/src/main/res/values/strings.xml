@@ -15,8 +15,8 @@
     <!-- Sets the hexadecimal color value of the border of the screens in howTo -->
     <string name="screen_border_color">#7F7F7F</string>
 
-    <!-- Text paragraphs for the HowTo-screen -->
-    <!-- Text paragraphs for the 'HowTo'-screen -->
+    <!-- Text paragraphs for the HowToFragment-screen -->
+    <!-- Text paragraphs for the 'HowToFragment'-screen -->
     <string name="howto_host">
         This is a game for two players. One of the two players must be the host, and the other must then
         connect to the hosting player before the game session can start.
