@@ -10,9 +10,9 @@
     <!--  ListRow Left sied Thumbnail image -->
     <LinearLayout android:id="@+id/thumbnail"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="60dip"
         android:layout_alignParentLeft="true"
-        android:background="@drawable/image_bg">
+        android:background="@drawable/background">
 
         <!-- There needs to be five pictures, as the fifth is the KeyPegs of the current guess -->
         <ImageView
