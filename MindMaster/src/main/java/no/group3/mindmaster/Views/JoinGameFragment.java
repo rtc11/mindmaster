@@ -54,7 +54,7 @@ public class JoinGameFragment extends Fragment {
 
         Button button_Main = (Button) rootView.findViewById(R.id.buttonmainip);
         Button connectButton = (Button) rootView.findViewById(R.id.buttonconnect);
-        Button button_TestScreen = (Button) rootView.findViewById(R.id.button_TestScreen);
+//        Button button_TestScreen = (Button) rootView.findViewById(R.id.button_TestScreen);
 
         EditText input = (EditText) rootView.findViewById(R.id.editText);
         input.addTextChangedListener(new TextWatcher() {
@@ -90,15 +90,15 @@ public class JoinGameFragment extends Fragment {
         });
 
         //Start single player
-        button_TestScreen.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                getFragmentManager().beginTransaction()
-                        .replace(R.id.container, new GameScreenFragment(getActivity().getBaseContext(), true))
-                        .addToBackStack(null)
-                        .commit();
-            }
-        });
+//        button_TestScreen.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                getFragmentManager().beginTransaction()
+//                        .replace(R.id.container, new GameScreenFragment(getActivity().getBaseContext(), true))
+//                        .addToBackStack(null)
+//                        .commit();
+//            }
+//        });
         return rootView;
     }
 }

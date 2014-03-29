@@ -39,6 +39,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_margin="15dp"/>
 
+    <!--
     <Button
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -46,5 +47,5 @@
         android:id="@+id/button_TestScreen"
         android:layout_gravity="center_horizontal"
         android:layout_margin="15dp"/>
-
+    -->
 </LinearLayout>

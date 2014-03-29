@@ -3,6 +3,7 @@ package no.group3.mindmaster.Model;
 
 import android.content.Context;
 import android.util.Log;
+import android.widget.TextView;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;

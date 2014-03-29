@@ -111,9 +111,11 @@ public class MainActivity extends Activity implements PropertyChangeListener{
         TextView turnText = (TextView)findViewById(R.id.yourturntext);
         if(controller.isMyTurn()){
             turnText.setText("Your turn");
+            turnText.setTextColor(getResources().getColor(R.color.green));
         }
         else{
             turnText.setText("Not your turn");
+            turnText.setTextColor(getResources().getColor(R.color.red));
         }
     }
 
