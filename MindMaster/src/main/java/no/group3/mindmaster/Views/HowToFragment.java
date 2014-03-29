@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+
 import no.group3.mindmaster.Network.Connection;
 
 import no.group3.mindmaster.R;
@@ -14,12 +15,12 @@ import no.group3.mindmaster.R;
 /**
  * Created by Petter on 10.03.14.
  */
-public class HowTo extends Fragment {
+public class HowToFragment extends Fragment {
 
     private Connection con;
     private Context ctxt;
 
-    public HowTo(Context ctxt) {
+    public HowToFragment(Context ctxt) {
         this.ctxt = ctxt;
         this.con = Connection.getInstance(ctxt);
     }
@@ -33,7 +34,7 @@ public class HowTo extends Fragment {
             @Override
             public void onClick(View view) {
                 getFragmentManager().beginTransaction()
-                        .replace(R.id.container, new MainMenu(getActivity().getBaseContext()))
+                        .replace(R.id.container, new MainMenuFragment(getActivity().getBaseContext()))
                         .addToBackStack(null)
                         .commit();
             }

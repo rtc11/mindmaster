@@ -8,15 +8,15 @@ android {
         minSdkVersion 14
         targetSdkVersion 17
         versionCode 1
+        testPackageName "no.group3.mindmaster.test"
+        testInstrumentationRunner "no.group3.mindmaster.test.Runner"
         versionName "1.0"
     }
+
     buildTypes {
         release {
             runProguard false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
         }
     }
-}
-
-dependencies {
 }

@@ -1,16 +1,10 @@
 package no.group3.mindmaster;
 
 import android.app.Activity;
-import android.app.Fragment;
-import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -25,7 +19,6 @@ import no.group3.mindmaster.Model.Model;
 import no.group3.mindmaster.Views.*;
 
 import no.group3.mindmaster.Network.Connection;
-import no.group3.mindmaster.Network.Utils;
 
 public class MainActivity extends Activity implements PropertyChangeListener{
 
@@ -33,8 +26,8 @@ public class MainActivity extends Activity implements PropertyChangeListener{
     private Controller controller = null;
     private Connection con = null;
     private static MainActivity instance = null;
-    private GameScreen gameFragment = null;
-    private MainMenu mainMenu = null;
+    private GameScreenFragment gameFragment = null;
+    private MainMenuFragment mainMenuFragment = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +46,7 @@ public class MainActivity extends Activity implements PropertyChangeListener{
 
         if (savedInstanceState == null) {
             getFragmentManager().beginTransaction()
-                    .add(R.id.container, new MainMenu(getBaseContext()))
+                    .add(R.id.container, new MainMenuFragment(getBaseContext()))
                     .commit();
         }
     }
@@ -65,7 +58,7 @@ public class MainActivity extends Activity implements PropertyChangeListener{
     }
 
     public void startGameFragment(){
-        gameFragment = new GameScreen(getBaseContext(), false);
+        gameFragment = new GameScreenFragment(getBaseContext(), false);
         getFragmentManager().beginTransaction()
                 .replace(R.id.container, gameFragment)
                 .addToBackStack(null)
@@ -74,7 +67,7 @@ public class MainActivity extends Activity implements PropertyChangeListener{
 
     public void restartGameFragment(){
         setContentView(R.layout.activity_main);
-        gameFragment = new GameScreen(getBaseContext(), false);
+        gameFragment = new GameScreenFragment(getBaseContext(), false);
         controller.getModel().reset();
 
         getFragmentManager().beginTransaction()
@@ -85,11 +78,11 @@ public class MainActivity extends Activity implements PropertyChangeListener{
 
     public void mainMenuFragment(){
         setContentView(R.layout.activity_main);
-        mainMenu = new MainMenu(getBaseContext());
+        mainMenuFragment = new MainMenuFragment(getBaseContext());
         controller.getModel().reset();
 
         getFragmentManager().beginTransaction()
-                .replace(R.id.container, mainMenu)
+                .replace(R.id.container, mainMenuFragment)
                 .addToBackStack(null)
                 .commit();
     }
@@ -113,16 +106,16 @@ public class MainActivity extends Activity implements PropertyChangeListener{
         }
         return super.onOptionsItemSelected(item);
     }
-public void setTurnText(){
-    TextView turnText = (TextView)findViewById(R.id.yourturntext);
-    if(controller.isMyTurn()){
-        turnText.setText("Your turn");
-    }
-    else{
-        turnText.setText("Not your turn");
-    }
-}
 
+    public void setTurnText(){
+        TextView turnText = (TextView)findViewById(R.id.yourturntext);
+        if(controller.isMyTurn()){
+            turnText.setText("Your turn");
+        }
+        else{
+            turnText.setText("Not your turn");
+        }
+    }
 
     @Override
     public void propertyChange(PropertyChangeEvent propertyChangeEvent) {

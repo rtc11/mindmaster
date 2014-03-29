@@ -2,14 +2,12 @@ package no.group3.mindmaster.Utils;
 
 import android.app.Dialog;
 import android.app.DialogFragment;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.app.AlertDialog.Builder;
 
 import no.group3.mindmaster.MainActivity;
 import no.group3.mindmaster.R;
-import no.group3.mindmaster.Views.MainMenu;
 
 /**
  * Created by JeppeE on 25/03/14.

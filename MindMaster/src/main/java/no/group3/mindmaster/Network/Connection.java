@@ -98,7 +98,7 @@ public class Connection {
             server.sendMessage(message);
         }
         else{
-            Log.d(TAG, "isGameCreator = false. Client trying to send message");
+            Log.d(TAG, "isGameCreator = false. JoinGameFragment trying to send message");
             client.sendMessage(message);
         }
     }
